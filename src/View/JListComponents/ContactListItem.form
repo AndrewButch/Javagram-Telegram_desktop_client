@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.JListComponents.ContactListItem">
+  <grid id="27dc6" binding="rootPanel" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="255" height="65"/>
+    </constraints>
+    <properties>
+      <background color="-1579033"/>
+      <foreground color="-1579033"/>
+      <maximumSize width="255" height="65"/>
+      <minimumSize width="255" height="65"/>
+      <opaque value="true"/>
+      <preferredSize width="255" height="65"/>
+    </properties>
+    <border type="none">
+      <title-color color="-4508361"/>
+      <color color="-4473925"/>
+    </border>
+    <children>
+      <grid id="a64db" binding="portraitJPanel" custom-create="true" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="10" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <background color="-1579033"/>
+          <maximumSize width="41" height="41"/>
+          <minimumSize width="41" height="41"/>
+          <opaque value="false"/>
+          <preferredSize width="41" height="41"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <component id="bf336" class="javax.swing.JLabel" binding="userName">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="5" bottom="0" right="20" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <background color="-12434878"/>
+          <font name="Open Sans Semibold" size="16"/>
+          <foreground color="-12434878"/>
+          <maximumSize width="100" height="28"/>
+          <minimumSize width="100" height="28"/>
+          <opaque value="false"/>
+          <preferredSize width="100" height="20"/>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <component id="a23b1" class="javax.swing.JLabel" binding="lastMsg">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="5" bottom="0" right="20" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <background color="-9539986"/>
+          <font name="Open Sans Semibold" size="12"/>
+          <foreground color="-9539986"/>
+          <maximumSize width="100" height="28"/>
+          <minimumSize width="100" height="28"/>
+          <preferredSize width="100" height="20"/>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <component id="d2286" class="javax.swing.JLabel" binding="lastMsgDate">
+        <constraints>
+          <grid row="0" column="2" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.1" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <background color="-4276546"/>
+          <font name="Open Sans Semibold" size="10"/>
+          <foreground color="-4276546"/>
+          <horizontalAlignment value="4"/>
+          <horizontalTextPosition value="4"/>
+          <maximumSize width="60" height="15"/>
+          <minimumSize width="60" height="15"/>
+          <preferredSize width="60" height="15"/>
+          <text value="00.00.1800"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

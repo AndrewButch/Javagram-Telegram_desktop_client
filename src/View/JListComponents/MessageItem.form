@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.JListComponents.MessageItem">
+  <grid id="27dc6" binding="rootPanel" layout-manager="FlowLayout" hgap="0" vgap="5" flow-align="0">
+    <constraints>
+      <xy x="20" y="20" width="383" height="170"/>
+    </constraints>
+    <properties>
+      <opaque value="true"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="fcad8" binding="gridGraphicContainer" layout-manager="GridBagLayout">
+        <constraints/>
+        <properties>
+          <opaque value="false"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="a32c9" binding="messageTopContainer" custom-create="true" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <minimumSize width="308" height="8"/>
+              <opaque value="false"/>
+              <preferredSize width="308" height="8"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="6fdce" binding="messageBotContainer" custom-create="true" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <minimumSize width="308" height="8"/>
+              <opaque value="false"/>
+              <preferredSize width="308" height="8"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="f49fc" binding="messageLeftContainer" custom-create="true" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="30" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <minimumSize width="7" height="11"/>
+              <opaque value="false"/>
+              <preferredSize width="7" height="11"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="9993e" binding="messageRightContainer" custom-create="true" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="0" bottom="0" right="30" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <minimumSize width="8" height="12"/>
+              <opaque value="false"/>
+              <preferredSize width="8" height="12"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="e49e3" binding="messageJPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-16733989"/>
+              <foreground color="-16733989"/>
+              <minimumSize width="10" height="10"/>
+              <opaque value="true"/>
+              <requestFocusEnabled value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="57205" class="javax.swing.JTextPane" binding="messageJTextPane">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <disabledTextColor color="-1"/>
+                  <editable value="false"/>
+                  <enabled value="false"/>
+                  <font name="Open Sans Semibold" size="14"/>
+                  <margin top="0" left="10" bottom="0" right="10"/>
+                  <opaque value="false"/>
+                  <requestFocusEnabled value="true"/>
+                  <text value="Message"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <component id="af229" class="javax.swing.JLabel" binding="dateLabel">
+            <constraints>
+              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <font name="Open Sans Semibold" size="10"/>
+              <foreground color="-7566196"/>
+              <horizontalAlignment value="4"/>
+              <horizontalTextPosition value="10"/>
+              <opaque value="false"/>
+              <text value="Label"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

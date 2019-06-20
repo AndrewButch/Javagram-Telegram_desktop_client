@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="View.Forms.Decoration">
+  <grid id="27dc6" binding="rootPanel" custom-create="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="905" height="630"/>
+    </constraints>
+    <properties>
+      <minimumSize width="900" height="630"/>
+      <preferredSize width="900" height="630"/>
+    </properties>
+    <border type="bevel-raised">
+      <size top="5" left="5" bottom="5" right="5"/>
+      <color color="-16741202"/>
+    </border>
+    <children>
+      <grid id="ba8ba" binding="titlePanel" layout-manager="FlowLayout" hgap="10" vgap="6" flow-align="2">
+        <constraints border-constraint="North"/>
+        <properties>
+          <background color="-1644826"/>
+          <doubleBuffered value="false"/>
+          <minimumSize width="900" height="30"/>
+          <opaque value="true"/>
+          <preferredSize width="900" height="30"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="e9d1e" class="javax.swing.JButton" binding="minimizeButton">
+            <constraints/>
+            <properties>
+              <background color="-1579033"/>
+              <borderPainted value="false"/>
+              <icon value="icon-hide.png"/>
+              <opaque value="false"/>
+              <preferredSize width="18" height="18"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="bf818" class="javax.swing.JButton" binding="closeButton">
+            <constraints/>
+            <properties>
+              <background color="-1579033"/>
+              <borderPainted value="false"/>
+              <foreground color="-4513759"/>
+              <icon value="icon-close.png"/>
+              <iconTextGap value="2"/>
+              <maximumSize width="15" height="15"/>
+              <minimumSize width="15" height="15"/>
+              <opaque value="false"/>
+              <preferredSize width="15" height="15"/>
+              <text value=""/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="d2331" binding="contentPanel" custom-create="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <background color="-16731162"/>
+          <maximumSize width="900" height="600"/>
+          <minimumSize width="900" height="600"/>
+          <preferredSize width="900" height="600"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+    </children>
+  </grid>
+</form>
