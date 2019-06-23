@@ -1,6 +1,7 @@
 package View.JListComponents;
 
 import org.javagram.response.object.Message;
+import org.javagram.response.object.User;
 import org.javagram.response.object.UserContact;
 import javax.swing.*;
 import java.awt.*;
@@ -13,20 +14,20 @@ public class ContactListItem {
     private JLabel lastMsgDate;
     private JPanel rootPanel;
     private BufferedImage portraint;
-    private UserContact userContact;
+    private User user;
     private Message message;
 
     public ContactListItem(){}
 
-    public ContactListItem (UserContact userContact, Message topMsg) {
-        this.userContact = userContact;
+    public ContactListItem (User userContact, Message topMsg) {
+        this.user = userContact;
         this.message = topMsg;
         setLastMsg(message.getMessage());
         setLastMsgDate(Utils.Utils.convertIntDateToStringShort(message.getDate()));
     }
 
-    public UserContact getUserContact() {
-        return userContact;
+    public User getUser() {
+        return user;
     }
 
     public JPanel getRootPanel() {

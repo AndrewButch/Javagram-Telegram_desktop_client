@@ -40,7 +40,7 @@ public class FakeTelegramBridge {
     private FakeSelfUser selfUser;
     private final int SELF_ID = 5;
     private ArrayList<UserContact> userContacts;
-    private int[] dialogsId = {0, 2, 3, 4, 6, 7, 9, 10, 13, 14, 15, 16, 17, 19};
+    private int[] dialogsId = {10, 15, 19, 4,  0, 2, 3,  6, 7, 9,  13, 14,  16, 17};
     private ArrayList<ContactStatus> statuses;
 
     private SortedMap<Integer, Message> messages;
@@ -164,6 +164,12 @@ public class FakeTelegramBridge {
                 (int)randomId , Calendar.getInstance().getTime().getDate(), 1, 1));
         return msm;
     }
+//    public MessagesSentMessage messagesSendMessage(int userId, String message, long randomId) throws IOException {
+//        TLInputPeerContact peerContact = new TLInputPeerContact(userId);
+//        TLRequestMessagesSendMessage request = new TLRequestMessagesSendMessage(peerContact, message, randomId);
+//        TLSentMessage sentMessage = (TLSentMessage)this.api.doRpcCall(request);
+//        return new MessagesSentMessage(sentMessage);
+//    }
 
     /** Неготово */
     public boolean messagesSetTyping(int userId, boolean isTyping) throws IOException {
@@ -191,15 +197,26 @@ public class FakeTelegramBridge {
     public ArrayList<Dialog> messagesGetDialogs(int offset, int maxId, int limit) throws IOException {
         dialogs = new ArrayList();
         for (int id : dialogsId) {
-            for (Map.Entry<Integer, Message> entry : messages.entrySet()) {
-                if (entry.getValue().getFromId() == id || entry.getValue().getToId() == id) {
+            int size = messages.size();
+            while (dialogs.size() < dialogsId.length) {
+                Message msg = messages.get(random.nextInt(size));
+                if (msg.getFromId() == id || msg.getToId() == id) {
                     dialogs.add(new Dialog(new TLDialog(
                             new TLPeerUser(id),
-                            entry.getValue().getId(),
+                            msg.getId(),
                             random.nextInt(5))));
                     break;
                 }
             }
+//            for (Map.Entry<Integer, Message> entry : messages.entrySet()) {
+//                if (entry.getValue().getFromId() == id || entry.getValue().getToId() == id) {
+//                    dialogs.add(new Dialog(new TLDialog(
+//                            new TLPeerUser(id),
+//                            entry.getValue().getId(),
+//                            random.nextInt(5))));
+//                    break;
+//                }
+//            }
         }
         return dialogs;
     }

@@ -103,4 +103,8 @@ public class Presenter {
     public ArrayList<Message> getMessages(ArrayList<Integer> ids) {
         return model.getMessages(ids);
     }
+
+    public ArrayList<User> getUsers(ArrayList<Integer> ids) {
+        return model.getUsers(ids);
+    }
 }

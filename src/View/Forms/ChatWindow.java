@@ -23,8 +23,9 @@ public class ChatWindow {
     private ListCellRendererContact contactCellRenderer; // Собственный визуализатор списка контактов
     private User user;
     private ArrayList<UserContact> contacts; // список конактов
-    private ArrayList<Dialog> dialogs;
+    private ArrayList<Dialog> dialogs;      // диалоги для заполнения списка контактов
     private HashMap<Integer, UserContact> contactsHashMap;
+
     private JLayeredPane layeredRootPane; // Панель с z-index. В неё кладем все JPanel
     private JPanel rootPanel;
     private JPanel javagramLogoJPanel; // Мини логотип
@@ -90,31 +91,13 @@ public class ChatWindow {
         // Установка информации о пользователе в окне EditUser
         editUser.setUserInfo(user.getFirstName(), user.getLastName(), user.getPhone());
 
-        // Получение диалогов и последних сообщений
-        dialogs = presenter.getDialogs();
-        ArrayList<Integer> messageIds = new ArrayList<>();
-        for (Dialog dialog : dialogs) {
-            messageIds.add(dialog.getTopMessage());
-        }
-        // Заполнение списка контактов на основе диалогов
-        DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
-        ArrayList<Message> topMessages = presenter.getMessages(messageIds);
-        for (Message msg : topMessages) {
-            if (user.getId() == msg.getFromId()) {
-                modelContacts.addElement(new ContactListItem(contactsHashMap.get(msg.getToId()), msg));
-            } else {
-                modelContacts.addElement(new ContactListItem(contactsHashMap.get(msg.getFromId()), msg));
+        Thread contactListThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                setupContactList();
             }
-        }
-        contactsJList.setModel(modelContacts);
-
-        // Передача в визуализатор контактов:
-        // - JList для наполнения сообщениями
-        // - JLabel для установки имени собеседника
-        // - Presenter для получения сообщений
-        contactCellRenderer = new ListCellRendererContact();
-        contactsJList.setCellRenderer(contactCellRenderer);
-        ((ListCellRendererContact) contactsJList.getCellRenderer()).setContacts(messagesJList, contactNameLable, presenter, topMessages );
+        });
+        contactListThread.start();
 
 
         // Установка обработчиков на кнопки открытия:
@@ -148,6 +131,8 @@ public class ChatWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Send Message");
+                JScrollBar verticalBar = messageListScrollPane.getVerticalScrollBar();
+                verticalBar.setValue(verticalBar.getMaximum());
             }
         });
         // Обработчик на поле ввода сообщения
@@ -155,6 +140,8 @@ public class ChatWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Send Message");
+                JScrollBar verticalBar = messageListScrollPane.getVerticalScrollBar();
+                verticalBar.setValue(verticalBar.getMaximum());
             }
         });
         messageTextField.addFocusListener(new FocusAdapter() {
@@ -295,6 +282,63 @@ public class ChatWindow {
 
     public JComponent getRootPanel() {
         return layeredRootPane;
+    }
+
+    /** Получение диалогов и последних сообщений от пользователей
+     *  На основании сообщений, упорядоченных по убыванию даты (делает Telegram)
+     *  формируем список контактов
+     *  */
+    private void setupContactList() {
+        // Получение диалогов
+        dialogs = presenter.getDialogs();
+        // Получение ID последних сообщений из списка диалогов
+        ArrayList<Integer> messageIds = new ArrayList<>();
+        for (Dialog dialog : dialogs) {
+            messageIds.add(dialog.getTopMessage());
+        }
+
+        // Получение самих сообщений на основании ID сообщения
+        ArrayList<Message> topMessages = presenter.getMessages(messageIds);
+
+
+        // Создание своей модели JList
+        DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
+
+        // Получить ID пользователей из всех сообщений
+        ArrayList<Integer> userIds = new ArrayList<>();
+        for (Message msg : topMessages) {
+            if (user.getId() == msg.getFromId()) {
+                userIds.add(msg.getToId());
+            } else {
+                userIds.add(msg.getFromId());
+            }
+        }
+        // Получить User по списку ID
+        ArrayList<User> contactUsers = presenter.getUsers(userIds);
+        for (User user : contactUsers) {
+            System.err.println("ID: " + user.getId() + "\tName: " + user.getFirstName() + "\tLastName: " + user.getLastName());
+        }
+        System.err.println("------------------------------------------------\n");
+        // дебаг на наличие сообщений от незнакомых контактов
+        for (Message msg : topMessages) {
+            System.err.println("Message: " + msg.getMessage().replace("\n", " ") + "\nFrom: " + msg.getFromId() + "\tTo: " + msg.getToId() );
+        }
+
+        // Сформировать модель контактов из ContactListItem()
+        for (int i = 0; i < contactUsers.size(); i++ ) {
+            modelContacts.addElement(new ContactListItem(contactUsers.get(i), topMessages.get(i)));
+        }
+
+        contactsJList.setModel(modelContacts);
+
+        // Передача в визуализатор контактов:
+        // - JList для наполнения сообщениями
+        // - JLabel для установки имени собеседника
+        // - Presenter для получения сообщений
+        contactCellRenderer = new ListCellRendererContact();
+        contactsJList.setCellRenderer(contactCellRenderer);
+        ((ListCellRendererContact) contactsJList.getCellRenderer()).setContacts(messagesJList, contactNameLable, presenter, topMessages );
+
     }
 }
 

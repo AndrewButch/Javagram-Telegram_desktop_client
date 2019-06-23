@@ -21,10 +21,10 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
     private BufferedImage botOutMessageIMG;
     private BufferedImage rightOutMessageIMG;
 
-    private UserContact currentContact;
+    private User currentContact;
     private User selfUser;
 
-    public ListCellRendererMessage(User selfUser, UserContact currentContact) {
+    public ListCellRendererMessage(User selfUser, User currentContact) {
         this.selfUser = selfUser;
         this.currentContact = currentContact;
         topInMessageIMG = Resources.getImage(Resources.MESSAGE_IN_TOP);
@@ -55,6 +55,8 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
 
         setMessage(value.getMessage().getMessage());
         setDate(Utils.Utils.convertIntDateToString(value.getMessage().getDate()));
+
+
 
         return this.getRootPanel();
     }

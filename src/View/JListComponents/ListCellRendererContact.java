@@ -2,8 +2,8 @@ package View.JListComponents;
 
 import Presenter.Presenter;
 import View.Resources;
-import org.javagram.response.object.Dialog;
 import org.javagram.response.object.Message;
+import org.javagram.response.object.User;
 import org.javagram.response.object.UserContact;
 
 import javax.swing.*;
@@ -35,38 +35,58 @@ public class ListCellRendererContact extends ContactListItem implements ListCell
     @Override
     public Component getListCellRendererComponent(JList<? extends ContactListItem> list, ContactListItem value, int index, boolean isSelected, boolean cellHasFocus) {
         // Настройка стиля выделенной ячейки с контактом
+//        if (value != null) {
+//            System.err.print("List: value " + value.getUser().getFirstName());
+//        } else {
+//            System.err.print("List: пусто ");
+//        }
+//        for (int i = 0; i < list.getModel().getSize(); i++) {
+//            System.err.print(" " + list.getModel().getElementAt(i).getUser().getFirstName() + " ");
+//        }
+//        System.err.print("\n");
+
+
         if (isSelected) {
-            getRootPanel().setBackground(list.getSelectionBackground());
-            getRootPanel().setForeground(list.getSelectionForeground());
-            Border lineBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(195, 195, 195));
-            Border matteBorder = BorderFactory.createMatteBorder(0,0,0, 4, new Color(0, 179, 230));
-            getRootPanel().setBorder(new CompoundBorder(lineBorder, matteBorder));
+            System.err.print("Selected: ");
+            ContactListItem item = list.getModel().getElementAt(index);
+            User user = item.getUser();
+            if (user.getId() != 0) {
+                System.err.print(user.getFirstName() );
+                System.err.print("\n");
 
-            if (selectedItem != value){
-                messages = null;
-            }
-            selectedItem = value;
+                getRootPanel().setBackground(list.getSelectionBackground());
+                getRootPanel().setForeground(list.getSelectionForeground());
+                Border lineBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(195, 195, 195));
+                Border matteBorder = BorderFactory.createMatteBorder(0,0,0, 4, new Color(0, 179, 230));
+                getRootPanel().setBorder(new CompoundBorder(lineBorder, matteBorder));
 
-            // При выборе контакат формируем окно с сообщениями для этого контакта
-            int contactId = value.getUserContact().getId();
-            if (messages == null) {
-                messages = presenter.getMessageHistory(contactId);
-                Collections.reverse(messages);
-                DefaultListModel<MessageItem> modelMessage = new DefaultListModel<>();
-                for (Message msg : messages) {
-                    modelMessage.addElement(new MessageItem(msg));
+                if (selectedItem != value){
+                    messages = null;
                 }
-                // установка метки контакта с которым ведётся диалог
-                contactNameJLabel.setText(value.getUserContact().getFirstName() + " " + value.getUserContact().getLastName());
-                // Создание визуализатора JList с сообщениями
-                messageRenderer = new ListCellRendererMessage(presenter.getSelfUser(), value.getUserContact());
-                messageJList.setModel(modelMessage);
-                messageJList.setCellRenderer(messageRenderer);
+                selectedItem = value;
 
-                setPortraint(contact_white_online);
+                // При выборе контакат формируем окно с сообщениями для этого контакта
+                int contactId = value.getUser().getId();
+                if (messages == null) {
+                    messages = presenter.getMessageHistory(contactId);
+                    Collections.reverse(messages);
+                    DefaultListModel<MessageItem> modelMessage = new DefaultListModel<>();
+                    for (Message msg : messages) {
+                        modelMessage.addElement(new MessageItem(msg));
+                    }
+                    // установка метки контакта с которым ведётся диалог
+                    contactNameJLabel.setText(value.getUser().getFirstName() + " " + value.getUser().getLastName());
+                    // Создание визуализатора JList с сообщениями
+                    messageRenderer = new ListCellRendererMessage(presenter.getSelfUser(), value.getUser());
+                    messageJList.setModel(modelMessage);
+                    messageJList.setCellRenderer(messageRenderer);
 
-                messageJList.revalidate();
-                messageJList.repaint();
+                    setPortraint(contact_white_online);
+
+                    messageJList.revalidate();
+                    messageJList.repaint();
+            }
+
             }
         } else {
             getRootPanel().setBackground(list.getBackground());
@@ -74,13 +94,13 @@ public class ListCellRendererContact extends ContactListItem implements ListCell
             getRootPanel().setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(195, 195, 195)));
             setPortraint(contact_gray_online);
         }
-        if (value != null) {
-            UserContact user = value.getUserContact();
-            if (user != null) {
-                setUserName(value.getUserContact().getFirstName() + " " + value.getUserContact().getLastName());
-                setLastMsg(value.getLastMsg().getText());
-                setLastMsgDate(value.getLastMsgDate().getText());
-            }
+
+        ContactListItem item = list.getModel().getElementAt(index);
+        User user = item.getUser();
+        if (user != null) {
+            setUserName(user.getFirstName() + " " + user.getLastName());
+            setLastMsg(item.getLastMsg().getText());
+            setLastMsgDate(item.getLastMsgDate().getText());
         }
         return this.getRootPanel();
     }
@@ -94,5 +114,9 @@ public class ListCellRendererContact extends ContactListItem implements ListCell
 
     public ContactListItem getSelectedItem() {
         return this.selectedItem;
+    }
+
+    public void setTopMessages(ArrayList<Message> topMessages) {
+        this.topMessages = topMessages;
     }
 }

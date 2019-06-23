@@ -29,13 +29,12 @@ public class Model {
     private final int appId = 568751;
     private final String appHash = "ec1d629d0855caa5425a9c83cdc5925d";
     TelegramApiBridge  bridge;
-    //private FakeTelegramBridge bridge;
+//    private FakeTelegramBridge bridge;
     private AuthAuthorization authorization;
     private boolean registered;       // Флаг регистрации
     private boolean loggedIn;         // Флаг логина
 
     private User selfUser;
-
 
     public Model() {
         while (bridge == null) {
@@ -50,7 +49,7 @@ public class Model {
                 }
             }
         }
-        //bridge = new FakeTelegramBridge();
+//        bridge = new FakeTelegramBridge();
 
 
     }
@@ -186,6 +185,24 @@ public class Model {
             }
         } while (messages == null);
         return messages;
+    }
+
+    public ArrayList<User> getUsers(ArrayList<Integer> ids) {
+        ArrayList<User> users = null;
+        do {
+            try {
+                users = bridge.usersGetUsers(ids);
+            } catch (IOException e) {
+                e.printStackTrace();
+                try {
+                    Thread.sleep(request_interval);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        } while (users == null);
+        return users;
+
     }
 
     /**
