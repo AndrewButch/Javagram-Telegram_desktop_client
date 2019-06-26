@@ -1,9 +1,9 @@
-package View.JListComponents;
+package View.ListRenderer;
 
+import View.ListItem.MessageItem;
 import View.Resources;
 import org.apache.commons.lang3.StringUtils;
 import org.javagram.response.object.User;
-import org.javagram.response.object.UserContact;
 
 import javax.swing.*;
 import java.awt.*;

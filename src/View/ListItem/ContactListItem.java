@@ -1,4 +1,4 @@
-package View.JListComponents;
+package View.ListItem;
 
 import org.javagram.response.object.Message;
 import org.javagram.response.object.User;

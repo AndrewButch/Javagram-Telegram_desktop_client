@@ -1,10 +1,11 @@
-package View.JListComponents;
+package View.ListRenderer;
 
 import Presenter.Presenter;
+import View.ListItem.ContactListItem;
+import View.ListItem.MessageItem;
 import View.Resources;
 import org.javagram.response.object.Message;
 import org.javagram.response.object.User;
-import org.javagram.response.object.UserContact;
 
 import javax.swing.*;
 import javax.swing.border.Border;

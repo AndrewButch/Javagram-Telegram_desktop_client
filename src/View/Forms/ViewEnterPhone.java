@@ -10,7 +10,7 @@ import View.Resources;
 
 
 
-public class PhoneForm {
+public class ViewEnterPhone {
     private JPanel rootPanel;
     private JButton nextButton;
     private JFormattedTextField phoneJFormattedText;
@@ -22,7 +22,7 @@ public class PhoneForm {
     private BufferedImage icon_phone;
 
 
-    public PhoneForm() {
+    public ViewEnterPhone() {
         logo = Resources.getImage(Resources.LOGO);
         icon_phone = Resources.getImage(Resources.ICON_PHONE);
     }

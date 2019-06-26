@@ -11,45 +11,53 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-
-public class SignUpForm {
-    private JTextField lastNameText;
-    private JTextField firstNameText;
+public class ViewSMSCode {
+    private JPasswordField codePasswordField;
     private JButton nextButton;
+    private JLabel phoneNumberLabel;
     private JPanel rootPanel;
     private JTextPane titleTextPane;
     private JPanel logoPanel;
     private BufferedImage logo;
+    private BufferedImage lock_phone;
 
-    public SignUpForm() {
-        this.logo = Resources.getImage(Resources.LOGO_MINI);
-    }
 
-    public JButton getNextButton() {
-        return nextButton;
+    public ViewSMSCode() {
+        logo = Resources.getImage(Resources.LOGO_MINI);
+        lock_phone = Resources.getImage(Resources.ICON_LOCK);
     }
 
     public JPanel getRootPanel() {
         return rootPanel;
     }
 
-    public JTextField getLastNameText() {
-        return lastNameText;
+    public JLabel getPhoneNumberLabel() {
+        return phoneNumberLabel;
     }
 
-    public JTextField getFirstNameText() {
-        return firstNameText;
+    public JPasswordField getCodePasswordField() {
+        return codePasswordField;
+    }
+
+    public JButton getNextButton() {
+        return nextButton;
     }
 
     private void createUIComponents() {
-        firstNameText = new JTextField();
-        lastNameText = new JTextField();
+        // TODO: place custom component creation code here
+        logoPanel = new JPanel();
+        codePasswordField = new JPasswordField() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(lock_phone, 10, 7, null);
+            }
+        };
 
         Border outerBorder, innerBorder;
         outerBorder = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE);
-        innerBorder = BorderFactory.createEmptyBorder(2, 10, 2, 0);
-        firstNameText.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
-        lastNameText.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
+        innerBorder = BorderFactory.createEmptyBorder(2, 50, 2, 0);
+        codePasswordField.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
 
         logoPanel = new JPanel() {
             @Override

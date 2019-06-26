@@ -1,4 +1,4 @@
-package View.JListComponents;
+package Utils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

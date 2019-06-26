@@ -16,10 +16,10 @@ import java.awt.event.ActionListener;
 
 public class FormManager extends JFrame{
     private Presenter presenter;
-    private PhoneForm phoneForm;        // форма ввода телефона
-    private CodeForm codeForm;          // форма ввода СМС-кода
-    private SignUpForm signUpForm;      // форма завершения регистрации
-    private ChatWindow chatWindow;      // форма с контактами и чатом
+    private ViewEnterPhone phoneForm;        // форма ввода телефона
+    private ViewSMSCode codeForm;          // форма ввода СМС-кода
+    private ViewSignUp signUpForm;      // форма завершения регистрации
+    private ViewChat chatWindow;      // форма с контактами и чатом
     private Decoration decoration;
 
     public FormManager() {
@@ -100,7 +100,7 @@ public class FormManager extends JFrame{
     /** ------------Инициализация форм------------------------------ */
     // Инициализация Формы ввода телефона
     private void initPhoneForm() {
-        phoneForm = new PhoneForm();
+        phoneForm = new ViewEnterPhone();
 
         // слушатель  на кнопку "Продолжить"
         phoneForm.getNextButton().addActionListener(new ActionListener() {
@@ -121,7 +121,7 @@ public class FormManager extends JFrame{
 
     // Инициализация Формы ввода СМС-кода
     private void initCodeForm() {
-        codeForm = new CodeForm();
+        codeForm = new ViewSMSCode();
 
         // слушатель на кнопку "Продолжить"
         codeForm.getNextButton().addActionListener(new ActionListener() {
@@ -152,7 +152,7 @@ public class FormManager extends JFrame{
 
     // Инициализация Формы ввода данных для регистрации
     private void initSignUpForm() {
-        signUpForm = new SignUpForm();
+        signUpForm = new ViewSignUp();
 
         // слушатель на кнопку "Продолжить"
         signUpForm.getNextButton().addActionListener(new ActionListener() {
@@ -180,6 +180,6 @@ public class FormManager extends JFrame{
 
     // Инициализация Формы с контактами
     private void initChatForm() {
-        chatWindow = new ChatWindow(presenter);
+        chatWindow = new ViewChat(presenter);
     }
 }

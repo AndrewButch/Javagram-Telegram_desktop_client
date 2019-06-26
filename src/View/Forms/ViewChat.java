@@ -1,10 +1,13 @@
 package View.Forms;
 
 import Presenter.Presenter;
-import View.Forms.EditForms.AddContact;
-import View.Forms.EditForms.EditContact;
-import View.Forms.EditForms.EditUser;
-import View.JListComponents.*;
+import Utils.MyMouseWheelScroller;
+import View.Forms.Modal.ViewAddContact;
+import View.Forms.Modal.ViewEditContact;
+import View.Forms.Modal.ViewEditProfile;
+import View.ListRenderer.*;
+import View.ListItem.ContactListItem;
+import View.ListItem.MessageItem;
 import View.LoadingForm;
 import View.Resources;
 import org.javagram.response.object.Dialog;
@@ -18,7 +21,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ChatWindow {
+public class ViewChat {
     private Presenter presenter;
     private ListCellRendererContact contactCellRenderer; // Собственный визуализатор списка контактов
     private User user;
@@ -72,12 +75,12 @@ public class ChatWindow {
     private BufferedImage maskDarkGrayBigImg;
 
     // Формы редактированием и добавлением контактов
-    private AddContact addContact;
-    private EditContact editContact;
-    private EditUser editUser;
+    private ViewAddContact addContact;
+    private ViewEditContact editContact;
+    private ViewEditProfile editUser;
     private LoadingForm loadingForm;
 
-    public ChatWindow(Presenter presenter) {
+    public ViewChat(Presenter presenter) {
         this.presenter = presenter;
         this.user = presenter.getSelfUser();
         this.contacts = presenter.getContacts();
@@ -88,7 +91,7 @@ public class ChatWindow {
         // Имя пользователя - метка
         userNameLabel.setText(user.getFirstName() + " " + user.getLastName());
 
-        // Установка информации о пользователе в окне EditUser
+        // Установка информации о пользователе в окне ViewEditProfile
         editUser.setUserInfo(user.getFirstName(), user.getLastName(), user.getPhone());
 
         Thread contactListThread = new Thread(new Runnable() {
@@ -206,16 +209,16 @@ public class ChatWindow {
         // Добавение rootPanel в самый в z-index на нижний слой
         layeredRootPane.add(rootPanel, JLayeredPane.DEFAULT_LAYER, -1);
 
-        // Форма EditUser добавляется в z-index на слой выше
-        editUser = new EditUser();
+        // Форма ViewEditProfile добавляется в z-index на слой выше
+        editUser = new ViewEditProfile();
         layeredRootPane.add(editUser.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
 
-        // Форма EditContact добавляется в z-index на слой выше
-        editContact = new EditContact();
+        // Форма ViewEditContact добавляется в z-index на слой выше
+        editContact = new ViewEditContact();
         layeredRootPane.add(editContact.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
 
-        // Форма AddContact добавляются в z-index на слой выше
-        addContact = new AddContact();
+        // Форма ViewAddContact добавляются в z-index на слой выше
+        addContact = new ViewAddContact();
         layeredRootPane.add(addContact.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
 
 //        loadingForm = new LoadingForm();

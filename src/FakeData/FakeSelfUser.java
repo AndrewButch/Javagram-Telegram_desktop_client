@@ -1,4 +1,4 @@
-package Model.FakeData;
+package FakeData;
 
 import org.javagram.response.object.UserContact;
 import org.telegram.api.TLAbsUserProfilePhoto;

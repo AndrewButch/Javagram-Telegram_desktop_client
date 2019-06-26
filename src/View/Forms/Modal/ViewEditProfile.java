@@ -1,7 +1,5 @@
-package View.Forms.EditForms;
+package View.Forms.Modal;
 
-import View.FormManager;
-import View.Forms.ChatWindow;
 import View.Resources;
 
 import javax.swing.*;
@@ -12,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 
-public class EditUser {
+public class ViewEditProfile {
     private JPanel rootPanel;
     private JButton saveBtn;
     private JTextField firstNameTF;
@@ -24,7 +22,7 @@ public class EditUser {
 
     private BufferedImage backBtnImg;
 
-    public EditUser() {
+    public ViewEditProfile() {
         // Слушатель на кнопку "сохранения"
         saveBtn.addActionListener(new ActionListener() {
             @Override

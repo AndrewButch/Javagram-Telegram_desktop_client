@@ -1,4 +1,4 @@
-package Model.FakeData;
+package FakeData;
 
 import org.javagram.TelegramApiBridge;
 import org.javagram.handlers.IncomingMessageHandler;
@@ -22,7 +22,6 @@ import org.telegram.tl.TLIntVector;
 import org.telegram.tl.TLVector;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.*;
 
 /**

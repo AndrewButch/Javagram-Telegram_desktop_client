@@ -1,6 +1,6 @@
 package Model;
 
-import Model.FakeData.FakeTelegramBridge;
+import FakeData.FakeTelegramBridge;
 import org.javagram.TelegramApiBridge;
 import org.javagram.response.AuthAuthorization;
 import org.javagram.response.AuthCheckedPhone;
@@ -9,27 +9,19 @@ import org.javagram.response.object.Dialog;
 import org.javagram.response.object.Message;
 import org.javagram.response.object.User;
 import org.javagram.response.object.UserContact;
-import org.telegram.api.TLAbsMessage;
-import org.telegram.api.TLAbsUser;
-import org.telegram.api.TLInputPeerContact;
 import org.telegram.api.engine.TelegramApi;
-import org.telegram.api.messages.TLAbsMessages;
-import org.telegram.api.requests.TLRequestMessagesGetHistory;
-import org.telegram.tl.TLVector;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 
 public class Model {
     private final int request_interval = 5000;
     private final String hostAddr = "149.154.167.50:443";
     private final int appId = 568751;
     private final String appHash = "ec1d629d0855caa5425a9c83cdc5925d";
-    TelegramApiBridge  bridge;
-//    private FakeTelegramBridge bridge;
+//    TelegramApiBridge  bridge;
+    private FakeTelegramBridge bridge;
     private AuthAuthorization authorization;
     private boolean registered;       // Флаг регистрации
     private boolean loggedIn;         // Флаг логина
@@ -37,19 +29,19 @@ public class Model {
     private User selfUser;
 
     public Model() {
-        while (bridge == null) {
-            try {
-                bridge = new TelegramApiBridge(hostAddr, appId, appHash);
-            } catch (IOException e) {
-                e.printStackTrace();
-                try {
-                    Thread.sleep(request_interval);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
-//        bridge = new FakeTelegramBridge();
+//        while (bridge == null) {
+//            try {
+//                bridge = new TelegramApiBridge(hostAddr, appId, appHash);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                try {
+//                    Thread.sleep(request_interval);
+//                } catch (InterruptedException e1) {
+//                    e1.printStackTrace();
+//                }
+//            }
+//        }
+        bridge = new FakeTelegramBridge();
 
 
     }
@@ -233,25 +225,25 @@ public class Model {
      * @return
      * @throws IOException
      */
-    private ArrayList<Message> messagesGetHistory(int userId, int offset, int maxId, int limit) throws IOException {
-        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
-        TLVector<TLAbsMessage> tlAbsMessages = ((TLAbsMessages) getTelegramApi(bridge).doRpcCall(request)).getMessages();
-        ArrayList<Message> messages = new ArrayList();
-        Iterator var7 = tlAbsMessages.iterator();
-
-        while (var7.hasNext()) {
-            TLAbsMessage tlMessage = (TLAbsMessage) var7.next();
-            messages.add(new Message(tlMessage));
-        }
-        return messages;
-    }
-//    public ArrayList<Message> messagesGetHistory(int userId, int offset, int maxId, int limit) throws IOException {
-//        ArrayList<Message> foundedMsg = new ArrayList();
-//        for (Message msg : bridge.messageGetHistory()) {
-//            if (msg.getFromId() == userId || msg.getToId() == userId) {
-//                foundedMsg.add(msg);
-//            }
+//    private ArrayList<Message> messagesGetHistory(int userId, int offset, int maxId, int limit) throws IOException {
+//        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
+//        TLVector<TLAbsMessage> tlAbsMessages = ((TLAbsMessages) getTelegramApi(bridge).doRpcCall(request)).getMessages();
+//        ArrayList<Message> messages = new ArrayList();
+//        Iterator var7 = tlAbsMessages.iterator();
+//
+//        while (var7.hasNext()) {
+//            TLAbsMessage tlMessage = (TLAbsMessage) var7.next();
+//            messages.add(new Message(tlMessage));
 //        }
-//        return foundedMsg;
+//        return messages;
 //    }
+    public ArrayList<Message> messagesGetHistory(int userId, int offset, int maxId, int limit) throws IOException {
+        ArrayList<Message> foundedMsg = new ArrayList();
+        for (Message msg : bridge.messageGetHistory()) {
+            if (msg.getFromId() == userId || msg.getToId() == userId) {
+                foundedMsg.add(msg);
+            }
+        }
+        return foundedMsg;
+    }
 }

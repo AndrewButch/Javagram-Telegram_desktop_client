@@ -1,4 +1,4 @@
-package View.Forms.EditForms;
+package View.Forms.Modal;
 
 import View.Resources;
 
@@ -11,7 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 
 
-public class EditContact {
+public class ViewEditContact {
     private JPanel rootPanel;
     private JPanel contactJPanel;
     private JPanel portrait;
@@ -26,7 +26,7 @@ public class EditContact {
     private BufferedImage contactImg;
 
 
-    public EditContact() {
+    public ViewEditContact() {
         // Слушатель на кнопку "сохраненя"
         saveBtn.addActionListener(new ActionListener() {
             @Override

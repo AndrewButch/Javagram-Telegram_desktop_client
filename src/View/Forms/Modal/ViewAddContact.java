@@ -1,4 +1,4 @@
-package View.Forms.EditForms;
+package View.Forms.Modal;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,7 +12,7 @@ import java.text.ParseException;
 import View.Resources;
 
 
-public class AddContact {
+public class ViewAddContact {
     private JPanel rootPanel;
     private JButton addBtn;
     private JTextField firstNameTF;
@@ -25,7 +25,7 @@ public class AddContact {
     private BufferedImage icon_phone;
     private BufferedImage backBtnImg;
 
-    public AddContact() {
+    public ViewAddContact() {
         icon_phone = Resources.getImage(Resources.ICON_PHONE);
         backBtnImg = Resources.getImage(Resources.ICON_BACK);
 
