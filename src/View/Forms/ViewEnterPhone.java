@@ -1,16 +1,17 @@
 package View.Forms;
 
+import View.Resources;
+import View.IView;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.text.ParseException;
-import View.Resources;
 
 
 
-public class ViewEnterPhone {
+public class ViewEnterPhone implements IView {
     private JPanel rootPanel;
     private JButton nextButton;
     private JFormattedTextField phoneJFormattedText;
@@ -27,8 +28,14 @@ public class ViewEnterPhone {
         icon_phone = Resources.getImage(Resources.ICON_PHONE);
     }
 
+    @Override
     public JPanel getRootPanel() {
         return rootPanel;
+    }
+
+    @Override
+    public void setPresenter() {
+        //TODO
     }
 
     public JFormattedTextField getPhoneJFormattedText() {

@@ -1,5 +1,6 @@
 package View.Forms.Modal;
 
+import View.IView;
 import View.Resources;
 
 import javax.swing.*;
@@ -10,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 
-public class ViewEditProfile {
+public class ViewEditProfile implements IView {
     private JPanel rootPanel;
     private JButton saveBtn;
     private JTextField firstNameTF;
@@ -52,6 +53,11 @@ public class ViewEditProfile {
 
     public JPanel getRootPanel() {
         return rootPanel;
+    }
+
+    @Override
+    public void setPresenter() {
+        // TODO
     }
 
     private void createUIComponents() {

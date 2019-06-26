@@ -1,5 +1,6 @@
 package View.Forms;
 
+import View.IView;
 import View.Resources;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class ViewSMSCode {
+public class ViewSMSCode implements IView {
     private JPasswordField codePasswordField;
     private JButton nextButton;
     private JLabel phoneNumberLabel;
@@ -29,6 +30,11 @@ public class ViewSMSCode {
 
     public JPanel getRootPanel() {
         return rootPanel;
+    }
+
+    @Override
+    public void setPresenter() {
+        //TODO
     }
 
     public JLabel getPhoneNumberLabel() {

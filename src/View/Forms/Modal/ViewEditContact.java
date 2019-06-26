@@ -1,5 +1,6 @@
 package View.Forms.Modal;
 
+import View.IView;
 import View.Resources;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 
 
-public class ViewEditContact {
+public class ViewEditContact implements IView {
     private JPanel rootPanel;
     private JPanel contactJPanel;
     private JPanel portrait;
@@ -104,6 +105,11 @@ public class ViewEditContact {
 
     public JPanel getRootPanel() {
         return rootPanel;
+    }
+
+    @Override
+    public void setPresenter() {
+        //TODO
     }
 
     public void setContactInfo(String name, String phoneNumber) {

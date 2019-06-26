@@ -14,16 +14,18 @@ import java.awt.event.ActionListener;
  * Управляет всеми подView
  */
 
-public class FormManager extends JFrame{
-    private Presenter presenter;
-    private ViewEnterPhone phoneForm;        // форма ввода телефона
-    private ViewSMSCode codeForm;          // форма ввода СМС-кода
-    private ViewSignUp signUpForm;      // форма завершения регистрации
-    private ViewChat chatWindow;      // форма с контактами и чатом
+public class WindowManager extends JFrame{
+//    private Presenter presenter;
+//    private ViewEnterPhone phoneForm;        // форма ввода телефона
+//    private ViewSMSCode codeForm;          // форма ввода СМС-кода
+//    private ViewSignUp signUpForm;      // форма завершения регистрации
+//    private ViewChat chatWindow;      // форма с контактами и чатом
     private Decoration decoration;
+    private JLayeredPane layeredPane;
 
-    public FormManager() {
-        presenter = new Presenter(this);
+    public WindowManager() {
+//        presenter = new Presenter(this);
+        layeredPane = this.getLayeredPane();
         decoration = new Decoration(this);
         setContentPane(decoration);
         setSize(900, 630);
@@ -33,7 +35,21 @@ public class FormManager extends JFrame{
         goToPhoneForm();
     }
 
-    public void showWarningDialog( String message) {
+    public void setContentView(IView view) {
+        decoration.setContentPanel(view.getRootPanel());
+        revalidate();
+        repaint();
+    }
+
+    public void setModalView(JPanel modalView, JPanel bgView) {
+        JPanel c = (JPanel) getContentPane();
+        //удаляем все панели что были в Модальном слое, чтобы не было наслоения
+        layeredPane.removeAll();
+        setContentPane(c);
+        //TODO
+    }
+
+    public void showWarningDialog(String message) {
         JOptionPane.showMessageDialog(
                 decoration.getRootPane(),
                 message,

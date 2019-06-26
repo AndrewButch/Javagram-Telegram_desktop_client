@@ -5,6 +5,7 @@ import Utils.MyMouseWheelScroller;
 import View.Forms.Modal.ViewAddContact;
 import View.Forms.Modal.ViewEditContact;
 import View.Forms.Modal.ViewEditProfile;
+import View.IView;
 import View.ListRenderer.*;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
@@ -21,7 +22,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ViewChat {
+public class ViewChat implements IView {
     private Presenter presenter;
     private ListCellRendererContact contactCellRenderer; // Собственный визуализатор списка контактов
     private User user;
@@ -283,8 +284,13 @@ public class ViewChat {
         maskDarkGrayBigImg = Resources.getImage(Resources.MASK_DARK_GRAY_BIG);
     }
 
-    public JComponent getRootPanel() {
+    public JLayeredPane getRootPanel() {
         return layeredRootPane;
+    }
+
+    @Override
+    public void setPresenter() {
+        // TODO
     }
 
     /** Получение диалогов и последних сообщений от пользователей

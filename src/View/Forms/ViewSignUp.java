@@ -1,5 +1,6 @@
 package View.Forms;
 
+import View.IView;
 import View.Resources;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 
-public class ViewSignUp {
+public class ViewSignUp implements IView {
     private JTextField lastNameText;
     private JTextField firstNameText;
     private JButton nextButton;
@@ -31,6 +32,11 @@ public class ViewSignUp {
 
     public JPanel getRootPanel() {
         return rootPanel;
+    }
+
+    @Override
+    public void setPresenter() {
+        // TODO
     }
 
     public JTextField getLastNameText() {

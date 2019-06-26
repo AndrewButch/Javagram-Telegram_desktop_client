@@ -10,9 +10,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.text.ParseException;
 import View.Resources;
+import View.IView;
 
 
-public class ViewAddContact {
+public class ViewAddContact implements IView {
     private JPanel rootPanel;
     private JButton addBtn;
     private JTextField firstNameTF;
@@ -119,6 +120,11 @@ public class ViewAddContact {
     }
     public JPanel getRootPanel() {
         return rootPanel;
+    }
+
+    @Override
+    public void setPresenter() {
+        //TODO
     }
 
     public JFormattedTextField getPhoneJFormattedText() {
