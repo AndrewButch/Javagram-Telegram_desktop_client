@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
@@ -41,6 +42,15 @@ public class Decoration extends JPanel {
         closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame.addWindowListener(new WindowAdapter() {
+                       @Override
+                       public void windowClosing(WindowEvent e) {
+                           super.windowClosing(e);
+                           // TODO Logout bridge
+                           System.exit(0);
+                       }
+                   });
+
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 frame.dispose();
             }
