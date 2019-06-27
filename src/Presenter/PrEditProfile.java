@@ -1,4 +1,4 @@
 package Presenter;
 
-public class PrEditProfile {
+public class PrEditProfile implements IPresenter {
 }

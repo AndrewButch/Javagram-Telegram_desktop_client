@@ -322,7 +322,7 @@ public class FakeTelegramBridge {
 
 /**
     setTelegramApi(bridge);  //Устанавливаем (берем у TelegramApiBridge) объект TelegramApi.
-        for(Message message : messagesGetHistory(203041606, 0, Integer.MAX_VALUE, 50)){
+        for(Message message : getMessageHistory(203041606, 0, Integer.MAX_VALUE, 50)){
         System.out.println(message.getMessage());
     }
 */

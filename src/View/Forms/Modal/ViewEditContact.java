@@ -1,5 +1,6 @@
 package View.Forms.Modal;
 
+import Presenter.IPresenter;
 import View.IView;
 import View.Resources;
 
@@ -108,8 +109,9 @@ public class ViewEditContact implements IView {
     }
 
     @Override
-    public void setPresenter() {
+    public void setPresenter(IPresenter presenter) {
         //TODO
+
     }
 
     public void setContactInfo(String name, String phoneNumber) {

@@ -1,5 +1,6 @@
 package View.Forms.Modal;
 
+import Presenter.IPresenter;
 import View.IView;
 import View.Resources;
 
@@ -56,9 +57,12 @@ public class ViewEditProfile implements IView {
     }
 
     @Override
-    public void setPresenter() {
+    public void setPresenter(IPresenter presenter) {
         // TODO
+
     }
+
+
 
     private void createUIComponents() {
         rootPanel = new JPanel(new GridBagLayout()){

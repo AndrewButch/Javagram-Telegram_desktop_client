@@ -1,7 +1,10 @@
 package View.Forms;
 
+import Presenter.IPresenter;
+import Presenter.PrEnterPhone;
 import View.Resources;
 import View.IView;
+import View.WindowManager;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.*;
@@ -21,11 +24,16 @@ public class ViewEnterPhone implements IView {
     private BufferedImage background;
     private BufferedImage logo;
     private BufferedImage icon_phone;
+    private PrEnterPhone presenter;
 
 
     public ViewEnterPhone() {
+        setPresenter(new PrEnterPhone(this));
         logo = Resources.getImage(Resources.LOGO);
         icon_phone = Resources.getImage(Resources.ICON_PHONE);
+        WindowManager.setContentView(this);
+        getPhoneJFormattedText().requestFocus();
+
     }
 
     @Override
@@ -34,8 +42,8 @@ public class ViewEnterPhone implements IView {
     }
 
     @Override
-    public void setPresenter() {
-        //TODO
+    public void setPresenter(IPresenter presenter) {
+        this.presenter = (PrEnterPhone)presenter;
     }
 
     public JFormattedTextField getPhoneJFormattedText() {
@@ -48,6 +56,10 @@ public class ViewEnterPhone implements IView {
 
     public JLabel getErrorText() {
         return errorText;
+    }
+
+    public void goToSMSView() {
+        new ViewSMSCode();
     }
 
     private void createUIComponents() {

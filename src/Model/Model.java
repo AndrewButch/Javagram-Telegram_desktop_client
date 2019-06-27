@@ -23,12 +23,16 @@ public class Model {
 //    TelegramApiBridge  bridge;
     private FakeTelegramBridge bridge;
     private AuthAuthorization authorization;
-    private boolean registered;       // Флаг регистрации
+    private AuthCheckedPhone authCheckedPhone;
+    private AuthSentCode authSendCode;
     private boolean loggedIn;         // Флаг логина
 
     private User selfUser;
+    private static Model model;
+    private String phone;
+    private String smsCode;
 
-    public Model() {
+    private Model() {
 //        while (bridge == null) {
 //            try {
 //                bridge = new TelegramApiBridge(hostAddr, appId, appHash);
@@ -42,29 +46,33 @@ public class Model {
 //            }
 //        }
         bridge = new FakeTelegramBridge();
-
-
     }
 
 
-    public boolean isRegistered() {
-        return registered;
+
+    public static Model getInstance() {
+        if (model == null) {
+            model = new Model();
+        }
+        return model;
     }
 
-    public boolean authCheckPhone(String phoneNumber) {
+    public AuthAuthorization getAuthorization() {
+        return authorization;
+    }
+
+    public AuthSentCode getAuthSendCode() {
         try {
-            AuthCheckedPhone checkedPhone = bridge.authCheckPhone(phoneNumber);
-            if (checkedPhone.isRegistered()) {
+            authCheckedPhone = bridge.authCheckPhone(phone);
+            if (authCheckedPhone.isRegistered()) {
                 //System.out.println(phoneText);
-                AuthSentCode sendCode = bridge.authSendCode(phoneNumber);
-
-                registered = sendCode.isRegistered();
-                return true;
+                authSendCode = bridge.authSendCode(phone);
+                return authSendCode;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     public boolean isLoggedIn() {
@@ -82,31 +90,25 @@ public class Model {
         loggedIn = false;
     }
 
-    public boolean signIn(String code) {
+    public void signIn(String code) {
         try {
             authorization = bridge.authSignIn(code);
-            selfUser = authorization.getUser();
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
-    public boolean signUp(String firstName, String lastName, String code) {
+    public void signUp(String firstName, String lastName, String code) {
         try {
             authorization = bridge.authSignUp(code, firstName, lastName);
-            selfUser = authorization.getUser();
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public User getSelfUser() {
         if (authorization != null) {
-            return selfUser;
+            return authorization.getUser();
         }
         return null;
     }
@@ -128,11 +130,11 @@ public class Model {
         return contacts;
     }
 
-    public ArrayList<Message> messagesGetHistory(int userId) {
+    public ArrayList<Message> getMessageHistory(int userId) {
         ArrayList<Message> history = null;
         do {
             try {
-                history = messagesGetHistory(userId, 0, Integer.MAX_VALUE, 50);
+                history = getMessageHistory(userId, 0, Integer.MAX_VALUE, 50);
             } catch (IOException e) {
                 e.printStackTrace();
                 try {
@@ -225,7 +227,7 @@ public class Model {
      * @return
      * @throws IOException
      */
-//    private ArrayList<Message> messagesGetHistory(int userId, int offset, int maxId, int limit) throws IOException {
+//    private ArrayList<Message> getMessageHistory(int userId, int offset, int maxId, int limit) throws IOException {
 //        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
 //        TLVector<TLAbsMessage> tlAbsMessages = ((TLAbsMessages) getTelegramApi(bridge).doRpcCall(request)).getMessages();
 //        ArrayList<Message> messages = new ArrayList();
@@ -237,7 +239,7 @@ public class Model {
 //        }
 //        return messages;
 //    }
-    public ArrayList<Message> messagesGetHistory(int userId, int offset, int maxId, int limit) throws IOException {
+    public ArrayList<Message> getMessageHistory(int userId, int offset, int maxId, int limit) throws IOException {
         ArrayList<Message> foundedMsg = new ArrayList();
         for (Message msg : bridge.messageGetHistory()) {
             if (msg.getFromId() == userId || msg.getToId() == userId) {
@@ -245,5 +247,21 @@ public class Model {
             }
         }
         return foundedMsg;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getSmsCode() {
+        return smsCode;
+    }
+
+    public void setSmsCode(String smsCode) {
+        this.smsCode = smsCode;
     }
 }

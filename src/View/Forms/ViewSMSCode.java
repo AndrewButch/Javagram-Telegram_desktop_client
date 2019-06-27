@@ -1,7 +1,10 @@
 package View.Forms;
 
+import Presenter.IPresenter;
+import Presenter.PrSMSCode;
 import View.IView;
 import View.Resources;
+import View.WindowManager;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -21,11 +24,15 @@ public class ViewSMSCode implements IView {
     private JPanel logoPanel;
     private BufferedImage logo;
     private BufferedImage lock_phone;
+    private PrSMSCode presenter;
 
 
     public ViewSMSCode() {
         logo = Resources.getImage(Resources.LOGO_MINI);
         lock_phone = Resources.getImage(Resources.ICON_LOCK);
+        setPresenter(new PrSMSCode(this));
+        WindowManager.setContentView(this);
+        codePasswordField.requestFocus();
     }
 
     public JPanel getRootPanel() {
@@ -33,8 +40,20 @@ public class ViewSMSCode implements IView {
     }
 
     @Override
-    public void setPresenter() {
-        //TODO
+    public void setPresenter(IPresenter presenter) {
+        this.presenter = (PrSMSCode) presenter;
+    }
+
+    public void goToEnterPhoneView() {
+        new ViewEnterPhone();
+    }
+
+    public void goToSignUpView() {
+        new ViewSignUp();
+    }
+
+    public void goToChatView() {
+        new ViewChat();
     }
 
     public JLabel getPhoneNumberLabel() {

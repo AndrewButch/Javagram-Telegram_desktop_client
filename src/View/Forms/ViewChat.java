@@ -1,6 +1,7 @@
 package View.Forms;
 
-import Presenter.Presenter;
+import Presenter.IPresenter;
+import Presenter.PrChat;
 import Utils.MyMouseWheelScroller;
 import View.Forms.Modal.ViewAddContact;
 import View.Forms.Modal.ViewEditContact;
@@ -11,6 +12,7 @@ import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
 import View.LoadingForm;
 import View.Resources;
+import View.WindowManager;
 import org.javagram.response.object.Dialog;
 import org.javagram.response.object.Message;
 import org.javagram.response.object.User;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ViewChat implements IView {
-    private Presenter presenter;
+    private PrChat presenter;
     private ListCellRendererContact contactCellRenderer; // Собственный визуализатор списка контактов
     private User user;
     private ArrayList<UserContact> contacts; // список конактов
@@ -81,8 +83,8 @@ public class ViewChat implements IView {
     private ViewEditProfile editUser;
     private LoadingForm loadingForm;
 
-    public ViewChat(Presenter presenter) {
-        this.presenter = presenter;
+    public ViewChat() {
+        setPresenter(new PrChat(this));
         this.user = presenter.getSelfUser();
         this.contacts = presenter.getContacts();
         this.contactsHashMap = new HashMap<>();
@@ -163,6 +165,7 @@ public class ViewChat implements IView {
                 }
             }
         });
+        WindowManager.setContentView(this);
     }
 
     /** Создание UI */
@@ -283,15 +286,16 @@ public class ViewChat implements IView {
         maskGrayImg = Resources.getImage(Resources.MASK_GRAY);
         maskDarkGrayBigImg = Resources.getImage(Resources.MASK_DARK_GRAY_BIG);
     }
-
+    @Override
     public JLayeredPane getRootPanel() {
         return layeredRootPane;
     }
 
     @Override
-    public void setPresenter() {
-        // TODO
+    public void setPresenter(IPresenter presenter) {
+        this.presenter = (PrChat) presenter;
     }
+
 
     /** Получение диалогов и последних сообщений от пользователей
      *  На основании сообщений, упорядоченных по убыванию даты (делает Telegram)

@@ -1,7 +1,10 @@
 package View.Forms;
 
+import Presenter.IPresenter;
+import Presenter.PrSignUp;
 import View.IView;
 import View.Resources;
+import View.WindowManager;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -14,6 +17,7 @@ import java.awt.image.BufferedImage;
 
 
 public class ViewSignUp implements IView {
+    private PrSignUp presenter;
     private JTextField lastNameText;
     private JTextField firstNameText;
     private JButton nextButton;
@@ -24,19 +28,31 @@ public class ViewSignUp implements IView {
 
     public ViewSignUp() {
         this.logo = Resources.getImage(Resources.LOGO_MINI);
+        setPresenter(new PrSignUp(this));
+        WindowManager.setContentView(this);
+        firstNameText.requestFocus();
     }
 
     public JButton getNextButton() {
         return nextButton;
     }
 
+    @Override
     public JPanel getRootPanel() {
         return rootPanel;
     }
 
     @Override
-    public void setPresenter() {
-        // TODO
+    public void setPresenter(IPresenter presenter) {
+        this.presenter = (PrSignUp) presenter;
+    }
+
+    public void goToEnterPhoneView() {
+        new ViewEnterPhone();
+    }
+
+    public void goToChatView() {
+        new ViewChat();
     }
 
     public JTextField getLastNameText() {

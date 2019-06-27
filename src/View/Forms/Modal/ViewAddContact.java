@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.text.ParseException;
+
+import Presenter.IPresenter;
 import View.Resources;
 import View.IView;
 
@@ -123,9 +125,10 @@ public class ViewAddContact implements IView {
     }
 
     @Override
-    public void setPresenter() {
+    public void setPresenter(IPresenter presenter) {
         //TODO
     }
+
 
     public JFormattedTextField getPhoneJFormattedText() {
         return phoneJFormattedText;

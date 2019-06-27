@@ -1,6 +1,6 @@
 package View.ListRenderer;
 
-import Presenter.Presenter;
+import Presenter.PrChat;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
 import View.Resources;
@@ -20,7 +20,7 @@ public class ListCellRendererContact extends ContactListItem implements ListCell
     private JList<MessageItem> messageJList;
     private JLabel contactNameJLabel;
     private ListCellRendererMessage messageRenderer;
-    private Presenter presenter;
+    private PrChat presenter;
     private BufferedImage contact_gray_online;
     private BufferedImage contact_white_online;
     private ContactListItem selectedItem = null;
@@ -106,7 +106,7 @@ public class ListCellRendererContact extends ContactListItem implements ListCell
         return this.getRootPanel();
     }
 
-    public void setContacts(JList<MessageItem> messageList, JLabel contactLabel, Presenter presenter, ArrayList<Message> topMessages) {
+    public void setContacts(JList<MessageItem> messageList, JLabel contactLabel, PrChat presenter, ArrayList<Message> topMessages) {
         this.messageJList = messageList;
         this.contactNameJLabel = contactLabel;
         this.presenter = presenter;
