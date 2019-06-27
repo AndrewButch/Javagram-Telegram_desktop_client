@@ -23,7 +23,7 @@ public class Decoration extends JPanel {
 
     private BufferedImage background;
 
-    public Decoration (JFrame frame){
+    public Decoration (final JFrame frame){
 
         setContentPanel(frame.getContentPane());
         frame.setContentPane(this);
@@ -42,14 +42,13 @@ public class Decoration extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                frame.dispose();
             }
         });
 
         componentMover = new ComponentMover(frame, titlePanel);
         componentResizer = new ComponentResizer(frame);
-
         background = Resources.getImage(Resources.BACKGROUND);
-
     }
 
     private void createUIComponents() {
