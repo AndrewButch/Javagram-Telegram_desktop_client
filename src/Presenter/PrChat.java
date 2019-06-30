@@ -2,6 +2,8 @@ package Presenter;
 
 import Model.Model;
 import View.Forms.ViewChat;
+import View.ListItem.ContactListItem;
+import View.ListRenderer.ListCellRendererContact;
 import org.javagram.response.object.Dialog;
 import org.javagram.response.object.Message;
 import org.javagram.response.object.User;
@@ -13,16 +15,37 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PrChat implements IPresenter {
     Model model;
     ViewChat view;
+    private ListCellRendererContact contactCellRenderer; // Собственный визуализатор списка контактов
+    private User user;
+    private ArrayList<UserContact> contacts; // список конактов
+    private ArrayList<Dialog> dialogs;      // диалоги для заполнения списка контактов
+    private HashMap<Integer, UserContact> contactsHashMap;
 
     public PrChat(ViewChat view) {
         this.view = view;
         this.model = Model.getInstance();
-
         setListeners();
+        this.user = getSelfUser();
+        this.contacts = getContacts();
+        this.contactsHashMap = new HashMap<>();
+        for (UserContact contact : contacts) {
+            contactsHashMap.put(contact.getId(), contact);
+        }
+        // Имя пользователя - метка
+        view.getUserNameLabel().setText(user.getFirstName() + " " + user.getLastName());
+
+        Thread contactListThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                setupContactList();
+            }
+        });
+        contactListThread.start();
     }
 
     private void setListeners() {
@@ -108,5 +131,62 @@ public class PrChat implements IPresenter {
 
     public ArrayList<Message> getMessageHistory(int userId) {
         return model.getMessageHistory(userId);
+    }
+
+    /** Получение диалогов и последних сообщений от пользователей
+     *  На основании сообщений, упорядоченных по убыванию даты (делает Telegram)
+     *  формируем список контактов
+     *  */
+    private void setupContactList() {
+        // Получение диалогов
+        dialogs = getDialogs();
+        // Получение ID последних сообщений из списка диалогов
+        ArrayList<Integer> messageIds = new ArrayList<>();
+        for (Dialog dialog : dialogs) {
+            messageIds.add(dialog.getTopMessage());
+        }
+
+        // Получение самих сообщений на основании ID сообщения
+        ArrayList<Message> topMessages = getMessages(messageIds);
+
+
+        // Создание своей модели JList
+        DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
+
+        // Получить ID пользователей из всех сообщений
+        ArrayList<Integer> userIds = new ArrayList<>();
+        for (Message msg : topMessages) {
+            if (user.getId() == msg.getFromId()) {
+                userIds.add(msg.getToId());
+            } else {
+                userIds.add(msg.getFromId());
+            }
+        }
+        // Получить User по списку ID
+        ArrayList<User> contactUsers = getUsers(userIds);
+        for (User user : contactUsers) {
+            System.err.println("ID: " + user.getId() + "\tName: " + user.getFirstName() + "\tLastName: " + user.getLastName());
+        }
+        System.err.println("------------------------------------------------\n");
+        // дебаг на наличие сообщений от незнакомых контактов
+        for (Message msg : topMessages) {
+            System.err.println("Message: " + msg.getMessage().replace("\n", " ") + "\nFrom: " + msg.getFromId() + "\tTo: " + msg.getToId() );
+        }
+
+        // Сформировать модель контактов из ContactListItem()
+        for (int i = 0; i < contactUsers.size(); i++ ) {
+            modelContacts.addElement(new ContactListItem(contactUsers.get(i), topMessages.get(i)));
+        }
+
+        view.getContactsJList().setModel(modelContacts);
+
+        // Передача в визуализатор контактов:
+        // - JList для наполнения сообщениями
+        // - JLabel для установки имени собеседника
+        // - Presenter для получения сообщений
+        contactCellRenderer = new ListCellRendererContact();
+        view.getContactsJList().setCellRenderer(contactCellRenderer);
+        ((ListCellRendererContact) view.getContactsJList().getCellRenderer()).setContacts(view.getMessagesJList(), view.getContactNameLable(), this, topMessages );
+
     }
 }

@@ -2,6 +2,7 @@ package Presenter;
 
 import Model.Model;
 import View.Forms.Modal.ViewEditProfile;
+import org.javagram.response.object.User;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,11 +10,14 @@ import java.awt.event.ActionListener;
 public class PrEditProfile implements IPresenter {
     Model model;
     ViewEditProfile view;
+    User user;
 
     public PrEditProfile(ViewEditProfile view) {
         this.view = view;
         this.model = Model.getInstance();
         setListeners();
+        this.user = model.getSelfUser();
+        view.setUserInfo(user.getFirstName(), user.getLastName(), user.getPhone());
     }
 
     private void setListeners() {
