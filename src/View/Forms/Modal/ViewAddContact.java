@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.text.ParseException;
 
@@ -86,7 +87,7 @@ public class ViewAddContact implements IView {
         };
         rootPanel.setOpaque(false);
         rootPanel.setVisible(false);
-        //rootPanel.addMouseListener(new MouseAdapter() {});
+        rootPanel.addMouseListener(new MouseAdapter() {});
     }
 
     private void setupFormattedText() {
