@@ -7,21 +7,15 @@ import View.Forms.Modal.ViewAddContact;
 import View.Forms.Modal.ViewEditContact;
 import View.Forms.Modal.ViewEditProfile;
 import View.IView;
-import View.ListRenderer.*;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
 import View.Resources;
 import View.WindowManager;
-import org.javagram.response.object.Dialog;
-import org.javagram.response.object.Message;
-import org.javagram.response.object.User;
-import org.javagram.response.object.UserContact;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
+
 
 public class ViewChat implements IView {
     private PrChat presenter;
@@ -80,44 +74,42 @@ public class ViewChat implements IView {
     public ViewChat() {
         setPresenter(new PrChat(this));
         WindowManager.setContentView(this);
+        setupBorders();
     }
 
-    /** Создание UI */
     private void createUIComponents() {
-        // Получение картинок
-        initBufferedImages();
-
+        // Получение ресурсов изображений
+        loadImages();
         rootPanel = new JPanel(new GridBagLayout());
         rootPanel.setSize(900, 600);
+        setupLists();
+        setupLayerdPane();
+        setupIcons();
+    }
 
-        // Список контактов и CellRenderer для каждой ячейки
-        contactsJList = new JList<>();
-        contactsJList.setBorder(null);
+    private void loadImages(){
+        logoMicroImg = Resources.getImage(Resources.LOGO_MICRO);
+        iconSearch = Resources.getImage(Resources.ICON_SEARCH);
+        maskBlueMiniImg = Resources.getImage(Resources.MASK_BLUE_MINI);
+        maskWhiteMiniImg = Resources.getImage(Resources.MASK_WHITE_MINI);
+        maskGrayOnlineImg = Resources.getImage(Resources.MASK_GRAY_ONLINE);
+        maskWhiteOnlineImg = Resources.getImage(Resources.MASK_WHITE_ONLINE);
+        maskWhiteImg = Resources.getImage(Resources.MASK_WHITE);
+        maskGrayImg = Resources.getImage(Resources.MASK_GRAY);
+        maskDarkGrayBigImg = Resources.getImage(Resources.MASK_DARK_GRAY_BIG);
+    }
 
-
-        // Панель информации контакта
-        contactJPanel = new JPanel();
-        contactJPanel.setBorder(BorderFactory.createMatteBorder(0, 1,1, 0, new Color(237, 237, 237)));
-
-        // Поле ввода сообщения
-        messageTextField = new JTextField();
-        messageTextField.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-
-        // Поле поиска
-        searchContactTextField = new JTextField();
-        searchContactTextField.setBorder(null);
-
-        // JScrollPane без ползунка и управляемы мышью
+    private void setupLists() {
+        // Создание JScrollPane без ползунка для управления мышью
         // Для списка контаков
         contactsListScrollPane = new JScrollPane();
-        contactsListScrollPane.setBorder(null);
         contactsListScrollPane.addMouseWheelListener(new MyMouseWheelScroller());
         // Для списка сообщений
         messageListScrollPane = new JScrollPane();
-        messageListScrollPane.setBorder(null);
         messageListScrollPane.addMouseWheelListener(new MyMouseWheelScroller());
+    }
 
-        // -----------------------------------------------------------------------
+    private void setupLayerdPane() {
         // Создание панели с Z-index (слои)
         layeredRootPane = new JLayeredPane();
         layeredRootPane.setPreferredSize(new Dimension(900, 600));
@@ -139,9 +131,6 @@ public class ViewChat implements IView {
         addContact = new ViewAddContact();
         layeredRootPane.add(addContact.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
 
-//        loadingForm = new LoadingForm();
-//        layeredRootPane.add(loadingForm.getRootPanel(), JLayeredPane.POPUP_LAYER, -1);
-
         // Обработка события на изменение размера
         layeredRootPane.addComponentListener(new ComponentAdapter() {
             @Override
@@ -152,8 +141,9 @@ public class ViewChat implements IView {
                 addContact.getRootPanel().setSize(e.getComponent().getSize());
             }
         });
+    }
 
-        //------------------------------------------------------------------
+    private void setupIcons() {
         // Рисование иконки лупы
         searchIconJPanel = new JPanel() {
             @Override
@@ -188,21 +178,13 @@ public class ViewChat implements IView {
         };
     }
 
-    /** Загрузка изображений */
-    private void initBufferedImages(){
-        logoMicroImg = Resources.getImage(Resources.LOGO_MICRO);
-        iconSearch = Resources.getImage(Resources.ICON_SEARCH);
-        maskBlueMiniImg = Resources.getImage(Resources.MASK_BLUE_MINI);
-        maskWhiteMiniImg = Resources.getImage(Resources.MASK_WHITE_MINI);
-        maskGrayOnlineImg = Resources.getImage(Resources.MASK_GRAY_ONLINE);
-        maskWhiteOnlineImg = Resources.getImage(Resources.MASK_WHITE_ONLINE);
-        maskWhiteImg = Resources.getImage(Resources.MASK_WHITE);
-        maskGrayImg = Resources.getImage(Resources.MASK_GRAY);
-        maskDarkGrayBigImg = Resources.getImage(Resources.MASK_DARK_GRAY_BIG);
-    }
-    @Override
-    public JLayeredPane getRootPanel() {
-        return layeredRootPane;
+    private void setupBorders() {
+        contactsJList.setBorder(null);
+        contactJPanel.setBorder(BorderFactory.createMatteBorder(0, 1,1, 0, new Color(237, 237, 237)));
+        messageTextField.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        searchContactTextField.setBorder(null);
+        contactsListScrollPane.setBorder(null);
+        messageListScrollPane.setBorder(null);
     }
 
     @Override
@@ -210,8 +192,10 @@ public class ViewChat implements IView {
         this.presenter = (PrChat) presenter;
     }
 
-
-
+    @Override
+    public JLayeredPane getRootPanel() {
+        return layeredRootPane;
+    }
 
     public JButton getUserSettingsBtn() {
         return userSettingsBtn;
