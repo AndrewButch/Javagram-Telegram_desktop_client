@@ -30,12 +30,49 @@ public class ViewEditContact implements IView {
 
     private PrEditContact presenter;
 
-
     public ViewEditContact() {
         setPresenter(new PrEditContact(this));
     }
 
     private void createUIComponents() {
+        // Получение ресурсов изображений
+        backBtnImg = Resources.getImage(Resources.ICON_BACK);
+        contactImg = Resources.getImage(Resources.MASK_DARK_GRAY_BIG);
+
+        setupRootPanel();
+        setupBackButton();
+        setupContactPhoto();
+        setupNameField();
+    }
+
+    public JPanel getRootPanel() {
+        return rootPanel;
+    }
+
+    public JButton getSaveBtn() {
+        return saveBtn;
+    }
+
+    public JButton getBackBtn() {
+        return backBtn;
+    }
+
+    public JButton getDeleteBtn() {
+        return deleteBtn;
+    }
+
+    @Override
+    public void setPresenter(IPresenter presenter) {
+        this.presenter = (PrEditContact) presenter;
+
+    }
+
+    public void setContactInfo(String name, String phoneNumber) {
+        nameTF.setText(name);
+        phoneLabel.setText(phoneNumber);
+    }
+
+    private void setupRootPanel() {
         // Задание полупрозрачного фона
         rootPanel = new JPanel(new GridBagLayout()){
             @Override
@@ -50,10 +87,9 @@ public class ViewEditContact implements IView {
         rootPanel.setOpaque(false);
         rootPanel.setVisible(false); // изначально панель не видна
         rootPanel.addMouseListener(new MouseAdapter() {}); // Перехват событий мышки окном
+    }
 
-        backBtnImg = Resources.getImage(Resources.ICON_BACK);
-        contactImg = Resources.getImage(Resources.MASK_DARK_GRAY_BIG);
-
+    private void setupBackButton() {
         // Рисование кнопки "назад"
         backBtn = new JButton(){
             @Override
@@ -66,7 +102,9 @@ public class ViewEditContact implements IView {
                 g.drawImage(backBtnImg, 0, 0, null);
             }
         };
+    }
 
+    private void setupContactPhoto() {
         // Рисование иконки контакта
         portrait = new JPanel() {
             @Override
@@ -75,39 +113,13 @@ public class ViewEditContact implements IView {
                 g.drawImage(contactImg, 0, 0, null);
             }
         };
+    }
 
+    private void setupNameField() {
         // Подчеркивание текстового поля
         Border border;
         border = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE);
         nameTF = new JTextField();
         nameTF.setBorder(border);
-
-    }
-
-    public JPanel getRootPanel() {
-        return rootPanel;
-    }
-
-    @Override
-    public void setPresenter(IPresenter presenter) {
-        this.presenter = (PrEditContact) presenter;
-
-    }
-
-    public void setContactInfo(String name, String phoneNumber) {
-        nameTF.setText(name);
-        phoneLabel.setText(phoneNumber);
-    }
-
-    public JButton getSaveBtn() {
-        return saveBtn;
-    }
-
-    public JButton getBackBtn() {
-        return backBtn;
-    }
-
-    public JButton getDeleteBtn() {
-        return deleteBtn;
     }
 }
