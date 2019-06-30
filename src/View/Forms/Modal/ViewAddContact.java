@@ -4,9 +4,6 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.text.ParseException;
 
@@ -18,13 +15,13 @@ import View.IView;
 
 public class ViewAddContact implements IView {
     private JPanel rootPanel;
-    private JButton addBtn;
-    private JTextField firstNameTF;
-    private JTextField lastNameTF;
-    private JButton backBtn;
-    private JLabel titleLabel;
+    private JLabel viewLabel;
     private JTextPane titleTextPane;
     private JFormattedTextField phoneJFormattedText;
+    private JTextField firstNameTF;
+    private JTextField lastNameTF;
+    private JButton addBtn;
+    private JButton backBtn;
 
     private BufferedImage icon_phone;
     private BufferedImage backBtnImg;
@@ -36,86 +33,20 @@ public class ViewAddContact implements IView {
     }
 
     private void createUIComponents() {
-        // Задание полупрозрачного фона
-        rootPanel = new JPanel(new GridBagLayout()){
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setColor(new Color(0, 0, 0, 0.9f));
-                g2.fillRect(0, 0, getWidth(), getHeight());
-                g2.dispose();
-            }
-        };
-        rootPanel.setOpaque(false);
-        rootPanel.setVisible(false);
-        //rootPanel.addMouseListener(new MouseAdapter() {});
-
+        // Получение ресурсов изображений
         icon_phone = Resources.getImage(Resources.ICON_PHONE);
         backBtnImg = Resources.getImage(Resources.ICON_BACK);
-        // задание форматированного поля с номером телефона
-        try {
-            phoneJFormattedText = new JFormattedTextField(new MaskFormatter("+7 ### ### ## ##")) {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    g.drawImage(icon_phone, 20, 7, null);
-                }
-            };
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
-        // Подчеркивание текстовых полей имя, фамилия
-        Border border = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE);
-        firstNameTF = new JTextField();
-        lastNameTF = new JTextField();
-        firstNameTF.setBorder(border);
-        lastNameTF.setBorder(border);
-
-        // Подчеркивание поля телефона
-        Border outerBorder, innerBorder;
-        outerBorder = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE);
-        innerBorder = BorderFactory.createEmptyBorder(2, 50, 2, 0);
-        phoneJFormattedText.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
-
-
-        // Рисование кнопки "назад"
-        backBtn = new JButton(){
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setColor(new Color(0, 0, 0, 0.9f));
-                g2.fillRect(0, 0, getWidth(), getHeight());
-                g2.dispose();
-                g.drawImage(backBtnImg, 0, 0, null);
-            }
-        };
-
-
-        // Выравнивание текста с описанием
-        StyleContext sc = new StyleContext();
-        DefaultStyledDocument doc = new DefaultStyledDocument(sc);
-        titleTextPane = new JTextPane(doc);
-        Style defaultStyle = sc.getStyle(StyleContext.DEFAULT_STYLE);
-        Style mainStyle = sc.addStyle("My Style", defaultStyle);
-        StyleConstants.setAlignment(mainStyle,StyleConstants.ALIGN_CENTER);
-        doc.setLogicalStyle(0, mainStyle);
+        // настройка графического интерфейса
+        setupRootPanel();
+        setupTitleText();
+        setupFormattedText();
+        setupNameFields();
+        setupBackButton();
     }
 
-    public void clearFields() {
-        phoneJFormattedText.setText("");
-        firstNameTF.setText("");
-        lastNameTF.setText("");
-    }
     public JPanel getRootPanel() {
         return rootPanel;
-    }
-
-    @Override
-    public void setPresenter(IPresenter presenter) {
-        this.presenter = (PrAddContact) presenter;
     }
 
     public JFormattedTextField getPhoneJFormattedText() {
@@ -130,5 +61,86 @@ public class ViewAddContact implements IView {
         return backBtn;
     }
 
+    public void clearFields() {
+        phoneJFormattedText.setText("");
+        firstNameTF.setText("");
+        lastNameTF.setText("");
+    }
 
+    @Override
+    public void setPresenter(IPresenter presenter) {
+        this.presenter = (PrAddContact) presenter;
+    }
+
+    private void setupRootPanel() {
+        // Задание полупрозрачного фона
+        rootPanel = new JPanel(new GridBagLayout()){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setColor(new Color(0, 0, 0, 0.9f));
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                g2.dispose();
+            }
+        };
+        rootPanel.setOpaque(false);
+        rootPanel.setVisible(false);
+        //rootPanel.addMouseListener(new MouseAdapter() {});
+    }
+
+    private void setupFormattedText() {
+        // задание форматированного поля с номером телефона
+        try {
+            phoneJFormattedText = new JFormattedTextField(new MaskFormatter("+7 ### ### ## ##")) {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(icon_phone, 20, 7, null);
+                }
+            };
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        // Подчеркивание поля телефона
+        Border outerBorder, innerBorder;
+        outerBorder = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE);
+        innerBorder = BorderFactory.createEmptyBorder(2, 50, 2, 0);
+        phoneJFormattedText.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
+    }
+
+    private void setupNameFields() {
+        // Подчеркивание текстовых полей имя, фамилия
+        Border border = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE);
+        firstNameTF = new JTextField();
+        lastNameTF = new JTextField();
+        firstNameTF.setBorder(border);
+        lastNameTF.setBorder(border);
+    }
+
+    private void setupBackButton() {
+        // Рисование кнопки "назад"
+        backBtn = new JButton(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setColor(new Color(0, 0, 0, 0.9f));
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                g2.dispose();
+                g.drawImage(backBtnImg, 0, 0, null);
+            }
+        };
+    }
+
+    private void setupTitleText() {
+        // Выравнивание текста с описанием
+        StyleContext sc = new StyleContext();
+        DefaultStyledDocument doc = new DefaultStyledDocument(sc);
+        titleTextPane = new JTextPane(doc);
+        Style defaultStyle = sc.getStyle(StyleContext.DEFAULT_STYLE);
+        Style mainStyle = sc.addStyle("My Style", defaultStyle);
+        StyleConstants.setAlignment(mainStyle,StyleConstants.ALIGN_CENTER);
+        doc.setLogicalStyle(0, mainStyle);
+    }
 }
