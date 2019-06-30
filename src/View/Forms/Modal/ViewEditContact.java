@@ -16,14 +16,14 @@ import java.awt.image.BufferedImage;
 
 public class ViewEditContact implements IView {
     private JPanel rootPanel;
+    private JLabel viewLabel;
     private JPanel contactJPanel;
     private JPanel portrait;
+    private JTextField nameTF;
     private JButton saveBtn;
     private JButton backBtn;
     private JButton deleteBtn;
-    private JTextField nameTF;
     private JLabel phoneLabel;
-    private JLabel titleLabel;
 
     private BufferedImage backBtnImg;
     private BufferedImage contactImg;
