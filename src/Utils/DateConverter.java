@@ -2,7 +2,7 @@ package Utils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Utils {
+public class DateConverter {
 
     static Calendar now;
     static SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd.MM.yyyy 'в' HH:mm");

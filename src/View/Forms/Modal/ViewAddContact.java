@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.text.ParseException;
 
 import Presenter.IPresenter;
+import Presenter.PrAddContact;
 import View.Resources;
 import View.IView;
 
@@ -28,18 +29,14 @@ public class ViewAddContact implements IView {
     private BufferedImage icon_phone;
     private BufferedImage backBtnImg;
 
+    private PrAddContact presenter;
+
     public ViewAddContact() {
         icon_phone = Resources.getImage(Resources.ICON_PHONE);
         backBtnImg = Resources.getImage(Resources.ICON_BACK);
 
-        // Рисование кнопку "добавить"
-        addBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO SAVE SETTING
-                rootPanel.setVisible(false);
-            }
-        });
+
+        setPresenter(new PrAddContact(this));
     }
 
     private void createUIComponents() {
@@ -56,7 +53,7 @@ public class ViewAddContact implements IView {
         };
         rootPanel.setOpaque(false);
         rootPanel.setVisible(false);
-        rootPanel.addMouseListener(new MouseAdapter() {});
+        //rootPanel.addMouseListener(new MouseAdapter() {});
 
         // задание форматированного поля с номером телефона
         try {
@@ -97,13 +94,7 @@ public class ViewAddContact implements IView {
                 g.drawImage(backBtnImg, 0, 0, null);
             }
         };
-        // Слушатель на кнопку "Назад"
-        backBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                rootPanel.setVisible(false);
-            }
-        });
+
 
         // Выравнивание текста с описанием
         StyleContext sc = new StyleContext();
@@ -126,7 +117,7 @@ public class ViewAddContact implements IView {
 
     @Override
     public void setPresenter(IPresenter presenter) {
-        //TODO
+        this.presenter = (PrAddContact) presenter;
     }
 
 

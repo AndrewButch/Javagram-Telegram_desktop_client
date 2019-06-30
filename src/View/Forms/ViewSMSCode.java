@@ -69,7 +69,6 @@ public class ViewSMSCode implements IView {
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
         logoPanel = new JPanel();
         codePasswordField = new JPasswordField() {
             @Override

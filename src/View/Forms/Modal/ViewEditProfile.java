@@ -1,6 +1,7 @@
 package View.Forms.Modal;
 
 import Presenter.IPresenter;
+import Presenter.PrEditContact;
 import View.IView;
 import View.Resources;
 
@@ -21,8 +22,9 @@ public class ViewEditProfile implements IView {
     private JButton exitBtn;
     private JLabel titleLabel;
     private JLabel phoneLabel;
-
     private BufferedImage backBtnImg;
+
+    private PrEditContact presenter;
 
     public ViewEditProfile() {
         // Слушатель на кнопку "сохранения"
@@ -48,8 +50,6 @@ public class ViewEditProfile implements IView {
                 rootPanel.setVisible(false);
             }
         });
-
-
     }
 
     public JPanel getRootPanel() {
@@ -58,11 +58,8 @@ public class ViewEditProfile implements IView {
 
     @Override
     public void setPresenter(IPresenter presenter) {
-        // TODO
-
+        this.presenter = (PrEditContact) presenter;
     }
-
-
 
     private void createUIComponents() {
         rootPanel = new JPanel(new GridBagLayout()){

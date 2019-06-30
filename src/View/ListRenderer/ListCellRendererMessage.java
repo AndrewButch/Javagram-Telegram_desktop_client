@@ -1,5 +1,6 @@
 package View.ListRenderer;
 
+import Utils.DateConverter;
 import View.ListItem.MessageItem;
 import View.Resources;
 import org.apache.commons.lang3.StringUtils;
@@ -54,7 +55,7 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
         getMessageJTextPane().setPreferredSize(new Dimension(308, height));
 
         setMessage(value.getMessage().getMessage());
-        setDate(Utils.Utils.convertIntDateToString(value.getMessage().getDate()));
+        setDate(DateConverter.convertIntDateToString(value.getMessage().getDate()));
 
 
 

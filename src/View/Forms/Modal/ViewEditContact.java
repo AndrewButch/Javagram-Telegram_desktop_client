@@ -1,6 +1,7 @@
 package View.Forms.Modal;
 
 import Presenter.IPresenter;
+import Presenter.PrEditContact;
 import View.IView;
 import View.Resources;
 
@@ -27,6 +28,7 @@ public class ViewEditContact implements IView {
     private BufferedImage backBtnImg;
     private BufferedImage contactImg;
 
+    private PrEditContact presenter;
 
     public ViewEditContact() {
         // Слушатель на кнопку "сохраненя"
@@ -110,7 +112,7 @@ public class ViewEditContact implements IView {
 
     @Override
     public void setPresenter(IPresenter presenter) {
-        //TODO
+        this.presenter = (PrEditContact) presenter;
 
     }
 

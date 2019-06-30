@@ -1,8 +1,9 @@
 package View.ListItem;
 
+import Utils.DateConverter;
 import org.javagram.response.object.Message;
 import org.javagram.response.object.User;
-import org.javagram.response.object.UserContact;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,7 +24,7 @@ public class ContactListItem {
         this.user = userContact;
         this.message = topMsg;
         setLastMsg(message.getMessage());
-        setLastMsgDate(Utils.Utils.convertIntDateToStringShort(message.getDate()));
+        setLastMsgDate(DateConverter.convertIntDateToStringShort(message.getDate()));
     }
 
     public User getUser() {
