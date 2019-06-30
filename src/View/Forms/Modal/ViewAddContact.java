@@ -129,4 +129,6 @@ public class ViewAddContact implements IView {
     public JButton getBackBtn() {
         return backBtn;
     }
+
+
 }

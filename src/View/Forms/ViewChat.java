@@ -10,7 +10,6 @@ import View.IView;
 import View.ListRenderer.*;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
-import View.LoadingForm;
 import View.Resources;
 import View.WindowManager;
 import org.javagram.response.object.Dialog;
@@ -77,11 +76,10 @@ public class ViewChat implements IView {
     private BufferedImage maskGrayImg;
     private BufferedImage maskDarkGrayBigImg;
 
-    // Формы редактированием и добавлением контактов
+    // Модальные view с редактированием профиля, добавлением и редактированием контактов
+    private ViewEditProfile editProfile;
     private ViewAddContact addContact;
     private ViewEditContact editContact;
-    private ViewEditProfile editUser;
-    private LoadingForm loadingForm;
 
     public ViewChat() {
         setPresenter(new PrChat(this));
@@ -95,7 +93,7 @@ public class ViewChat implements IView {
         userNameLabel.setText(user.getFirstName() + " " + user.getLastName());
 
         // Установка информации о пользователе в окне ViewEditProfile
-        editUser.setUserInfo(user.getFirstName(), user.getLastName(), user.getPhone());
+        editProfile.setUserInfo(user.getFirstName(), user.getLastName(), user.getPhone());
 
         Thread contactListThread = new Thread(new Runnable() {
             @Override
@@ -104,67 +102,6 @@ public class ViewChat implements IView {
             }
         });
         contactListThread.start();
-
-
-        // Установка обработчиков на кнопки открытия:
-        // Формы редактирования профиля пользователя
-        // Формы редактирования профиля контакта
-        // формы добавления контакта
-        userSettingsBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editUser.getRootPanel().setVisible(true);
-            }
-        });
-        contactEditBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editContact.getRootPanel().setVisible(true);
-            }
-        });
-        addContactBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addContact.clearFields();
-                addContact.getRootPanel().setVisible(true);
-                addContact.getPhoneJFormattedText().requestFocus();
-            }
-        });
-
-
-        // Обработчик на кнопку отправки сообщений
-        sendMessageBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Send Message");
-                JScrollBar verticalBar = messageListScrollPane.getVerticalScrollBar();
-                verticalBar.setValue(verticalBar.getMaximum());
-            }
-        });
-        // Обработчик на поле ввода сообщения
-        messageTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Send Message");
-                JScrollBar verticalBar = messageListScrollPane.getVerticalScrollBar();
-                verticalBar.setValue(verticalBar.getMaximum());
-            }
-        });
-        messageTextField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if ("Текст сообщения".equals(messageTextField.getText())) {
-                    messageTextField.setText("");
-                }
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if ("".equals(messageTextField.getText())) {
-                    messageTextField.setText("Текст сообщения");
-                }
-            }
-        });
         WindowManager.setContentView(this);
     }
 
@@ -214,8 +151,8 @@ public class ViewChat implements IView {
         layeredRootPane.add(rootPanel, JLayeredPane.DEFAULT_LAYER, -1);
 
         // Форма ViewEditProfile добавляется в z-index на слой выше
-        editUser = new ViewEditProfile();
-        layeredRootPane.add(editUser.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
+        editProfile = new ViewEditProfile();
+        layeredRootPane.add(editProfile.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
 
         // Форма ViewEditContact добавляется в z-index на слой выше
         editContact = new ViewEditContact();
@@ -233,7 +170,7 @@ public class ViewChat implements IView {
             @Override
             public void componentResized(ComponentEvent e) {
                 rootPanel.setSize( e.getComponent().getSize() );
-                editUser.getRootPanel().setSize(e.getComponent().getSize());
+                editProfile.getRootPanel().setSize(e.getComponent().getSize());
                 editContact.getRootPanel().setSize(e.getComponent().getSize());
                 addContact.getRootPanel().setSize(e.getComponent().getSize());
             }
@@ -352,6 +289,47 @@ public class ViewChat implements IView {
         contactsJList.setCellRenderer(contactCellRenderer);
         ((ListCellRendererContact) contactsJList.getCellRenderer()).setContacts(messagesJList, contactNameLable, presenter, topMessages );
 
+    }
+
+    public JButton getUserSettingsBtn() {
+        return userSettingsBtn;
+    }
+
+    public JButton getContactEditBtn() {
+        return contactEditBtn;
+    }
+
+    public JButton getAddContactBtn() {
+        return addContactBtn;
+    }
+
+    public JButton getSendMessageBtn() {
+        return sendMessageBtn;
+    }
+
+    public JTextField getMessageTextField() {
+        return messageTextField;
+    }
+
+    public JScrollPane getMessageListScrollPane() {
+        return messageListScrollPane;
+    }
+
+    // Показать модальное окно с добавлением контакта
+    public void showAddContactView() {
+        addContact.clearFields();
+        addContact.getRootPanel().setVisible(true);
+        addContact.getPhoneJFormattedText().requestFocus();
+    }
+
+    // Показать модальное окно с редактированием своего профиля
+    public void showEditUserProfileView() {
+        editProfile.getRootPanel().setVisible(true);
+    }
+
+    // Показать модальное окно с редактированием контакта
+    public void showEditContactView() {
+        editContact.getRootPanel().setVisible(true);
     }
 }
 
