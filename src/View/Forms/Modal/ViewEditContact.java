@@ -30,31 +30,9 @@ public class ViewEditContact implements IView {
 
     private PrEditContact presenter;
 
-    public ViewEditContact() {
-        // Слушатель на кнопку "сохраненя"
-        saveBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO SAVE SETTING
-                rootPanel.setVisible(false);
-            }
-        });
-        deleteBtn.setBorder(BorderFactory.createLineBorder(new Color(187,61,62), 2));
-        // Слушатель на кнопку "удалить контакт"
-        deleteBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO LOGOUT
-            }
-        });
 
-        // Слушатель на кнопку "Назад"
-        backBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                rootPanel.setVisible(false);
-            }
-        });
+    public ViewEditContact() {
+        setPresenter(new PrEditContact(this));
     }
 
     private void createUIComponents() {
@@ -121,4 +99,15 @@ public class ViewEditContact implements IView {
         phoneLabel.setText(phoneNumber);
     }
 
+    public JButton getSaveBtn() {
+        return saveBtn;
+    }
+
+    public JButton getBackBtn() {
+        return backBtn;
+    }
+
+    public JButton getDeleteBtn() {
+        return deleteBtn;
+    }
 }

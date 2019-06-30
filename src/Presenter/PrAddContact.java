@@ -17,6 +17,23 @@ public class PrAddContact implements IPresenter {
     }
 
     private void setListeners() {
+        // Слушатель на кнопку "Назад"
+        view.getBackBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                view.getRootPanel().setVisible(false);
+                System.err.println("AddContact Назад");
+            }
+        });
 
+        // Слушатель кнопку "добавить"
+        view.getAddBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO ADD CONTACT IF NOT EXIST
+                System.err.println("AddContact Добавить");
+                view.getRootPanel().setVisible(false);
+            }
+        });
     }
 }

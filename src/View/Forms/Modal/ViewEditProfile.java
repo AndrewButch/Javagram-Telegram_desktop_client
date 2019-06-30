@@ -2,6 +2,7 @@ package View.Forms.Modal;
 
 import Presenter.IPresenter;
 import Presenter.PrEditContact;
+import Presenter.PrEditProfile;
 import View.IView;
 import View.Resources;
 
@@ -24,32 +25,10 @@ public class ViewEditProfile implements IView {
     private JLabel phoneLabel;
     private BufferedImage backBtnImg;
 
-    private PrEditContact presenter;
+    private PrEditProfile presenter;
 
     public ViewEditProfile() {
-        // Слушатель на кнопку "сохранения"
-        saveBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO SAVE SETTING
-                rootPanel.setVisible(false);
-            }
-        });
-        // Слушатель на кнопку "выйти"
-        exitBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO LOGOUT
-            }
-        });
-
-        // Слушатель на кнопку "назад"
-        backBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                rootPanel.setVisible(false);
-            }
-        });
+        setPresenter(new PrEditProfile(this));
     }
 
     public JPanel getRootPanel() {
@@ -58,7 +37,7 @@ public class ViewEditProfile implements IView {
 
     @Override
     public void setPresenter(IPresenter presenter) {
-        this.presenter = (PrEditContact) presenter;
+        this.presenter = (PrEditProfile) presenter;
     }
 
     private void createUIComponents() {
@@ -104,5 +83,17 @@ public class ViewEditProfile implements IView {
         firstNameTF.setText(firstName);
         lastNameTF.setText(lastName);
         phoneLabel.setText(phoneNumber);
+    }
+
+    public JButton getSaveBtn() {
+        return saveBtn;
+    }
+
+    public JButton getBackBtn() {
+        return backBtn;
+    }
+
+    public JButton getExitBtn() {
+        return exitBtn;
     }
 }

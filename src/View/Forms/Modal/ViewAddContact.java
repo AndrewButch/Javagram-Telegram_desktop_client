@@ -32,10 +32,6 @@ public class ViewAddContact implements IView {
     private PrAddContact presenter;
 
     public ViewAddContact() {
-        icon_phone = Resources.getImage(Resources.ICON_PHONE);
-        backBtnImg = Resources.getImage(Resources.ICON_BACK);
-
-
         setPresenter(new PrAddContact(this));
     }
 
@@ -55,6 +51,8 @@ public class ViewAddContact implements IView {
         rootPanel.setVisible(false);
         //rootPanel.addMouseListener(new MouseAdapter() {});
 
+        icon_phone = Resources.getImage(Resources.ICON_PHONE);
+        backBtnImg = Resources.getImage(Resources.ICON_BACK);
         // задание форматированного поля с номером телефона
         try {
             phoneJFormattedText = new JFormattedTextField(new MaskFormatter("+7 ### ### ## ##")) {
@@ -120,8 +118,15 @@ public class ViewAddContact implements IView {
         this.presenter = (PrAddContact) presenter;
     }
 
-
     public JFormattedTextField getPhoneJFormattedText() {
         return phoneJFormattedText;
+    }
+
+    public JButton getAddBtn() {
+        return addBtn;
+    }
+
+    public JButton getBackBtn() {
+        return backBtn;
     }
 }
