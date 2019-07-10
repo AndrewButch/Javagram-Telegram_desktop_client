@@ -1,43 +1,46 @@
 package Presenter;
 
 import Model.Model;
+import Utils.DateConverter;
 import View.Forms.ViewChat;
 import View.ListItem.ContactListItem;
+import View.ListItem.MessageItem;
 import View.ListRenderer.ListCellRendererContact;
+import org.javagram.handlers.IncomingMessageHandler;
+import org.javagram.response.MessagesSentMessage;
+import org.javagram.response.object.*;
 import org.javagram.response.object.Dialog;
-import org.javagram.response.object.Message;
-import org.javagram.response.object.User;
-import org.javagram.response.object.UserContact;
+import org.telegram.api.TLMessage;
+import org.telegram.api.TLPeerUser;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Random;
 
-public class PrChat implements IPresenter {
+public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChangeListener {
     Model model;
     ViewChat view;
     private ListCellRendererContact contactCellRenderer; // Собственный визуализатор списка контактов
     private User user;
     private ArrayList<UserContact> contacts; // список конактов
     private ArrayList<Dialog> dialogs;      // диалоги для заполнения списка контактов
-    private HashMap<Integer, UserContact> contactsHashMap;
+    private Random random;
+    private State state;
 
     public PrChat(ViewChat view) {
         this.view = view;
         this.model = Model.getInstance();
-        this.user = getSelfUser();
-        this.contacts = model.getContacts();
-        this.contactsHashMap = new HashMap<>();
+        this.user = model.getSelfUser();
+        this.random = new Random();
         setListeners();
+        model.setMessageHandler(this);
+        this.state = model.getState();
 
-        for (UserContact contact : contacts) {
-            contactsHashMap.put(contact.getId(), contact);
-        }
-        // Имя пользователя - метка
+        // Имя пользователя - метка сверху над чатом
         view.getUserNameLabel().setText(user.getFirstName() + " " + user.getLastName());
 
         Thread contactListThread = new Thread(new Runnable() {
@@ -54,12 +57,13 @@ public class PrChat implements IPresenter {
         setListenerToMessageComponent();
     }
 
-    public User getSelfUser() {
-        return model.getSelfUser();
+    public ViewChat getView() {
+        return view;
     }
 
+
     public ArrayList<Message> getMessageHistory(int userId) {
-        return model.getMessageHistory(userId);
+        return model.getMessageHistoryByUserID(userId);
     }
 
     /** Получение диалогов и последних сообщений от пользователей
@@ -72,51 +76,60 @@ public class PrChat implements IPresenter {
         // Получение ID последних сообщений из списка диалогов
         ArrayList<Integer> messageIds = new ArrayList<>();
         for (Dialog dialog : dialogs) {
-            messageIds.add(dialog.getTopMessage());
+            if(dialog != null)
+                messageIds.add(dialog.getTopMessage());
         }
 
-        // Получение самих сообщений на основании ID сообщения
-        ArrayList<Message> topMessages = model.getMessages(messageIds);
+        // Получение списка сообщений на основании ID сообщения
+        ArrayList<Message> topMessages = model.getMessagesById(messageIds);
 
-
-        // Создание своей модели JList
-        DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
-
-        // Получить ID пользователей из всех сообщений
+        // Получить ID собеседников из последних сообщений
         ArrayList<Integer> userIds = new ArrayList<>();
         for (Message msg : topMessages) {
-            if (user.getId() == msg.getFromId()) {
+            if (msg.getToId() == 0 || msg.getFromId() == 0) {
+                continue;
+            } else if (user.getId() == msg.getFromId()) {
                 userIds.add(msg.getToId());
             } else {
                 userIds.add(msg.getFromId());
             }
-        }
-        // Получить User по списку ID
-        ArrayList<User> contactUsers = model.getUsers(userIds);
-        for (User user : contactUsers) {
-            System.err.println("ID: " + user.getId() + "\tName: " + user.getFirstName() + "\tLastName: " + user.getLastName());
-        }
-        System.err.println("------------------------------------------------\n");
-        // дебаг на наличие сообщений от незнакомых контактов
-        for (Message msg : topMessages) {
             System.err.println("Message: " + msg.getMessage().replace("\n", " ") + "\nFrom: " + msg.getFromId() + "\tTo: " + msg.getToId() );
         }
+        System.err.println("------------------------------------------------\n");
 
-        // Сформировать модель контактов из ContactListItem()
+        // Получить список User по списку ID
+        ArrayList<User> contactUsers = model.getUsersById(userIds);
+
+        // Сформировать модель контактов из ContactListItem() и Список истории в модели
+        DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
         for (int i = 0; i < contactUsers.size(); i++ ) {
-            modelContacts.addElement(new ContactListItem(contactUsers.get(i), topMessages.get(i)));
+            User user = contactUsers.get(i);
+            if (user.getId() == 0) continue;
+            model.createContactHistory(user.getId());
+            System.err.println("ID: " + user.getId() + "\tName: " + user.getFirstName() + "\tLastName: " + user.getLastName());
+            modelContacts.addElement(new ContactListItem(user, topMessages.get(i)));
         }
 
         view.getContactsJList().setModel(modelContacts);
 
-        // Передача в визуализатор контактов:
-        // - JList для наполнения сообщениями
-        // - JLabel для установки имени собеседника
-        // - Presenter для получения сообщений
         contactCellRenderer = new ListCellRendererContact();
         view.getContactsJList().setCellRenderer(contactCellRenderer);
-        ((ListCellRendererContact) view.getContactsJList().getCellRenderer()).setContacts(view.getMessagesJList(), view.getContactNameLable(), this, topMessages );
+        ((ListCellRendererContact) view.getContactsJList().getCellRenderer()).setContacts( this, topMessages );
 
+//        Thread t1 = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (true) {
+//                    try {
+//                        Thread.sleep(5000);
+//                        handle(2, "hello");
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
+//        t1.start();
     }
 
     private void setListenerToMessageComponent() {
@@ -127,6 +140,7 @@ public class PrChat implements IPresenter {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Send Message");
+                sendMessage();
                 verticalBar.setValue(verticalBar.getMaximum());
             }
         });
@@ -136,6 +150,7 @@ public class PrChat implements IPresenter {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Send Message");
+                sendMessage();
                 verticalBar.setValue(verticalBar.getMaximum());
             }
         });
@@ -180,5 +195,98 @@ public class PrChat implements IPresenter {
                 view.showAddContactView();
             }
         });
+    }
+
+
+
+    public void messagesScrollEnd() {
+        JScrollBar verticalBar = view.getMessageListScrollPane().getVerticalScrollBar();
+        int width = view.getMessageListScrollPane().getWidth();
+        int height = view.getMessageListScrollPane().getHeight();
+        int widthList = view.getMessagesJList().getWidth();
+        int heightList = view.getMessagesJList().getHeight();
+        //view.getMessagesJList().scrollRectToVisible(new Rectangle(width, height));
+        verticalBar.revalidate();
+        verticalBar.setValue(verticalBar.getMaximum());
+        //view.getMessageListScrollPane().getVerticalScrollBar().setValue(view.getMessageListScrollPane().getVerticalScrollBar().getMaximum());
+    }
+
+
+    public User getSelfUser() {
+        return user;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
+
+    /**
+     * Обработка события выбора контакта из списка контактов
+     * Установка в модель списка сообщений новые сообщения
+     */
+    @Override
+    public Object handle(int i, String s) {
+        TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
+        TLMessage tlMessage = new TLMessage(0, i, tlPeerUser, true, true, DateConverter.getDateInt(), s, null);
+        Message msg = new Message(tlMessage);
+        model.addMessage(i, msg);
+        ContactListItem selected = contactCellRenderer.getSelectedItem();
+        if (selected == null)
+            return null;
+        if (i == selected.getUser().getId()) {
+            // TODO обновить список сообщений текущего контакта
+            ((DefaultListModel<MessageItem>) view.getMessagesJList().getModel()).addElement(new MessageItem(msg));
+            messagesScrollEnd();
+        } else {
+
+            DefaultListModel<ContactListItem> listModel = (DefaultListModel<ContactListItem>)view.getContactsJList().getModel();
+            for (int k = 0; k < listModel.size(); k++) {
+                ContactListItem item = listModel.get(k);
+                if (item.getUser().getId() == i) {
+                    // TODO установить метку непрочитанного сообщения
+                    item.incrementUnread();
+                    // TODO установить последнее сообщение
+                    item.setLastMsg(s);
+                    // TODO установить дату сообщения
+                    item.setLastMsgDate(DateConverter.convertIntDateToStringShort(DateConverter.getDateInt()));
+                    view.getContactsJList().revalidate();
+                    view.getContactsJList().repaint();
+                }
+            }
+
+        }
+        return null;
+    }
+
+    private void sendMessage() {
+        JTextField messageTF = view.getMessageTextField();
+
+        // Формироване сообщения
+        int userId = contactCellRenderer.getSelectedItem().getUser().getId();
+        String message = messageTF.getText();
+        int messageId = random.nextInt();
+        // Отправка сообщения
+        MessagesSentMessage sent = model.sendMessage(userId, message, messageId);
+        // Получение отправленного сообщения
+        // TODO нужны проверки отправленного сообщения
+        ArrayList<Integer> neededdMsgId = new ArrayList<>();
+        neededdMsgId.add(sent.getId());
+
+
+        // Отправленные сообщения добавляем в чат
+        ArrayList<Message>  sentMessages = model.getMessagesById(neededdMsgId);
+        for (Message msg : sentMessages) {
+            // Добавление сообщения в локальное хранилище
+            model.addMessage(userId, msg);
+            // Добалвние сообщения в список сообщений
+            ((DefaultListModel<MessageItem>) view.getMessagesJList().getModel()).addElement(new MessageItem(msg));
+        }
+        messagesScrollEnd();
+        view.clearMessageTextField();
+    }
+
+    private void setLastMessageInfo() {
+
     }
 }
