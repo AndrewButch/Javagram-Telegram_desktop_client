@@ -1,5 +1,7 @@
 package View.ListRenderer;
 
+import Presenter.PrChat;
+import Presenter.Presenter;
 import Utils.DateConverter;
 import View.ListItem.MessageItem;
 import View.Resources;
@@ -24,16 +26,13 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
 
     private User currentContact;
     private User selfUser;
+    private PrChat presenter;
 
-    public ListCellRendererMessage(User selfUser, User currentContact) {
+    public ListCellRendererMessage(User selfUser, User currentContact, PrChat presenter) {
         this.selfUser = selfUser;
         this.currentContact = currentContact;
-        topInMessageIMG = Resources.getImage(Resources.MESSAGE_IN_TOP);
-        botInMessageIMG = Resources.getImage(Resources.MESSAGE_IN_BOTTOM);
-        leftInMessageIMG = Resources.getImage(Resources.MESSAGE_IN_LEFT);
-        topOutMessageIMG = Resources.getImage(Resources.MESSAGE_OUT_TOP);
-        botOutMessageIMG = Resources.getImage(Resources.MESSAGE_OUT_BOTTOM);
-        rightOutMessageIMG = Resources.getImage(Resources.MESSAGE_OUT_RIGHT);
+        this.presenter = presenter;
+        loadImages();
     }
 
     @Override
@@ -56,15 +55,14 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
 
         setMessage(value.getMessage().getMessage());
         setDate(DateConverter.convertIntDateToString(value.getMessage().getDate()));
-
-
-
         return this.getRootPanel();
     }
 
     private void setupMessage(MessageItem messageItem) {
         int toId = messageItem.getMessage().getToId();
         int fromId = messageItem.getMessage().getFromId();
+        // TODO сделать чтобы внутри сообщения была информация от кого оно
+        boolean isOut = messageItem.getMessage().isOut();
 
         LayoutManager layout = getRootPanel().getLayout();
         getRootPanel().setBackground(Color.WHITE);
@@ -93,6 +91,15 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
             }
         }
 
+    }
+
+    private void loadImages() {
+        topInMessageIMG = Resources.getImage(Resources.MESSAGE_IN_TOP);
+        botInMessageIMG = Resources.getImage(Resources.MESSAGE_IN_BOTTOM);
+        leftInMessageIMG = Resources.getImage(Resources.MESSAGE_IN_LEFT);
+        topOutMessageIMG = Resources.getImage(Resources.MESSAGE_OUT_TOP);
+        botOutMessageIMG = Resources.getImage(Resources.MESSAGE_OUT_BOTTOM);
+        rightOutMessageIMG = Resources.getImage(Resources.MESSAGE_OUT_RIGHT);
     }
 
 
