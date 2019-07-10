@@ -65,8 +65,8 @@
       </component>
       <component id="d2286" class="javax.swing.JLabel" binding="lastMsgDate">
         <constraints>
-          <grid row="0" column="2" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.1" weighty="0.0"/>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="0" bottom="0" right="10" weightx="0.1" weighty="0.0"/>
         </constraints>
         <properties>
           <background color="-4276546"/>
@@ -78,6 +78,25 @@
           <minimumSize width="60" height="15"/>
           <preferredSize width="60" height="15"/>
           <text value="00.00.1800"/>
+        </properties>
+      </component>
+      <component id="4aaf9" class="javax.swing.JLabel" binding="unreadLabel">
+        <constraints>
+          <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <background color="-16731162"/>
+          <enabled value="false"/>
+          <font name="Open Sans Semibold" size="10"/>
+          <foreground color="-12434878"/>
+          <horizontalAlignment value="0"/>
+          <horizontalTextPosition value="4"/>
+          <maximumSize width="30" height="20"/>
+          <minimumSize width="20" height="20"/>
+          <opaque value="false"/>
+          <preferredSize width="20" height="20"/>
+          <requestFocusEnabled value="false"/>
         </properties>
       </component>
     </children>

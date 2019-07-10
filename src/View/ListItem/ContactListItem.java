@@ -14,17 +14,29 @@ public class ContactListItem {
     private JLabel lastMsg;
     private JLabel lastMsgDate;
     private JPanel rootPanel;
+    private JLabel unreadLabel;
     private BufferedImage portraint;
     private User user;
     private Message message;
+    private int unreadCount;
 
     public ContactListItem(){}
 
-    public ContactListItem (User userContact, Message topMsg) {
+    public ContactListItem (User userContact, Message topMsg, int unreadCount) {
         this.user = userContact;
         this.message = topMsg;
         setLastMsg(message.getMessage());
         setLastMsgDate(DateConverter.convertIntDateToStringShort(message.getDate()));
+        this.unreadCount = 0;
+        if (unreadCount == 0) {
+            unreadLabel.setText("");
+        } else {
+            unreadLabel.setText(unreadCount + "");
+        }
+    }
+
+    public ContactListItem (User userContact, Message topMsg) {
+        this(userContact, topMsg, 0);
     }
 
     public User getUser() {
@@ -85,5 +97,10 @@ public class ContactListItem {
                 }
             }
         };
+    }
+
+    public void incrementUnread() {
+        unreadCount++;
+        this.unreadLabel.setText(unreadCount + "");
     }
 }
