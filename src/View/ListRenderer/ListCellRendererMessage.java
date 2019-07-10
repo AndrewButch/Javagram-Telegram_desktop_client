@@ -1,12 +1,9 @@
 package View.ListRenderer;
 
-import Presenter.PrChat;
-import Presenter.Presenter;
 import Utils.DateConverter;
 import View.ListItem.MessageItem;
 import View.Resources;
 import org.apache.commons.lang3.StringUtils;
-import org.javagram.response.object.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,14 +21,7 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
     private BufferedImage botOutMessageIMG;
     private BufferedImage rightOutMessageIMG;
 
-    private User currentContact;
-    private User selfUser;
-    private PrChat presenter;
-
-    public ListCellRendererMessage(User selfUser, User currentContact, PrChat presenter) {
-        this.selfUser = selfUser;
-        this.currentContact = currentContact;
-        this.presenter = presenter;
+    public ListCellRendererMessage() {
         loadImages();
     }
 
@@ -59,38 +49,25 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
     }
 
     private void setupMessage(MessageItem messageItem) {
-        int toId = messageItem.getMessage().getToId();
-        int fromId = messageItem.getMessage().getFromId();
-        // TODO сделать чтобы внутри сообщения была информация от кого оно
+        // Сообщение исходящее ???
         boolean isOut = messageItem.getMessage().isOut();
-
         LayoutManager layout = getRootPanel().getLayout();
         getRootPanel().setBackground(Color.WHITE);
-        if (selfUser != null) {
-            if (fromId == selfUser.getId()) {
-                ((FlowLayout) layout).setAlignment(FlowLayout.RIGHT);
-                setTopMessageIMG(topOutMessageIMG);
-                setBotMessageIMG(botOutMessageIMG);
-                setRightMessageIMG(rightOutMessageIMG);
-                setLeftMessageIMG(null);
-                getMessageJPanel().setBackground(new Color(74, 68, 168));
-            } else if (fromId == currentContact.getId() && toId == selfUser.getId()) {
-                ((FlowLayout) layout).setAlignment(FlowLayout.LEFT);
-                setTopMessageIMG(topInMessageIMG);
-                setBotMessageIMG(botInMessageIMG);
-                setLeftMessageIMG(leftInMessageIMG);
-                setRightMessageIMG(null);
-                getMessageJPanel().setBackground(new Color(1, 167, 217));
-            } else {
-                ((FlowLayout) layout).setAlignment(FlowLayout.CENTER);
-                setTopMessageIMG(null);
-                setBotMessageIMG(null);
-                setLeftMessageIMG(null);
-                setRightMessageIMG(null);
-                getMessageJPanel().setBackground(new Color(231, 17, 28));
-            }
+        if (isOut) {
+            ((FlowLayout) layout).setAlignment(FlowLayout.RIGHT);
+            setTopMessageIMG(topOutMessageIMG);
+            setBotMessageIMG(botOutMessageIMG);
+            setRightMessageIMG(rightOutMessageIMG);
+            setLeftMessageIMG(null);
+            getMessageJPanel().setBackground(new Color(74, 68, 168));
+        } else {
+            ((FlowLayout) layout).setAlignment(FlowLayout.LEFT);
+            setTopMessageIMG(topInMessageIMG);
+            setBotMessageIMG(botInMessageIMG);
+            setLeftMessageIMG(leftInMessageIMG);
+            setRightMessageIMG(null);
+            getMessageJPanel().setBackground(new Color(1, 167, 217));
         }
-
     }
 
     private void loadImages() {
