@@ -2,26 +2,39 @@ package Model;
 
 import FakeData.FakeTelegramBridge;
 import org.javagram.TelegramApiBridge;
+import org.javagram.handlers.IncomingMessageHandler;
 import org.javagram.response.AuthAuthorization;
 import org.javagram.response.AuthCheckedPhone;
 import org.javagram.response.AuthSentCode;
-import org.javagram.response.object.Dialog;
-import org.javagram.response.object.Message;
-import org.javagram.response.object.User;
-import org.javagram.response.object.UserContact;
+import org.javagram.response.MessagesSentMessage;
+import org.javagram.response.object.*;
+import org.telegram.api.TLAbsMessage;
+import org.telegram.api.TLInputPeerContact;
+import org.telegram.api.auth.TLSentCode;
+import org.telegram.api.engine.AppInfo;
 import org.telegram.api.engine.TelegramApi;
+import org.telegram.api.messages.TLAbsMessages;
+import org.telegram.api.requests.TLRequestAuthSendCall;
+import org.telegram.api.requests.TLRequestAuthSendCode;
+import org.telegram.api.requests.TLRequestMessagesGetHistory;
+import org.telegram.tl.TLBool;
+import org.telegram.tl.TLVector;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class Model {
     private final int request_interval = 5000;
-    private final String hostAddr = "149.154.167.50:443";
+    private final String hostAddr = "149.154.167.40:443";
     private final int appId = 568751;
     private final String appHash = "ec1d629d0855caa5425a9c83cdc5925d";
 //    TelegramApiBridge  bridge;
+
     private FakeTelegramBridge bridge;
+
     private AuthAuthorization authorization;
     private AuthCheckedPhone authCheckedPhone;
     private AuthSentCode authSendCode;
@@ -31,6 +44,8 @@ public class Model {
     private static Model model;
     private String phone;
     private String smsCode;
+    private State state;
+    private HashMap<Integer, ArrayList<Message>> contactsMessageHistory;
 
     private Model() {
 //        while (bridge == null) {
@@ -46,6 +61,7 @@ public class Model {
 //            }
 //        }
         bridge = new FakeTelegramBridge();
+        contactsMessageHistory = new HashMap<>();
     }
 
 
@@ -65,7 +81,6 @@ public class Model {
         try {
             authCheckedPhone = bridge.authCheckPhone(phone);
             if (authCheckedPhone.isRegistered()) {
-                //System.out.println(phoneText);
                 authSendCode = bridge.authSendCode(phone);
                 return authSendCode;
             }
@@ -130,22 +145,7 @@ public class Model {
         return contacts;
     }
 
-    public ArrayList<Message> getMessageHistory(int userId) {
-        ArrayList<Message> history = null;
-        do {
-            try {
-                history = getMessageHistory(userId, 0, Integer.MAX_VALUE, 50);
-            } catch (IOException e) {
-                e.printStackTrace();
-                try {
-                    Thread.sleep(request_interval);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }while (history == null);
-        return history;
-    }
+
 
     public ArrayList<Dialog> getDialogs() {
         ArrayList<Dialog> dialogs = null;
@@ -164,7 +164,7 @@ public class Model {
         return dialogs;
     }
 
-    public ArrayList<Message> getMessages(ArrayList<Integer> ids) {
+    public ArrayList<Message> getMessagesById(ArrayList<Integer> ids) {
         ArrayList<Message> messages = null;
         do {
             try {
@@ -181,7 +181,7 @@ public class Model {
         return messages;
     }
 
-    public ArrayList<User> getUsers(ArrayList<Integer> ids) {
+    public ArrayList<User> getUsersById(ArrayList<Integer> ids) {
         ArrayList<User> users = null;
         do {
             try {
@@ -227,7 +227,7 @@ public class Model {
      * @return
      * @throws IOException
      */
-//    private ArrayList<Message> getMessageHistory(int userId, int offset, int maxId, int limit) throws IOException {
+//    private ArrayList<Message> getMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
 //        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
 //        TLVector<TLAbsMessage> tlAbsMessages = ((TLAbsMessages) getTelegramApi(bridge).doRpcCall(request)).getMessages();
 //        ArrayList<Message> messages = new ArrayList();
@@ -239,7 +239,8 @@ public class Model {
 //        }
 //        return messages;
 //    }
-    public ArrayList<Message> getMessageHistory(int userId, int offset, int maxId, int limit) throws IOException {
+
+    private ArrayList<Message> getMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
         ArrayList<Message> foundedMsg = new ArrayList();
         for (Message msg : bridge.messageGetHistory()) {
             if (msg.getFromId() == userId || msg.getToId() == userId) {
@@ -247,6 +248,41 @@ public class Model {
             }
         }
         return foundedMsg;
+    }
+
+    public ArrayList<Message> getMessageHistoryByUserID(int userId, int offset, int limit) {
+        if (contactsMessageHistory.get(userId) == null) {
+            ArrayList<Message> history = null;
+            do {
+                try {
+                    history = getMessageHistoryByUserID(userId, offset, Integer.MAX_VALUE, limit);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    try {
+                        Thread.sleep(request_interval);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            } while (history == null);
+            return history;
+        }
+        return contactsMessageHistory.get(userId);
+    }
+
+    public ArrayList<Message> getMessageHistoryByUserID(int userId) {
+        return getMessageHistoryByUserID(userId, 0, 50);
+    }
+
+    public MessagesSentMessage sendMessage(int userId, String message, long randomId) {
+        MessagesSentMessage messageStatus = null;
+        try {
+
+            messageStatus = bridge.messagesSendMessage(userId, message, randomId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return messageStatus;
     }
 
     public String getPhone() {
@@ -264,4 +300,43 @@ public class Model {
     public void setSmsCode(String smsCode) {
         this.smsCode = smsCode;
     }
+
+    public void setMessageHandler(IncomingMessageHandler handler) {
+        bridge.setIncomingMessageHandler(handler);
+    }
+
+    public State getState() {
+        if (state == null) {
+            try {
+                state = bridge.updatesGetState();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return state;
+    }
+
+    public void createContactHistory(int contactId) {
+        ArrayList<Message> messages = getMessageHistoryByUserID(contactId);
+        contactsMessageHistory.put(contactId, messages);
+    }
+
+    public void addMessage(int contactId, Message msg) {
+        contactsMessageHistory.get(contactId).add(0, msg);
+    }
+
+
+//    public AuthSentCode sendAppCode(String phoneNumber) throws IOException {
+//        TelegramApi api = getTelegramApi(bridge);
+//        TLRequestAuthSendCode sendCode = new TLRequestAuthSendCode(phoneNumber, 5, this.appId, this.appHash, "ru");
+//        TLSentCode sentCode = (TLSentCode)api.doRpcCallNonAuth(sendCode);
+//        String phoneCodeHash = sentCode.getPhoneCodeHash();
+//        return new AuthSentCode(sentCode.getPhoneRegistered(), phoneCodeHash);
+//    }
+//    public TLBool sendCall(String phoneNumber, String phoneHash) throws IOException {
+//        TelegramApi api = getTelegramApi(bridge);
+//        TLRequestAuthSendCall sendCall = new TLRequestAuthSendCall(phoneNumber, phoneHash);
+//        TLBool sentCode = (TLBool) api.doRpcCallNonAuth(sendCall);
+//        return sentCode;
+//    }
 }

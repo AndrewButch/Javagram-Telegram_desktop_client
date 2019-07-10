@@ -3,7 +3,7 @@ package Presenter;
 import Model.Model;
 import Utils.DateConverter;
 import View.Forms.ViewChat;
-import View.ListItem.ContactListItem;
+import View.ListItem.ContactItem;
 import View.ListItem.MessageItem;
 import View.ListRenderer.ListCellRendererContact;
 import org.javagram.handlers.IncomingMessageHandler;
@@ -14,19 +14,18 @@ import org.telegram.api.TLMessage;
 import org.telegram.api.TLPeerUser;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChangeListener {
     Model model;
     ViewChat view;
-    private ListCellRendererContact contactCellRenderer; // Собственный визуализатор списка контактов
+
     private User user;
-    private ArrayList<UserContact> contacts; // список конактов
+    private HashMap<Integer, User> contacts; // Int - userID
+    private HashMap<Integer, LinkedList<Message>> messages; // Int - userID
     private ArrayList<Dialog> dialogs;      // диалоги для заполнения списка контактов
     private Random random;
     private State state;
@@ -100,20 +99,18 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
         // Получить список User по списку ID
         ArrayList<User> contactUsers = model.getUsersById(userIds);
 
-        // Сформировать модель контактов из ContactListItem() и Список истории в модели
-        DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
+        // Сформировать модель контактов из ContactItem() и Список истории в модели
+        DefaultListModel<ContactItem> modelContacts = new DefaultListModel<>();
         for (int i = 0; i < contactUsers.size(); i++ ) {
             User user = contactUsers.get(i);
             if (user.getId() == 0) continue;
             model.createContactHistory(user.getId());
             System.err.println("ID: " + user.getId() + "\tName: " + user.getFirstName() + "\tLastName: " + user.getLastName());
-            modelContacts.addElement(new ContactListItem(user, topMessages.get(i)));
+            modelContacts.addElement(new ContactItem(user, topMessages.get(i)));
         }
 
         view.getContactsJList().setModel(modelContacts);
 
-        contactCellRenderer = new ListCellRendererContact();
-        view.getContactsJList().setCellRenderer(contactCellRenderer);
         ((ListCellRendererContact) view.getContactsJList().getCellRenderer()).setContacts( this, topMessages );
 
 //        Thread t1 = new Thread(new Runnable() {
@@ -231,7 +228,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
         TLMessage tlMessage = new TLMessage(0, i, tlPeerUser, true, true, DateConverter.getDateInt(), s, null);
         Message msg = new Message(tlMessage);
         model.addMessage(i, msg);
-        ContactListItem selected = contactCellRenderer.getSelectedItem();
+        ContactItem selected = contactListRenderer.getSelectedItem();
         if (selected == null)
             return null;
         if (i == selected.getUser().getId()) {
@@ -240,9 +237,9 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
             messagesScrollEnd();
         } else {
 
-            DefaultListModel<ContactListItem> listModel = (DefaultListModel<ContactListItem>)view.getContactsJList().getModel();
+            DefaultListModel<ContactItem> listModel = (DefaultListModel<ContactItem>)view.getContactsJList().getModel();
             for (int k = 0; k < listModel.size(); k++) {
-                ContactListItem item = listModel.get(k);
+                ContactItem item = listModel.get(k);
                 if (item.getUser().getId() == i) {
                     // TODO установить метку непрочитанного сообщения
                     item.incrementUnread();
@@ -263,7 +260,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
         JTextField messageTF = view.getMessageTextField();
 
         // Формироване сообщения
-        int userId = contactCellRenderer.getSelectedItem().getUser().getId();
+        int userId = contactListRenderer.getSelectedItem().getUser().getId();
         String message = messageTF.getText();
         int messageId = random.nextInt();
         // Отправка сообщения
@@ -286,7 +283,16 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
         view.clearMessageTextField();
     }
 
-    private void setLastMessageInfo() {
-
+    public DefaultListModel<MessageItem> getMessages(int userID) {
+        // TODO возвратить модель, заполненную сообщениями в обратном порядке
+//        int contactId = selected.getUser().getId();
+//        messages = presenter.getMessageHistory(contactId);
+//        Collections.reverse(messages);
+//        DefaultListModel<MessageItem> modelMessage = new DefaultListModel<>();
+//        for (Message msg : messages) {
+//            modelMessage.addElement(new MessageItem(msg));
+//        }
+        DefaultListModel<MessageItem> model = new DefaultListModel<>();
+        return model;
     }
 }

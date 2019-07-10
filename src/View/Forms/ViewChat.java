@@ -7,8 +7,10 @@ import View.Forms.Modal.ViewAddContact;
 import View.Forms.Modal.ViewEditContact;
 import View.Forms.Modal.ViewEditProfile;
 import View.IView;
-import View.ListItem.ContactListItem;
+import View.ListItem.ContactItem;
 import View.ListItem.MessageItem;
+import View.ListRenderer.ListCellRendererContact;
+import View.ListRenderer.ListCellRendererMessage;
 import View.Resources;
 import View.WindowManager;
 import javax.swing.*;
@@ -19,6 +21,12 @@ import java.awt.image.BufferedImage;
 
 public class ViewChat implements IView {
     private PrChat presenter;
+
+    private ListCellRendererContact contactListRenderer; // визуализатор списка контактов
+    private ListCellRendererMessage messageListRenderer; // визуализатор списка сообщений
+
+    private DefaultListModel<ContactItem> modelContacts;
+    private DefaultListModel<MessageItem> modelMessages;
 
 
     private JLayeredPane layeredRootPane; // Панель с z-index. В неё кладем все JPanel
@@ -36,7 +44,7 @@ public class ViewChat implements IView {
     private JPanel contaclLogoMiniJPanel;
     private JLabel contactNameLable;
     private JButton contactEditBtn;
-    private JList<ContactListItem> contactsJList;
+    private JList<ContactItem> contactsJList;
 
     // Компоненты поиска контактов
     private JPanel searchContactsJPanel;
@@ -66,15 +74,22 @@ public class ViewChat implements IView {
     private BufferedImage maskGrayImg;
     private BufferedImage maskDarkGrayBigImg;
 
+
     // Модальные view с редактированием профиля, добавлением и редактированием контактов
     private ViewEditProfile editProfile;
     private ViewAddContact addContact;
     private ViewEditContact editContact;
 
+
     public ViewChat() {
-        setPresenter(new PrChat(this));
+        PrChat presenter = new PrChat(this);
+        setPresenter(presenter);
         WindowManager.setContentView(this);
         setupBorders();
+        contactListRenderer = new ListCellRendererContact(this);
+        messageListRenderer = new ListCellRendererMessage();
+        contactsJList.setCellRenderer(contactListRenderer);
+        messagesJList.setCellRenderer(messageListRenderer);
     }
 
     private void createUIComponents() {
@@ -87,6 +102,8 @@ public class ViewChat implements IView {
         setupIcons();
     }
 
+    /** --------- Методы инициализации ---------*/
+
     private void loadImages(){
         logoMicroImg = Resources.getImage(Resources.LOGO_MICRO);
         iconSearch = Resources.getImage(Resources.ICON_SEARCH);
@@ -97,6 +114,7 @@ public class ViewChat implements IView {
         maskWhiteImg = Resources.getImage(Resources.MASK_WHITE);
         maskGrayImg = Resources.getImage(Resources.MASK_GRAY);
         maskDarkGrayBigImg = Resources.getImage(Resources.MASK_DARK_GRAY_BIG);
+
     }
 
     private void setupLists() {
@@ -178,6 +196,11 @@ public class ViewChat implements IView {
         };
     }
 
+    @Override
+    public void setPresenter(IPresenter presenter) {
+        this.presenter = (PrChat) presenter;
+    }
+
     private void setupBorders() {
         contactsJList.setBorder(null);
         contactJPanel.setBorder(BorderFactory.createMatteBorder(0, 1,1, 0, new Color(237, 237, 237)));
@@ -187,11 +210,7 @@ public class ViewChat implements IView {
         messageListScrollPane.setBorder(null);
     }
 
-    @Override
-    public void setPresenter(IPresenter presenter) {
-        this.presenter = (PrChat) presenter;
-    }
-
+    /** --------- Getters ------------ */
     @Override
     public JLayeredPane getRootPanel() {
         return layeredRootPane;
@@ -229,13 +248,15 @@ public class ViewChat implements IView {
         return contactNameLable;
     }
 
-    public JList<ContactListItem> getContactsJList() {
+    public JList<ContactItem> getContactsJList() {
         return contactsJList;
     }
 
     public JList<MessageItem> getMessagesJList() {
         return messagesJList;
     }
+
+    /** --------- Методы показа модальных окон ---------*/
 
     // Показать модальное окно с добавлением контакта
     public void showAddContactView() {
@@ -252,6 +273,30 @@ public class ViewChat implements IView {
     // Показать модальное окно с редактированием контакта
     public void showEditContactView() {
         editContact.getRootPanel().setVisible(true);
+    }
+
+    /** --------- Методы управления --------- */
+    // Очистить поле ввода сообщения
+    public void clearMessageTextField() {
+        messageTextField.setText("");
+    }
+
+    public void showDialogs(DefaultListModel<ContactItem> model) {
+        contactsJList.setModel(model);
+    }
+
+    public void showMessages(int userId) {
+        // TODO показать инфу собеседника
+        // установка заголовка контакта с которым ведётся диалог
+//        if (user.getId() != 0) {
+//            contactNameJLabel.setText(selected.getUser().getFirstName() + " " + selected.getUser().getLastName());
+//        } else {
+//            contactNameJLabel.setText("Telegram");
+//        }
+//        // TODO установка иконки контакта
+//        setPortraint(contact_white_online);
+
+        modelMessages = presenter.getMessages(userId);
     }
 }
 

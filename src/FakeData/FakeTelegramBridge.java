@@ -152,7 +152,6 @@ public class FakeTelegramBridge {
 
     /** Done */
     public MessagesSentMessage messagesSendMessage(int userId, String message, long randomId) throws IOException {
-
         this.messages.put((int)randomId, new Message(
                 new TLMessage((
                         (int) randomId), selfUser.getId(), new TLPeerUser(userId),
@@ -292,8 +291,7 @@ public class FakeTelegramBridge {
     }
     /** TODO */
     public State updatesGetState() throws IOException {
-        TLRequestUpdatesGetState request = new TLRequestUpdatesGetState();
-        TLState tlState = (TLState)this.api.doRpcCall(request);
+        TLState tlState = new TLState(0, 0, 0, 0, 0);
         return new State(tlState);
     }
     /** TODO */

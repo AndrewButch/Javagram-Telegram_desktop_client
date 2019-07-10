@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class ContactListItem {
+public class ContactItem {
     private JPanel portraitJPanel;
     private JLabel userName;
     private JLabel lastMsg;
@@ -20,9 +20,9 @@ public class ContactListItem {
     private Message message;
     private int unreadCount;
 
-    public ContactListItem(){}
+    public ContactItem(){}
 
-    public ContactListItem (User userContact, Message topMsg, int unreadCount) {
+    public ContactItem(User userContact, Message topMsg, int unreadCount) {
         this.user = userContact;
         this.message = topMsg;
         setLastMsg(message.getMessage());
@@ -35,7 +35,7 @@ public class ContactListItem {
         }
     }
 
-    public ContactListItem (User userContact, Message topMsg) {
+    public ContactItem(User userContact, Message topMsg) {
         this(userContact, topMsg, 0);
     }
 

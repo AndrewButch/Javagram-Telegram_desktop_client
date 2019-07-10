@@ -107,4 +107,8 @@ public class DateConverter {
         }
         return result;
     }
+
+    public static int getDateInt() {
+        return (int)(Calendar.getInstance().getTimeInMillis() / 1000);
+    }
 }
