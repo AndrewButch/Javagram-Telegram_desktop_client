@@ -335,6 +335,7 @@ public class FakeTelegramBridge {
         for (int userId : dialogsId) {
             int to;
             int from;
+            boolean out;
 
             // СОздание по 30 сообщений для каждого диалога
             for (int i = 0; i < 30; i++) {
@@ -342,9 +343,11 @@ public class FakeTelegramBridge {
                 if (random.nextBoolean()) {
                     to = userId;
                     from = SELF_ID;
+                    out = true;
                 } else {
                     from = userId;
                     to = SELF_ID;
+                    out = false;
                 }
                 // Находим в списке контактов From ID, берем имя и фамилию, далее формируем первую часть сообщения
                 for (UserContact user : userContacts) {
@@ -366,7 +369,7 @@ public class FakeTelegramBridge {
                 String msg = builder.toString();
                 builder = new StringBuilder();
 
-                TLMessage tlMessage = new TLMessage(messageID, from, new TLPeerUser(to), true, random.nextBoolean(),
+                TLMessage tlMessage = new TLMessage(messageID, from, new TLPeerUser(to), out, random.nextBoolean(),
                         (int)(Calendar.getInstance().getTimeInMillis() / 1000) - messageID * messageID * 60, msg, null);
                 this.messages.put(messageID, new Message(tlMessage));
                 increaseMessageId();

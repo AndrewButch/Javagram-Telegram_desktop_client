@@ -267,21 +267,22 @@ public class Model {
                     }
                 }
             } while (history == null);
+            contactsMessageHistory.put(userId,new LinkedList<>(history));
             return history;
         }
         return contactsMessageHistory.get(userId);
     }
 
-//    public MessagesSentMessage sendMessage(int userId, String message, long randomId) {
-//        MessagesSentMessage messageStatus = null;
-//        try {
-//
-//            messageStatus = bridge.messagesSendMessage(userId, message, randomId);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return messageStatus;
-//    }
+    public MessagesSentMessage sendMessage(int userId, String message, long randomId) {
+        MessagesSentMessage messageStatus = null;
+        try {
+
+            messageStatus = bridge.messagesSendMessage(userId, message, randomId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return messageStatus;
+    }
 
     public String getPhone() {
         return phone;
@@ -315,7 +316,12 @@ public class Model {
     }
 
     public void addMessage(int contactId, Message msg) {
-        contactsMessageHistory.get(contactId).add(0, msg);
+        LinkedList<Message> messages = contactsMessageHistory.get(contactId);
+        if (messages == null) {
+            contactsMessageHistory.put(contactId, new LinkedList<>());
+            messages = contactsMessageHistory.get(contactId);
+        }
+        messages.addLast(msg);
     }
 
 

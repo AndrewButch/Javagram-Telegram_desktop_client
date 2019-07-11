@@ -41,6 +41,7 @@ public class ListCellRendererContact extends ContactItem implements ListCellRend
             if (value.getUser() != null ) {
                 presenter.updateChat(value.getUser());
                 setPortraint(contact_white_online);
+                selectedItem = value;
             }
         } else {
             getRootPanel().setBackground(list.getBackground());

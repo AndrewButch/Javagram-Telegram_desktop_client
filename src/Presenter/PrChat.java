@@ -34,7 +34,6 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         this.model = Model.getInstance();
         this.user = model.getSelfUser();
         this.random = new Random();
-        setListeners();
         model.setMessageHandler(this);
         this.state = model.getState();
 
@@ -50,10 +49,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         contactListThread.start();
     }
 
-    private void setListeners() {
-        setListenerToModalButtons();
-        setListenerToMessageComponent();
-    }
+
 
     public ViewChat getView() {
         return view;
@@ -122,72 +118,6 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
 //        t1.start();
     }
 
-    private void setListenerToMessageComponent() {
-        final JScrollBar verticalBar = view.getMessageListScrollPane().getVerticalScrollBar();
-        // Обработчик нажатия на кнопку отправки сообщений
-        final JButton sendMsgBtn = view.getSendMessageBtn();
-        sendMsgBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Send Message");
-//                sendMessage();
-                verticalBar.setValue(verticalBar.getMaximum());
-            }
-        });
-        // Обработчик нажатия на поле ввода сообщения
-        final JTextField messageTF = view.getMessageTextField();
-        messageTF.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Send Message");
-//                sendMessage();
-                verticalBar.setValue(verticalBar.getMaximum());
-            }
-        });
-        // Обработчик фокуса для поля ввода сообщения
-        messageTF.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                if ("Текст сообщения".equals(messageTF.getText())) {
-                    messageTF.setText("");
-                }
-            }
-            @Override
-            public void focusLost(FocusEvent e) {
-                if ("".equals(messageTF.getText())) {
-                    messageTF.setText("Текст сообщения");
-                }
-            }
-        });
-    }
-
-    private void setListenerToModalButtons() {
-        // Обработчик нажатия на кнопку редактирования профиля пользователя
-        view.getUserSettingsBtn().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                view.showEditUserProfileView();
-            }
-        });
-
-        // Обработчик нажатия на кнопку редактирования профиля контакта
-        view.getContactEditBtn().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                view.showEditContactView();
-            }
-        });
-
-        // Обработчик нажатия на кнопку добавления контакта
-        view.getAddContactBtn().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                view.showAddContactView();
-            }
-        });
-    }
-
-
 
     public void messagesScrollEnd() {
         JScrollBar verticalBar = view.getMessageListScrollPane().getVerticalScrollBar();
@@ -245,33 +175,27 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         return null;
     }
 
-//    private void sendMessage() {
-//        JTextField messageTF = view.getMessageTextField();
-//
-//        // Формироване сообщения
-//        int userId = contactListRenderer.getSelectedItem().getUser().getId();
-//        String message = messageTF.getText();
-//        int messageId = random.nextInt();
-//        // Отправка сообщения
-//        MessagesSentMessage sent = model.sendMessage(userId, message, messageId);
-//        // Получение отправленного сообщения
-//        // TODO нужны проверки отправленного сообщения
-//        ArrayList<Integer> neededdMsgId = new ArrayList<>();
-//        neededdMsgId.add(sent.getId());
-//
-//
-//        // Отправленные сообщения добавляем в чат
-//        ArrayList<Message>  sentMessages = model.getMessagesById(neededdMsgId);
-//        for (Message msg : sentMessages) {
-//            // Добавление сообщения в локальное хранилище
-//            model.addMessage(userId, msg);
-//            // Добалвние сообщения в список сообщений
-//            ((DefaultListModel<MessageItem>) view.getMessagesJList().getModel()).addElement(new MessageItem(msg));
-//        }
-//        messagesScrollEnd();
-//        view.clearMessageTextField();
-//    }
+    public void sendMessage(int userId, String message) {
 
+        // Формироване сообщения
+        int messageId = random.nextInt();
+        // Отправка сообщения
+        MessagesSentMessage sent = model.sendMessage(userId, message, messageId);
+        // Создание локального сообщения
+        TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
+        TLMessage tlMessage = new TLMessage(sent.getId(), userId, tlPeerUser, true, true, DateConverter.getDateInt(), message, null);
+        Message msg = new Message(tlMessage);
+
+        // добавляем локальное сообщение в модель списка
+        view.getModelMessages().addElement(new MessageItem(msg));
+        // добавляем локальное сообщение в хранилище
+        model.addMessage(userId, msg);
+
+        updateDialogsOrder(msg);
+
+        messagesScrollEnd();
+        view.clearMessageTextField();
+    }
 
     public void updateChat(User user) {
         view.updateContactLabel(user.getFirstName() + " " + user.getLastName());
@@ -286,5 +210,19 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
             model.addElement(new MessageItem(msg));
         }
         view.showMessages(model);
+    }
+
+    private void updateDialogsOrder(Message msg) {
+        //    IContact contactAddLastMessage = contactList.get(contactId);
+//
+//      if (contactsListModel.contains(contactAddLastMessage)) {
+//        int index = contactsListModel.indexOf(contactAddLastMessage);
+//        IContact replaceContact = contactsListModel.get(index);
+//        replaceContact.setLastMessage(newMessage);
+//        //remove and set to top
+//        contactsListModel.remove(index);
+//        contactsListModel.add(0, replaceContact);
+        DefaultListModel<ContactItem> contactModel = view.getModelContacts();
+        int index = contactModel.indexOf()
     }
 }

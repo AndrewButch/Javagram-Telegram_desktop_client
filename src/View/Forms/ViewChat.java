@@ -86,6 +86,7 @@ public class ViewChat implements IView {
         setPresenter(presenter);
         WindowManager.setContentView(this);
         setupBorders();
+        setListeners();
         contactListRenderer = new ListCellRendererContact(presenter);
         messageListRenderer = new ListCellRendererMessage();
         contactsJList.setCellRenderer(contactListRenderer);
@@ -210,6 +211,68 @@ public class ViewChat implements IView {
         messageListScrollPane.setBorder(null);
     }
 
+    private void setListeners() {
+        // Обработчик нажатия на кнопку отправки сообщений
+        sendMessageBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Send Message");
+                presenter.sendMessage(contactListRenderer.getSelectedItem().getUser().getId(), messageTextField.getText());
+                messageListScrollPane.getVerticalScrollBar().setValue(messageListScrollPane.getVerticalScrollBar().getMaximum());
+            }
+        });
+
+        // Обработчик нажатия на поле ввода сообщения
+        messageTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Send Message");
+                //presenter.sendMessage();
+                //verticalBar.setValue(verticalBar.getMaximum());
+            }
+        });
+
+        // Обработчик фокуса для поля ввода сообщения
+        messageTextField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if ("Текст сообщения".equals(messageTextField.getText())) {
+                    messageTextField.setText("");
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if ("".equals(messageTextField.getText())) {
+                    messageTextField.setText("Текст сообщения");
+                }
+            }
+        });
+
+        // Обработчик нажатия на кнопку редактирования профиля пользователя
+        getUserSettingsBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showEditUserProfileView();
+            }
+        });
+
+        // Обработчик нажатия на кнопку редактирования профиля контакта
+        getContactEditBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showEditContactView();
+            }
+        });
+
+        // Обработчик нажатия на кнопку добавления контакта
+        getAddContactBtn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddContactView();
+            }
+        });
+    }
+
     /** --------- Getters ------------ */
     @Override
     public JLayeredPane getRootPanel() {
@@ -260,6 +323,22 @@ public class ViewChat implements IView {
         return contactListRenderer;
     }
 
+    public ListCellRendererMessage getMessageListRenderer() {
+        return messageListRenderer;
+    }
+
+    public DefaultListModel<ContactItem> getModelContacts() {
+        return modelContacts;
+    }
+
+    public DefaultListModel<MessageItem> getModelMessages() {
+        return modelMessages;
+    }
+
+    public ViewAddContact getAddContact() {
+        return addContact;
+    }
+
     /** --------- Методы показа модальных окон ---------*/
 
     // Показать модальное окно с добавлением контакта
@@ -287,12 +366,14 @@ public class ViewChat implements IView {
     }
 
     public void showDialogs(DefaultListModel<ContactItem> model) {
+        modelContacts = model;
         contactsJList.setModel(model);
         contactsJList.revalidate();
         contactsJList.repaint();
     }
 
     public void showMessages(DefaultListModel<MessageItem> model) {
+        modelMessages = model;
         messagesJList.setModel(model);
         messagesJList.revalidate();
         messagesJList.repaint();
