@@ -19,13 +19,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 
-public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChangeListener {
+public class PrChat implements IPresenter, IncomingMessageHandler {
     Model model;
     ViewChat view;
-
     private User user;
-    private HashMap<Integer, User> contacts; // Int - userID
-    private HashMap<Integer, LinkedList<Message>> messages; // Int - userID
+//    private HashMap<Integer, User> contacts; // Int - userID
+//    private HashMap<Integer, LinkedList<Message>> messages; // Int - userID
     private ArrayList<Dialog> dialogs;      // диалоги для заполнения списка контактов
     private Random random;
     private State state;
@@ -61,10 +60,6 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
     }
 
 
-    public ArrayList<Message> getMessageHistory(int userId) {
-        return model.getMessageHistoryByUserID(userId);
-    }
-
     /** Получение диалогов и последних сообщений от пользователей
      *  На основании сообщений, упорядоченных по убыванию даты (делает Telegram)
      *  формируем список контактов
@@ -79,7 +74,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
                 messageIds.add(dialog.getTopMessage());
         }
 
-        // Получение списка сообщений на основании ID сообщения
+        // Последние сообщения на основании ID сообщения
         ArrayList<Message> topMessages = model.getMessagesById(messageIds);
 
         // Получить ID собеседников из последних сообщений
@@ -104,14 +99,12 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
         for (int i = 0; i < contactUsers.size(); i++ ) {
             User user = contactUsers.get(i);
             if (user.getId() == 0) continue;
-            model.createContactHistory(user.getId());
             System.err.println("ID: " + user.getId() + "\tName: " + user.getFirstName() + "\tLastName: " + user.getLastName());
             modelContacts.addElement(new ContactItem(user, topMessages.get(i)));
         }
 
-        view.getContactsJList().setModel(modelContacts);
+        view.showDialogs(modelContacts);
 
-        ((ListCellRendererContact) view.getContactsJList().getCellRenderer()).setContacts( this, topMessages );
 
 //        Thread t1 = new Thread(new Runnable() {
 //            @Override
@@ -137,7 +130,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Send Message");
-                sendMessage();
+//                sendMessage();
                 verticalBar.setValue(verticalBar.getMaximum());
             }
         });
@@ -147,7 +140,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Send Message");
-                sendMessage();
+//                sendMessage();
                 verticalBar.setValue(verticalBar.getMaximum());
             }
         });
@@ -213,10 +206,6 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
         return user;
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
-    }
 
     /**
      * Обработка события выбора контакта из списка контактов
@@ -228,7 +217,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
         TLMessage tlMessage = new TLMessage(0, i, tlPeerUser, true, true, DateConverter.getDateInt(), s, null);
         Message msg = new Message(tlMessage);
         model.addMessage(i, msg);
-        ContactItem selected = contactListRenderer.getSelectedItem();
+        ContactItem selected = view.getContactListRenderer().getSelectedItem();
         if (selected == null)
             return null;
         if (i == selected.getUser().getId()) {
@@ -256,43 +245,46 @@ public class PrChat implements IPresenter, IncomingMessageHandler, PropertyChang
         return null;
     }
 
-    private void sendMessage() {
-        JTextField messageTF = view.getMessageTextField();
-
-        // Формироване сообщения
-        int userId = contactListRenderer.getSelectedItem().getUser().getId();
-        String message = messageTF.getText();
-        int messageId = random.nextInt();
-        // Отправка сообщения
-        MessagesSentMessage sent = model.sendMessage(userId, message, messageId);
-        // Получение отправленного сообщения
-        // TODO нужны проверки отправленного сообщения
-        ArrayList<Integer> neededdMsgId = new ArrayList<>();
-        neededdMsgId.add(sent.getId());
-
-
-        // Отправленные сообщения добавляем в чат
-        ArrayList<Message>  sentMessages = model.getMessagesById(neededdMsgId);
-        for (Message msg : sentMessages) {
-            // Добавление сообщения в локальное хранилище
-            model.addMessage(userId, msg);
-            // Добалвние сообщения в список сообщений
-            ((DefaultListModel<MessageItem>) view.getMessagesJList().getModel()).addElement(new MessageItem(msg));
-        }
-        messagesScrollEnd();
-        view.clearMessageTextField();
-    }
-
-    public DefaultListModel<MessageItem> getMessages(int userID) {
-        // TODO возвратить модель, заполненную сообщениями в обратном порядке
-//        int contactId = selected.getUser().getId();
-//        messages = presenter.getMessageHistory(contactId);
-//        Collections.reverse(messages);
-//        DefaultListModel<MessageItem> modelMessage = new DefaultListModel<>();
-//        for (Message msg : messages) {
-//            modelMessage.addElement(new MessageItem(msg));
+//    private void sendMessage() {
+//        JTextField messageTF = view.getMessageTextField();
+//
+//        // Формироване сообщения
+//        int userId = contactListRenderer.getSelectedItem().getUser().getId();
+//        String message = messageTF.getText();
+//        int messageId = random.nextInt();
+//        // Отправка сообщения
+//        MessagesSentMessage sent = model.sendMessage(userId, message, messageId);
+//        // Получение отправленного сообщения
+//        // TODO нужны проверки отправленного сообщения
+//        ArrayList<Integer> neededdMsgId = new ArrayList<>();
+//        neededdMsgId.add(sent.getId());
+//
+//
+//        // Отправленные сообщения добавляем в чат
+//        ArrayList<Message>  sentMessages = model.getMessagesById(neededdMsgId);
+//        for (Message msg : sentMessages) {
+//            // Добавление сообщения в локальное хранилище
+//            model.addMessage(userId, msg);
+//            // Добалвние сообщения в список сообщений
+//            ((DefaultListModel<MessageItem>) view.getMessagesJList().getModel()).addElement(new MessageItem(msg));
 //        }
+//        messagesScrollEnd();
+//        view.clearMessageTextField();
+//    }
+
+
+    public void updateChat(User user) {
+        view.updateContactLabel(user.getFirstName() + " " + user.getLastName());
+
+        // TODO возвратить модель, заполненную сообщениями в обратном порядке
+        int userId = user.getId();
+        LinkedList<Message> messages = model.getMessageHistoryByUserID(userId);
+
+        Collections.reverse(messages);
         DefaultListModel<MessageItem> model = new DefaultListModel<>();
-        return model;
+        for (Message msg : messages) {
+            model.addElement(new MessageItem(msg));
+        }
+        view.showMessages(model);
     }
 }

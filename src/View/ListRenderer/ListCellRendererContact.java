@@ -1,5 +1,6 @@
 package View.ListRenderer;
 
+import Presenter.PrChat;
 import View.Forms.ViewChat;
 import View.ListItem.ContactItem;
 import View.Resources;
@@ -15,13 +16,14 @@ import java.awt.image.BufferedImage;
 public class ListCellRendererContact extends ContactItem implements ListCellRenderer<ContactItem> {
     private BufferedImage contact_gray_online;
     private BufferedImage contact_white_online;
-    private ViewChat view;
+    private PrChat presenter;
+    private ContactItem selectedItem;
 
-    public ListCellRendererContact(ViewChat view) {
+    public ListCellRendererContact(PrChat presenter) {
         getPortraitJPanel().setOpaque(true);
         contact_gray_online = Resources.getImage(Resources.MASK_GRAY_ONLINE);
         contact_white_online = Resources.getImage(Resources.MASK_WHITE_ONLINE);
-        this.view = view;
+        this.presenter = presenter;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class ListCellRendererContact extends ContactItem implements ListCellRend
             Border matteBorder = BorderFactory.createMatteBorder(0,0,0, 4, new Color(0, 179, 230));
             getRootPanel().setBorder(new CompoundBorder(lineBorder, matteBorder));
             if (value.getUser() != null ) {
-                view.showMessages(value.getUser().getId());
+                presenter.updateChat(value.getUser());
                 setPortraint(contact_white_online);
             }
         } else {
@@ -60,5 +62,9 @@ public class ListCellRendererContact extends ContactItem implements ListCellRend
             setLastMsg(value.getLastMsg().getText());
             setLastMsgDate(value.getLastMsgDate().getText());
         }
+    }
+
+    public ContactItem getSelectedItem() {
+        return selectedItem;
     }
 }

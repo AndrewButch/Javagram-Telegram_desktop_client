@@ -86,7 +86,7 @@ public class ViewChat implements IView {
         setPresenter(presenter);
         WindowManager.setContentView(this);
         setupBorders();
-        contactListRenderer = new ListCellRendererContact(this);
+        contactListRenderer = new ListCellRendererContact(presenter);
         messageListRenderer = new ListCellRendererMessage();
         contactsJList.setCellRenderer(contactListRenderer);
         messagesJList.setCellRenderer(messageListRenderer);
@@ -256,6 +256,10 @@ public class ViewChat implements IView {
         return messagesJList;
     }
 
+    public ListCellRendererContact getContactListRenderer() {
+        return contactListRenderer;
+    }
+
     /** --------- Методы показа модальных окон ---------*/
 
     // Показать модальное окно с добавлением контакта
@@ -276,6 +280,7 @@ public class ViewChat implements IView {
     }
 
     /** --------- Методы управления --------- */
+    
     // Очистить поле ввода сообщения
     public void clearMessageTextField() {
         messageTextField.setText("");
@@ -283,20 +288,18 @@ public class ViewChat implements IView {
 
     public void showDialogs(DefaultListModel<ContactItem> model) {
         contactsJList.setModel(model);
+        contactsJList.revalidate();
+        contactsJList.repaint();
     }
 
-    public void showMessages(int userId) {
-        // TODO показать инфу собеседника
-        // установка заголовка контакта с которым ведётся диалог
-//        if (user.getId() != 0) {
-//            contactNameJLabel.setText(selected.getUser().getFirstName() + " " + selected.getUser().getLastName());
-//        } else {
-//            contactNameJLabel.setText("Telegram");
-//        }
-//        // TODO установка иконки контакта
-//        setPortraint(contact_white_online);
+    public void showMessages(DefaultListModel<MessageItem> model) {
+        messagesJList.setModel(model);
+        messagesJList.revalidate();
+        messagesJList.repaint();
+    }
 
-        modelMessages = presenter.getMessages(userId);
+    public void updateContactLabel(String userName) {
+        contactNameLable.setText(userName);
     }
 }
 

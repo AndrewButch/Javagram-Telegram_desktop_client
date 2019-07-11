@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 public class Model {
     private final int request_interval = 5000;
@@ -45,7 +46,8 @@ public class Model {
     private String phone;
     private String smsCode;
     private State state;
-    private HashMap<Integer, ArrayList<Message>> contactsMessageHistory;
+    private HashMap<Integer, LinkedList<Message>> contactsMessageHistory; // Int - userID
+    private HashMap<Integer, User> contacts; // Int - userID
 
     private Model() {
 //        while (bridge == null) {
@@ -240,8 +242,8 @@ public class Model {
 //        return messages;
 //    }
 
-    private ArrayList<Message> getMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
-        ArrayList<Message> foundedMsg = new ArrayList();
+    private LinkedList<Message> getMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
+        LinkedList<Message> foundedMsg = new LinkedList();
         for (Message msg : bridge.messageGetHistory()) {
             if (msg.getFromId() == userId || msg.getToId() == userId) {
                 foundedMsg.add(msg);
@@ -250,12 +252,12 @@ public class Model {
         return foundedMsg;
     }
 
-    public ArrayList<Message> getMessageHistoryByUserID(int userId, int offset, int limit) {
+    public LinkedList<Message> getMessageHistoryByUserID(int userId) {
         if (contactsMessageHistory.get(userId) == null) {
-            ArrayList<Message> history = null;
+            LinkedList<Message> history = null;
             do {
                 try {
-                    history = getMessageHistoryByUserID(userId, offset, Integer.MAX_VALUE, limit);
+                    history = getMessageHistoryByUserID(userId, 0, Integer.MAX_VALUE, 50);
                 } catch (IOException e) {
                     e.printStackTrace();
                     try {
@@ -270,20 +272,16 @@ public class Model {
         return contactsMessageHistory.get(userId);
     }
 
-    public ArrayList<Message> getMessageHistoryByUserID(int userId) {
-        return getMessageHistoryByUserID(userId, 0, 50);
-    }
-
-    public MessagesSentMessage sendMessage(int userId, String message, long randomId) {
-        MessagesSentMessage messageStatus = null;
-        try {
-
-            messageStatus = bridge.messagesSendMessage(userId, message, randomId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return messageStatus;
-    }
+//    public MessagesSentMessage sendMessage(int userId, String message, long randomId) {
+//        MessagesSentMessage messageStatus = null;
+//        try {
+//
+//            messageStatus = bridge.messagesSendMessage(userId, message, randomId);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return messageStatus;
+//    }
 
     public String getPhone() {
         return phone;
@@ -314,11 +312,6 @@ public class Model {
             }
         }
         return state;
-    }
-
-    public void createContactHistory(int contactId) {
-        ArrayList<Message> messages = getMessageHistoryByUserID(contactId);
-        contactsMessageHistory.put(contactId, messages);
     }
 
     public void addMessage(int contactId, Message msg) {
