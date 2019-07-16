@@ -17,7 +17,7 @@ public class ListCellRendererContact extends ContactItem implements ListCellRend
     private BufferedImage contact_gray_online;
     private BufferedImage contact_white_online;
     private PrChat presenter;
-    private ContactItem selectedItem;
+    private volatile ContactItem selectedItem;
 
     public ListCellRendererContact(PrChat presenter) {
         getPortraitJPanel().setOpaque(true);
@@ -62,10 +62,12 @@ public class ListCellRendererContact extends ContactItem implements ListCellRend
             }
             setLastMsg(value.getLastMsg().getText());
             setLastMsgDate(value.getLastMsgDate().getText());
+            setUnreadCount(value.getUnreadCount() + "");
+
         }
     }
 
-    public ContactItem getSelectedItem() {
+    public synchronized ContactItem getSelectedItem() {
         return selectedItem;
     }
 }

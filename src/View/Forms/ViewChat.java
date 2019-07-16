@@ -25,8 +25,8 @@ public class ViewChat implements IView {
     private ListCellRendererContact contactListRenderer; // визуализатор списка контактов
     private ListCellRendererMessage messageListRenderer; // визуализатор списка сообщений
 
-    private DefaultListModel<ContactItem> modelContacts;
-    private DefaultListModel<MessageItem> modelMessages;
+    private volatile DefaultListModel<ContactItem> modelContacts;
+    private volatile DefaultListModel<MessageItem> modelMessages;
 
 
     private JLayeredPane layeredRootPane; // Панель с z-index. В неё кладем все JPanel
@@ -91,6 +91,7 @@ public class ViewChat implements IView {
         messageListRenderer = new ListCellRendererMessage();
         contactsJList.setCellRenderer(contactListRenderer);
         messagesJList.setCellRenderer(messageListRenderer);
+        messagesJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     private void createUIComponents() {
@@ -375,8 +376,14 @@ public class ViewChat implements IView {
     public void showMessages(DefaultListModel<MessageItem> model) {
         modelMessages = model;
         messagesJList.setModel(model);
+        scrollMessagesToEnd();
+    }
+
+    public void scrollMessagesToEnd() {
         messagesJList.revalidate();
         messagesJList.repaint();
+        JScrollBar verticalBar = messageListScrollPane.getVerticalScrollBar();
+        verticalBar.setValue(verticalBar.getMaximum());
     }
 
     public void updateContactLabel(String userName) {

@@ -29,7 +29,7 @@ import java.util.LinkedList;
 
 public class Model {
     private final int request_interval = 5000;
-    private final String hostAddr = "149.154.167.40:443";
+    private final String hostAddr = "149.154.167.50:443";
     private final int appId = 568751;
     private final String appHash = "ec1d629d0855caa5425a9c83cdc5925d";
 //    TelegramApiBridge  bridge;
@@ -46,8 +46,8 @@ public class Model {
     private String phone;
     private String smsCode;
     private State state;
-    private HashMap<Integer, LinkedList<Message>> contactsMessageHistory; // Int - userID
-    private HashMap<Integer, User> contacts; // Int - userID
+    private volatile HashMap<Integer, LinkedList<Message>> contactsMessageHistory; // Int - userID
+    private volatile HashMap<Integer, UserContact> contacts;
 
     private Model() {
 //        while (bridge == null) {
@@ -64,6 +64,13 @@ public class Model {
 //        }
         bridge = new FakeTelegramBridge();
         contactsMessageHistory = new HashMap<>();
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getContacts();
+            }
+        });
+        t.start();
     }
 
 
@@ -130,21 +137,25 @@ public class Model {
         return null;
     }
 
-    public ArrayList<UserContact> getContacts() {
-        ArrayList<UserContact> contacts = null;
-        do {
-            try {
-                contacts = bridge.contactsGetContacts();
-            } catch (IOException e) {
-                e.printStackTrace();
+    public void getContacts() {
+        if (contacts == null) {
+            do {
                 try {
-                    Thread.sleep(request_interval);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
+                    ArrayList<UserContact> conts = bridge.contactsGetContacts();
+                    contacts = new HashMap<>();
+                    for (UserContact cont : conts) {
+                        contacts.put(cont.getId(), cont);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    try {
+                        Thread.sleep(request_interval);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
                 }
-            }
-        } while (contacts == null);
-        return contacts;
+            } while (contacts == null);
+        }
     }
 
 
@@ -242,7 +253,7 @@ public class Model {
 //        return messages;
 //    }
 
-    private LinkedList<Message> getMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
+    private synchronized LinkedList<Message> getMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
         LinkedList<Message> foundedMsg = new LinkedList();
         for (Message msg : bridge.messageGetHistory()) {
             if (msg.getFromId() == userId || msg.getToId() == userId) {
@@ -252,12 +263,13 @@ public class Model {
         return foundedMsg;
     }
 
-    public LinkedList<Message> getMessageHistoryByUserID(int userId) {
-        if (contactsMessageHistory.get(userId) == null) {
-            LinkedList<Message> history = null;
+    public synchronized LinkedList<Message> getMessageHistoryByUserID(int userId) {
+        LinkedList<Message> history = contactsMessageHistory.get(userId);
+        if (history == null) {
             do {
                 try {
-                    history = getMessageHistoryByUserID(userId, 0, Integer.MAX_VALUE, 50);
+                    LinkedList<Message> messages = getMessageHistoryByUserID(userId, 0, Integer.MAX_VALUE, 50);
+                    history = new LinkedList<>(messages);
                 } catch (IOException e) {
                     e.printStackTrace();
                     try {
@@ -267,7 +279,7 @@ public class Model {
                     }
                 }
             } while (history == null);
-            contactsMessageHistory.put(userId,new LinkedList<>(history));
+            contactsMessageHistory.put(userId, history);
             return history;
         }
         return contactsMessageHistory.get(userId);
@@ -315,27 +327,10 @@ public class Model {
         return state;
     }
 
-    public void addMessage(int contactId, Message msg) {
-        LinkedList<Message> messages = contactsMessageHistory.get(contactId);
-        if (messages == null) {
-            contactsMessageHistory.put(contactId, new LinkedList<>());
-            messages = contactsMessageHistory.get(contactId);
-        }
+    public synchronized void addMessage(int contactId, Message msg) {
+        LinkedList<Message> messages = getMessageHistoryByUserID(contactId);
         messages.addLast(msg);
     }
 
 
-//    public AuthSentCode sendAppCode(String phoneNumber) throws IOException {
-//        TelegramApi api = getTelegramApi(bridge);
-//        TLRequestAuthSendCode sendCode = new TLRequestAuthSendCode(phoneNumber, 5, this.appId, this.appHash, "ru");
-//        TLSentCode sentCode = (TLSentCode)api.doRpcCallNonAuth(sendCode);
-//        String phoneCodeHash = sentCode.getPhoneCodeHash();
-//        return new AuthSentCode(sentCode.getPhoneRegistered(), phoneCodeHash);
-//    }
-//    public TLBool sendCall(String phoneNumber, String phoneHash) throws IOException {
-//        TelegramApi api = getTelegramApi(bridge);
-//        TLRequestAuthSendCall sendCall = new TLRequestAuthSendCall(phoneNumber, phoneHash);
-//        TLBool sentCode = (TLBool) api.doRpcCallNonAuth(sendCall);
-//        return sentCode;
-//    }
 }

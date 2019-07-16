@@ -5,7 +5,6 @@ import Utils.DateConverter;
 import View.Forms.ViewChat;
 import View.ListItem.ContactItem;
 import View.ListItem.MessageItem;
-import View.ListRenderer.ListCellRendererContact;
 import org.javagram.handlers.IncomingMessageHandler;
 import org.javagram.response.MessagesSentMessage;
 import org.javagram.response.object.*;
@@ -14,18 +13,14 @@ import org.telegram.api.TLMessage;
 import org.telegram.api.TLPeerUser;
 
 import javax.swing.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.*;
 import java.util.*;
 
 public class PrChat implements IPresenter, IncomingMessageHandler {
     Model model;
     ViewChat view;
     private User user;
-//    private HashMap<Integer, User> contacts; // Int - userID
-//    private HashMap<Integer, LinkedList<Message>> messages; // Int - userID
-    private ArrayList<Dialog> dialogs;      // диалоги для заполнения списка контактов
+    private HashMap<Integer, ContactItem> dialogList = new HashMap<>();
     private Random random;
     private State state;
 
@@ -62,7 +57,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
      *  */
     private void setupContactList() {
         // Получение диалогов
-        dialogs = model.getDialogs();
+        ArrayList<Dialog> dialogs = model.getDialogs();
         // Получение ID последних сообщений из списка диалогов
         ArrayList<Integer> messageIds = new ArrayList<>();
         for (Dialog dialog : dialogs) {
@@ -90,46 +85,43 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         // Получить список User по списку ID
         ArrayList<User> contactUsers = model.getUsersById(userIds);
 
-        // Сформировать модель контактов из ContactItem() и Список истории в модели
+        // Сформировать модель контактов из ContactItem()
         DefaultListModel<ContactItem> modelContacts = new DefaultListModel<>();
         for (int i = 0; i < contactUsers.size(); i++ ) {
             User user = contactUsers.get(i);
-            if (user.getId() == 0) continue;
-            System.err.println("ID: " + user.getId() + "\tName: " + user.getFirstName() + "\tLastName: " + user.getLastName());
-            modelContacts.addElement(new ContactItem(user, topMessages.get(i)));
-        }
+            if (user.getId() == 0) {
 
+//                if (topMessages.get(i).getMessage() != null) {
+                continue;
+            }
+            System.err.println("ID: " + user.getId() + "\tName: " + user.getFirstName() + "\tLastName: " + user.getLastName());
+            ContactItem contactItem = new ContactItem(user, topMessages.get(i));
+            // добавление элемента в модель списка
+            modelContacts.addElement(contactItem);
+            // сохраненеи элемента с привязкой к ID контакта
+            dialogList.put(user.getId(), contactItem);
+        }
         view.showDialogs(modelContacts);
 
 
-//        Thread t1 = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (true) {
-//                    try {
-//                        Thread.sleep(5000);
-//                        handle(2, "hello");
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        });
-//        t1.start();
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(1500);
+                        handle(random.nextInt(4) + 13, "hello");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        t1.start();
     }
 
 
-    public void messagesScrollEnd() {
-        JScrollBar verticalBar = view.getMessageListScrollPane().getVerticalScrollBar();
-        int width = view.getMessageListScrollPane().getWidth();
-        int height = view.getMessageListScrollPane().getHeight();
-        int widthList = view.getMessagesJList().getWidth();
-        int heightList = view.getMessagesJList().getHeight();
-        //view.getMessagesJList().scrollRectToVisible(new Rectangle(width, height));
-        verticalBar.revalidate();
-        verticalBar.setValue(verticalBar.getMaximum());
-        //view.getMessageListScrollPane().getVerticalScrollBar().setValue(view.getMessageListScrollPane().getVerticalScrollBar().getMaximum());
-    }
+
 
 
     public User getSelfUser() {
@@ -142,35 +134,21 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
      * Установка в модель списка сообщений новые сообщения
      */
     @Override
-    public Object handle(int i, String s) {
+    public synchronized Object handle(int i, String s) {
+        System.out.println("Add to " + i);
         TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
-        TLMessage tlMessage = new TLMessage(0, i, tlPeerUser, true, true, DateConverter.getDateInt(), s, null);
+        TLMessage tlMessage = new TLMessage(0, i, tlPeerUser, false, true, DateConverter.getDateInt(), s, null);
         Message msg = new Message(tlMessage);
         model.addMessage(i, msg);
+        updateDialogsOrder(i, msg);
         ContactItem selected = view.getContactListRenderer().getSelectedItem();
-        if (selected == null)
+        if (selected == null) {
             return null;
+        }
         if (i == selected.getUser().getId()) {
             // TODO обновить список сообщений текущего контакта
-            ((DefaultListModel<MessageItem>) view.getMessagesJList().getModel()).addElement(new MessageItem(msg));
-            messagesScrollEnd();
-        } else {
-
-            DefaultListModel<ContactItem> listModel = (DefaultListModel<ContactItem>)view.getContactsJList().getModel();
-            for (int k = 0; k < listModel.size(); k++) {
-                ContactItem item = listModel.get(k);
-                if (item.getUser().getId() == i) {
-                    // TODO установить метку непрочитанного сообщения
-                    item.incrementUnread();
-                    // TODO установить последнее сообщение
-                    item.setLastMsg(s);
-                    // TODO установить дату сообщения
-                    item.setLastMsgDate(DateConverter.convertIntDateToStringShort(DateConverter.getDateInt()));
-                    view.getContactsJList().revalidate();
-                    view.getContactsJList().repaint();
-                }
-            }
-
+            view.getModelMessages().addElement(new MessageItem(msg));
+            view.scrollMessagesToEnd();
         }
         return null;
     }
@@ -191,9 +169,10 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         // добавляем локальное сообщение в хранилище
         model.addMessage(userId, msg);
 
-        updateDialogsOrder(msg);
+        updateDialogsOrder(userId, msg);
 
-        messagesScrollEnd();
+        view.scrollMessagesToEnd();
+
         view.clearMessageTextField();
     }
 
@@ -204,7 +183,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         int userId = user.getId();
         LinkedList<Message> messages = model.getMessageHistoryByUserID(userId);
 
-        Collections.reverse(messages);
+        Iterator<Message> it =  messages.iterator();
         DefaultListModel<MessageItem> model = new DefaultListModel<>();
         for (Message msg : messages) {
             model.addElement(new MessageItem(msg));
@@ -212,17 +191,26 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         view.showMessages(model);
     }
 
-    private void updateDialogsOrder(Message msg) {
-        //    IContact contactAddLastMessage = contactList.get(contactId);
-//
-//      if (contactsListModel.contains(contactAddLastMessage)) {
-//        int index = contactsListModel.indexOf(contactAddLastMessage);
-//        IContact replaceContact = contactsListModel.get(index);
-//        replaceContact.setLastMessage(newMessage);
-//        //remove and set to top
-//        contactsListModel.remove(index);
-//        contactsListModel.add(0, replaceContact);
+    private void updateDialogsOrder(int userId, Message msg) {
+        // Получаем элемент списка по ID юзера
+        ContactItem lastMessageAdd = dialogList.get(userId);
+
         DefaultListModel<ContactItem> contactModel = view.getModelContacts();
-        int index = contactModel.indexOf()
+        // Проверям содержит ли модель списка имеющийся диалог
+        // Если содержит, то удаляем и вставляем в начало
+        if (contactModel.contains(lastMessageAdd)) {
+            int index = contactModel.indexOf(lastMessageAdd);
+            ContactItem replaceContact = contactModel.get(index);
+            replaceContact.setLastMsg(msg.getMessage());
+            replaceContact.setLastMsgDate(DateConverter.convertIntDateToStringShort(DateConverter.getDateInt()));
+            replaceContact.incrementUnread();
+            contactModel.remove(index);
+            contactModel.add(0, replaceContact);
+
+            // Возвращаем select на прежний элемент после изменения порядка
+            index = contactModel.indexOf(view.getContactListRenderer().getSelectedItem());
+            view.getContactsJList().clearSelection();
+            view.getContactsJList().setSelectedIndex(index);
+        }
     }
 }

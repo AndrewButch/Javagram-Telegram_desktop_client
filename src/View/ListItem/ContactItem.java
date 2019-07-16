@@ -87,6 +87,14 @@ public class ContactItem {
         this.lastMsgDate.setText(lastMsgDate);
     }
 
+    public void setUnreadCount(String count) {
+        if ("0".equals(count)) {
+            this.unreadLabel.setText("");
+        } else {
+            this.unreadLabel.setText(count);
+        }
+    }
+
     private void createUIComponents() {
         portraitJPanel = new JPanel() {
             @Override
@@ -99,8 +107,11 @@ public class ContactItem {
         };
     }
 
+    public int getUnreadCount() {
+        return unreadCount;
+    }
+
     public void incrementUnread() {
-        unreadCount++;
-        this.unreadLabel.setText(unreadCount + "");
+        this.unreadCount++;
     }
 }
