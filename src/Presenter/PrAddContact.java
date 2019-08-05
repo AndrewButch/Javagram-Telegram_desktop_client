@@ -1,18 +1,20 @@
 package Presenter;
 
-import Model.Model;
 import View.Forms.Modal.ViewAddContact;
+import View.ListItem.ContactListItem;
+import org.javagram.response.object.UserContact;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class PrAddContact implements IPresenter {
-    Model model;
-    ViewAddContact view;
+    private ViewAddContact view;
+    private PrChat prChat;
 
-    public PrAddContact(ViewAddContact view) {
+    public PrAddContact(ViewAddContact view, PrChat prChat) {
         this.view = view;
-        this.model = Model.getInstance();
+        this.prChat = prChat;
         setListeners();
     }
 
@@ -32,6 +34,29 @@ public class PrAddContact implements IPresenter {
             public void actionPerformed(ActionEvent e) {
                 // TODO ADD CONTACT IF NOT EXIST
                 System.err.println("AddContact Добавить");
+                String phoneNumber = view.getPhoneJFormattedText().getText();
+                phoneNumber = phoneNumber.replaceAll("[^\\d]+", "");
+                String firstName = view.getFirstNameTF().getText();
+                String lastName = view.getLastNameTF().getText();
+
+                int importedId = 0;
+                try {
+                    importedId = model.sendInvite(phoneNumber, firstName, lastName);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                if (importedId != 0) {
+                    UserContact contact = model.getContacts(true).get(importedId);
+                    ContactListItem item = new ContactListItem(contact);
+                    model.addDialog(importedId, item);
+                    prChat.cleatSelectedContact();
+                    prChat.setSelectedContact(item);
+                    prChat.refreshChat();
+
+                    System.err.println("Контакт добавлен: " + contact.toString());
+                } else {
+                    System.err.println("Контакт не добавлен");
+                }
                 view.getRootPanel().setVisible(false);
             }
         });

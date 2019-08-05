@@ -1,49 +1,45 @@
 package Presenter;
 
-import Model.Model;
-import Utils.DateConverter;
+import Utils.DateUtils;
 import View.Forms.ViewChat;
-import View.ListItem.ContactItem;
+import View.IView;
+import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
+import View.Resources;
 import org.javagram.handlers.IncomingMessageHandler;
 import org.javagram.response.MessagesSentMessage;
 import org.javagram.response.object.*;
 import org.javagram.response.object.Dialog;
-import org.telegram.api.TLMessage;
-import org.telegram.api.TLPeerUser;
+import org.telegram.api.*;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.*;
 
 public class PrChat implements IPresenter, IncomingMessageHandler {
-    Model model;
-    ViewChat view;
+    private ViewChat view;
     private User user;
-    private HashMap<Integer, ContactItem> dialogList = new HashMap<>();
     private Random random;
-    private State state;
+    private ContactListItem selectedContact;
 
-    public PrChat(ViewChat view) {
-        this.view = view;
-        this.model = Model.getInstance();
+    public PrChat(IView view) {
+        this.view = (ViewChat) view;
         this.user = model.getSelfUser();
         this.random = new Random();
         model.setMessageHandler(this);
-        this.state = model.getState();
 
-        // Имя пользователя - метка сверху над чатом
-        view.getUserNameLabel().setText(user.getFirstName() + " " + user.getLastName());
+        updateUserLabel(this.user);
+        updateUserPhoto(Resources.getPhoto(this.user.getPhone(), true));
 
         Thread contactListThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                setupContactList();
+                setDialogList();
             }
         });
         contactListThread.start();
     }
-
 
 
     public ViewChat getView() {
@@ -55,162 +51,272 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
      *  На основании сообщений, упорядоченных по убыванию даты (делает Telegram)
      *  формируем список контактов
      *  */
-    private void setupContactList() {
-        // Получение диалогов
+    public void setDialogList() {
+        // TODO разбить на методы
+        HashMap<Integer, UserContact> contacts = model.getContacts(true);
+
+        // загрузить фото
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Resources.loadPhotos(model.getContacts(false));
+//            }
+//        });
+//        thread.start();
+
+
         ArrayList<Dialog> dialogs = model.getDialogs();
-        // Получение ID последних сообщений из списка диалогов
+        ArrayList<Integer> dialogsTopMsgIds = getDialogsTopMsgIds(dialogs);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        ArrayList<Message> dialogTopMsgs = model.getMessagesById(dialogsTopMsgIds);
+        ArrayList<Integer> dialogContactIds = getIdFromMessages(dialogTopMsgs);
+        ArrayList<User> dialogContact = model.getUsersById(dialogContactIds);   //
+        ArrayList<ContactStatus> dialogContactStatuses = model.getContactStatuses();
+
+        DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
+        for (Dialog d : dialogs) {
+            int msgId = d.getTopMessage();
+            for (int i = 0; i < dialogTopMsgs.size(); i++) {
+                Message topMessage = dialogTopMsgs.get(i);
+                if (msgId == topMessage.getId()) {
+                    int contactId;
+                    if (topMessage.isOut()) {
+                        contactId = topMessage.getToId();
+                    } else {
+                        contactId = topMessage.getFromId();
+                    }
+                    UserContact userContact = contacts.get(contactId);
+                    if (userContact == null) {
+                        if (contactId == 777000) {
+                            userContact = new UserContact(new TLUserContact(contactId, "Telegram", "", 0, "", null, new TLUserStatusOffline()));
+                        } else {
+                            continue;
+                        }
+                    }
+
+                    ContactListItem contactItem = new ContactListItem(userContact, topMessage, d.getUnreadCount());
+                    // добавление элемента в модель списка
+                    modelContacts.addElement(contactItem);
+                    // сохраненеи элемента с привязкой к ID контакта
+                    model.addDialog(contactItem.getUser().getId(), contactItem);
+                }
+            }
+        }
+
+        view.showDialogs(modelContacts);
+
+
+//        Thread t1 = new Thread(new Runnable() {
+////            @Override
+////            public void run() {
+////                while (true) {
+////                    try {
+////                        Thread.sleep(1500);
+////                        handle(random.nextInt(4) + 13, "hello");
+////                    } catch (InterruptedException e) {
+////                        e.printStackTrace();
+////                    }
+////                }
+////            }
+////        });
+////        t1.start();
+    }
+
+    public User getSelfUser() {
+        return model.getSelfUser();
+    }
+
+
+    /**
+     * Обработка входящего события выбора контакта из списка контактов
+     * Добавлене в модель сообщений нового сообщения
+     * "Всплытие" диалога вверх
+     * @param i идентификатор пользователя
+     * @param s текст сообщения
+     */
+    @Override
+    public synchronized Object handle(int i, String s) {
+        System.out.println("Add to " + i);
+        if (model.getMessageHistoryByUserID(i) == null) {
+            System.err.println("Пользователя с ID " + i + " нет в контактах");
+            return null;
+        }
+        TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
+        TLMessage tlMessage = new TLMessage(0, i, tlPeerUser, false, true, DateUtils.getDateInt(), s, null);
+        Message msg = new Message(tlMessage);
+        model.addMessage(i, msg);
+        updateDialogsOrder(i, msg);
+        return null;
+    }
+
+    public void sendMessage(String message) {
+        int selectedContactId = selectedContact.getUser().getId();
+        // Формироване сообщения
+        int messageId = random.nextInt();
+        // Отправка сообщения
+        MessagesSentMessage sent = model.sendMessage(selectedContactId, message, messageId);
+        // Создание локального сообщения
+        TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
+        TLMessage tlMessage = new TLMessage(sent.getId(), selectedContactId, tlPeerUser, true, true, DateUtils.getDateInt(), message, null);
+        Message msg = new Message(tlMessage);
+
+        // добавляем локальное сообщение в хранилище
+        model.addMessage(selectedContactId, msg);
+        updateDialogsOrder(selectedContactId, msg);
+        view.clearMessageTextField();
+        refreshChat();
+    }
+
+    public synchronized void refreshChat() {
+        refreshInterfaceBySelectedContact();
+        int userId = this.selectedContact.getUser().getId();
+        LinkedList<Message> messages = model.getMessageHistoryByUserID(userId);
+        DefaultListModel<MessageItem> model = new DefaultListModel<>();
+        Iterator<Message> it =  messages.descendingIterator();
+        while (it.hasNext()) {
+            Message msg = it.next();
+            model.addElement(new MessageItem(msg));
+        }
+        view.showMessages(model);
+        view.scrollMessagesToEnd();
+        view.showContactInterface();
+    }
+
+
+    private synchronized void updateDialogsOrder(int userId, Message msg) {
+        // Получаем диалог по ID юзера
+        ContactListItem lastMessageAdd = model.getDialogByUserId(userId);
+
+        DefaultListModel<ContactListItem> contactModel = view.getModelContacts();
+        // Проверям содержит ли модель списка имеющийся диалог
+        // Если содержит, то удаляем и вставляем в начало
+        if (contactModel.contains(lastMessageAdd)) {
+            int index = contactModel.indexOf(lastMessageAdd);
+            ContactListItem replaceContact = contactModel.get(index);
+            replaceContact.setLastMsg(msg.getMessage());
+            replaceContact.setLastMsgDate(DateUtils.convertIntDateToStringShort(DateUtils.getDateInt()));
+//            replaceContact.incrementUnread();
+            contactModel.remove(index);
+            contactModel.add(0, replaceContact);
+
+        } else {
+            lastMessageAdd.setLastMsg(msg.getMessage());
+            lastMessageAdd.setLastMsgDate(DateUtils.convertIntDateToStringShort(DateUtils.getDateInt()));
+            lastMessageAdd.incrementUnread();
+            contactModel.add(0, lastMessageAdd);
+        }
+        // Возвращаем select на прежний элемент после изменения порядка
+        int selected = contactModel.indexOf(view.getContactListRenderer().getSelectedItem());
+        view.getContactsJList().clearSelection();
+        view.getContactsJList().setSelectedIndex(selected);
+    }
+
+    public void updateSearch(String search) {
+        DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
+        HashMap<Integer, UserContact> contacts = model.getContacts(false);
+        for (Map.Entry<Integer, UserContact> entry : contacts.entrySet()) {
+            String userName = entry.getValue().toString();
+            if (userName != null && userName.contains(search)) {
+//                ContactListItem contactItem = new ContactListItem(entry.getValue(), topMessages.get(i));
+                ContactListItem contactItem = new ContactListItem(entry.getValue());
+                modelContacts.addElement(contactItem);
+            }
+        }
+        try {
+            ArrayList<Message> messages = model.messagesSearch(search);
+            System.err.println("Найдено: " + messages.size() + " сообщений");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        view.showDialogs(modelContacts);
+    }
+
+    public void showInterface() {
+        view.showContactInterface();
+    }
+
+    /** Получение идентификаторов сообщений из диалогов */
+    private ArrayList<Integer> getDialogsTopMsgIds(ArrayList<Dialog> dialogs) {
         ArrayList<Integer> messageIds = new ArrayList<>();
         for (Dialog dialog : dialogs) {
             if(dialog != null)
                 messageIds.add(dialog.getTopMessage());
         }
+        return messageIds;
+    }
 
-        // Последние сообщения на основании ID сообщения
-        ArrayList<Message> topMessages = model.getMessagesById(messageIds);
-
-        // Получить ID собеседников из последних сообщений
+    /** Получение ID того, кто прислал сообщения */
+    private ArrayList<Integer> getIdFromMessages(ArrayList<Message> messages) {
         ArrayList<Integer> userIds = new ArrayList<>();
-        for (Message msg : topMessages) {
-            if (msg.getToId() == 0 || msg.getFromId() == 0) {
-                continue;
-            } else if (user.getId() == msg.getFromId()) {
+        for (Message msg : messages) {
+            if (msg.isOut()) {
                 userIds.add(msg.getToId());
             } else {
                 userIds.add(msg.getFromId());
             }
+//            if (msg.getToId() == 0 || msg.getFromId() == 0) {
+//                continue;
+//            } else if (user.getId() == msg.getFromId()) {
+//                userIds.add(msg.getToId());
+//            } else {
+//                userIds.add(msg.getFromId());
+//            }
             System.err.println("Message: " + msg.getMessage().replace("\n", " ") + "\nFrom: " + msg.getFromId() + "\tTo: " + msg.getToId() );
         }
         System.err.println("------------------------------------------------\n");
-
-        // Получить список User по списку ID
-        ArrayList<User> contactUsers = model.getUsersById(userIds);
-
-        // Сформировать модель контактов из ContactItem()
-        DefaultListModel<ContactItem> modelContacts = new DefaultListModel<>();
-        for (int i = 0; i < contactUsers.size(); i++ ) {
-            User user = contactUsers.get(i);
-            if (user.getId() == 0) {
-
-//                if (topMessages.get(i).getMessage() != null) {
-                continue;
-            }
-            System.err.println("ID: " + user.getId() + "\tName: " + user.getFirstName() + "\tLastName: " + user.getLastName());
-            ContactItem contactItem = new ContactItem(user, topMessages.get(i));
-            // добавление элемента в модель списка
-            modelContacts.addElement(contactItem);
-            // сохраненеи элемента с привязкой к ID контакта
-            dialogList.put(user.getId(), contactItem);
-        }
-        view.showDialogs(modelContacts);
-
-
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(1500);
-                        handle(random.nextInt(4) + 13, "hello");
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        t1.start();
+        return userIds;
     }
 
-
-
-
-
-    public User getSelfUser() {
-        return user;
+    public ContactListItem getSelectedContact() {
+        return selectedContact;
     }
 
-
-    /**
-     * Обработка события выбора контакта из списка контактов
-     * Установка в модель списка сообщений новые сообщения
-     */
-    @Override
-    public synchronized Object handle(int i, String s) {
-        System.out.println("Add to " + i);
-        TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
-        TLMessage tlMessage = new TLMessage(0, i, tlPeerUser, false, true, DateConverter.getDateInt(), s, null);
-        Message msg = new Message(tlMessage);
-        model.addMessage(i, msg);
-        updateDialogsOrder(i, msg);
-        ContactItem selected = view.getContactListRenderer().getSelectedItem();
-        if (selected == null) {
-            return null;
-        }
-        if (i == selected.getUser().getId()) {
-            // TODO обновить список сообщений текущего контакта
-            view.getModelMessages().addElement(new MessageItem(msg));
-            view.scrollMessagesToEnd();
-        }
-        return null;
+    public void setSelectedContact(ContactListItem item) {
+        this.selectedContact = item;
     }
 
-    public void sendMessage(int userId, String message) {
-
-        // Формироване сообщения
-        int messageId = random.nextInt();
-        // Отправка сообщения
-        MessagesSentMessage sent = model.sendMessage(userId, message, messageId);
-        // Создание локального сообщения
-        TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
-        TLMessage tlMessage = new TLMessage(sent.getId(), userId, tlPeerUser, true, true, DateConverter.getDateInt(), message, null);
-        Message msg = new Message(tlMessage);
-
-        // добавляем локальное сообщение в модель списка
-        view.getModelMessages().addElement(new MessageItem(msg));
-        // добавляем локальное сообщение в хранилище
-        model.addMessage(userId, msg);
-
-        updateDialogsOrder(userId, msg);
-
-        view.scrollMessagesToEnd();
-
-        view.clearMessageTextField();
+    public void cleatSelectedContact() {
+        view.getContactListRenderer().clearSelectedItem();
+        setSelectedContact(null);
     }
 
-    public void updateChat(User user) {
-        view.updateContactLabel(user.getFirstName() + " " + user.getLastName());
-
-        // TODO возвратить модель, заполненную сообщениями в обратном порядке
-        int userId = user.getId();
-        LinkedList<Message> messages = model.getMessageHistoryByUserID(userId);
-
-        Iterator<Message> it =  messages.iterator();
-        DefaultListModel<MessageItem> model = new DefaultListModel<>();
-        for (Message msg : messages) {
-            model.addElement(new MessageItem(msg));
-        }
-        view.showMessages(model);
+    public void refreshInterfaceBySelectedContact() {
+        User selected = selectedContact.getUser();
+        view.setContactLabel(selected.toString());
+        BufferedImage photo = Resources.getPhoto(selected.getPhone(), true);
+        view.setContactPhoto(photo);
     }
 
-    private void updateDialogsOrder(int userId, Message msg) {
-        // Получаем элемент списка по ID юзера
-        ContactItem lastMessageAdd = dialogList.get(userId);
+    public void updateUserLabel(User updatedUser) {
+        user = updatedUser;
+        view.setUserLabel(user.getFirstName() + " " + user.getLastName());
+    }
 
-        DefaultListModel<ContactItem> contactModel = view.getModelContacts();
-        // Проверям содержит ли модель списка имеющийся диалог
-        // Если содержит, то удаляем и вставляем в начало
-        if (contactModel.contains(lastMessageAdd)) {
-            int index = contactModel.indexOf(lastMessageAdd);
-            ContactItem replaceContact = contactModel.get(index);
-            replaceContact.setLastMsg(msg.getMessage());
-            replaceContact.setLastMsgDate(DateConverter.convertIntDateToStringShort(DateConverter.getDateInt()));
-            replaceContact.incrementUnread();
-            contactModel.remove(index);
-            contactModel.add(0, replaceContact);
+    public void updateUserPhoto(BufferedImage photo) {
+        view.setContactPhoto(photo);
+    }
 
-            // Возвращаем select на прежний элемент после изменения порядка
-            index = contactModel.indexOf(view.getContactListRenderer().getSelectedItem());
-            view.getContactsJList().clearSelection();
-            view.getContactsJList().setSelectedIndex(index);
+    public void updateContactInfo(User updatedUser) {
+        if (updatedUser.getId() == this.user.getId()) {
+            user = updatedUser;
+            view.setUserLabel(user.toString());
+        } else {
+//            setDialogList();
+            model.updateLocalDialog(updatedUser.getId());
+            int index = view.getModelContacts().indexOf(selectedContact);
+            ContactListItem contactListItem = model.getDialogByUserId(updatedUser.getId());
+            view.getModelContacts().set(index, contactListItem);
         }
     }
+
+    public void deleteDialog() {
+        int index = view.getModelContacts().indexOf(view.getContactListRenderer().getSelectedItem());
+        view.getModelContacts().remove(index);
+        view.hideContactInterface();
+    }
+
 }

@@ -1,6 +1,5 @@
 package Presenter;
 
-import Model.Model;
 import View.Forms.ViewEnterPhone;
 import View.WindowManager;
 import org.javagram.response.AuthSentCode;
@@ -10,12 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PrEnterPhone implements IPresenter{
-    Model model;
-    ViewEnterPhone view;
+    public static final String TEST_NUMBER = "9996622222";
+    private ViewEnterPhone view;
 
     public PrEnterPhone(ViewEnterPhone view) {
         this.view = view;
-        this.model = Model.getInstance();
         setListeners();
     }
 
@@ -47,7 +45,6 @@ public class PrEnterPhone implements IPresenter{
             WindowManager.showWarningDialog("Номер телефона не соотетствует формату" );
             view.getPhoneJFormattedText().setText("");
         }
-        // Попробовать отправить
     }
 
     private String getPhoneNumber() {
@@ -59,6 +56,7 @@ public class PrEnterPhone implements IPresenter{
         } else {
             phoneNumberTextField.setText("");
         }
+        phoneNumber = TEST_NUMBER;
         return phoneNumber;
     }
 

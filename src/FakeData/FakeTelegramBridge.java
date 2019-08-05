@@ -65,7 +65,7 @@ public class FakeTelegramBridge {
                 selfUser = new FakeSelfUser(i);
                 userContacts.add(selfUser);
             }
-            userContacts.add(new FakeUserContact(i));
+            userContacts.add(new FakeUserContact(i, "123456" + i));
         }
         // Инициализаця статусов контактов
         statuses = new ArrayList<>();
@@ -117,7 +117,12 @@ public class FakeTelegramBridge {
     /** Done */
     public boolean authSendInvites(ArrayList<String> phoneNumbers, String message) throws IOException {
         Random random = new Random();
-        return random.nextBoolean();
+//        boolean result = random.nextBoolean();
+        boolean result = true;
+        if(result) {
+            userContacts.add(new FakeUserContact(random.nextInt() + 20, phoneNumbers.get(0)));
+        }
+        return result;
     }
     /** Done */
     public User accountUpdateProfile(String firstName, String lastName) throws IOException {
@@ -302,15 +307,16 @@ public class FakeTelegramBridge {
     }
     /** TODO Как определить какого пользователя изменять*/
     public User accountUpdateUsername(String firstName, String lastName) throws IOException {
-        TLRequestAccountUpdateProfile request = new TLRequestAccountUpdateProfile(firstName, lastName);
-        TLAbsUser tlAbsUser = (TLAbsUser)this.api.doRpcCall(request);
+
+        TLAbsUser tlAbsUser = new TLUserContact(selfUser.getId(), firstName, lastName, selfUser.getAccessHash(),
+                selfUser.getPhone(), null, null);
+        selfUser = new FakeSelfUser(selfUser.getId(), firstName, lastName,
+                selfUser.getPhone(), null, null, false);
         return new User(tlAbsUser);
     }
 
     public String helpGetInviteText() throws IOException {
-        TLRequestHelpGetInviteText request = new TLRequestHelpGetInviteText(this.langCode);
-        TLInviteText inviteText = (TLInviteText)this.api.doRpcCall(request);
-        return inviteText.getMessage();
+        return "Привет, я хочу с Вами пообщаться";
     }
 
     public void setIncomingMessageHandler(IncomingMessageHandler handler) {
@@ -337,8 +343,8 @@ public class FakeTelegramBridge {
             int from;
             boolean out;
 
-            // СОздание по 30 сообщений для каждого диалога
-            for (int i = 0; i < 30; i++) {
+            // СОздание по 30 сообщений в обратном порядке для каждого диалога
+            for (int i = 30; i > 0; i--) {
                 // Случайно определяем кто кому отправляет сообщение
                 if (random.nextBoolean()) {
                     to = userId;

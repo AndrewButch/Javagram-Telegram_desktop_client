@@ -1,8 +1,7 @@
 package View.ListRenderer;
 
 import Presenter.PrChat;
-import View.Forms.ViewChat;
-import View.ListItem.ContactItem;
+import View.ListItem.ContactListItem;
 import View.Resources;
 import org.javagram.response.object.User;
 
@@ -13,21 +12,25 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 
-public class ListCellRendererContact extends ContactItem implements ListCellRenderer<ContactItem> {
+public class ListCellRendererContact extends ContactListItem implements ListCellRenderer<ContactListItem> {
     private BufferedImage contact_gray_online;
+    private BufferedImage contact_gray_offline;
     private BufferedImage contact_white_online;
+    private BufferedImage contact_white_offline;
     private PrChat presenter;
-    private volatile ContactItem selectedItem;
+    private volatile ContactListItem selectedItem;
 
     public ListCellRendererContact(PrChat presenter) {
         getPortraitJPanel().setOpaque(true);
         contact_gray_online = Resources.getImage(Resources.MASK_GRAY_ONLINE);
         contact_white_online = Resources.getImage(Resources.MASK_WHITE_ONLINE);
+        contact_gray_offline = Resources.getImage(Resources.MASK_GRAY);
+        contact_white_offline = Resources.getImage(Resources.MASK_WHITE);
         this.presenter = presenter;
     }
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends ContactItem> list, ContactItem value, int index, boolean isSelected, boolean cellHasFocus) {
+    public Component getListCellRendererComponent(JList<? extends ContactListItem> list, ContactListItem value, int index, boolean isSelected, boolean cellHasFocus) {
         // Установка текста для текущей ячейки контактов
         setupContactCellText(value);
 
@@ -39,20 +42,30 @@ public class ListCellRendererContact extends ContactItem implements ListCellRend
             Border matteBorder = BorderFactory.createMatteBorder(0,0,0, 4, new Color(0, 179, 230));
             getRootPanel().setBorder(new CompoundBorder(lineBorder, matteBorder));
             if (value.getUser() != null ) {
-                presenter.updateChat(value.getUser());
-                setPortraint(contact_white_online);
                 selectedItem = value;
+                presenter.setSelectedContact(value);
+                presenter.refreshChat();
+                presenter.showInterface();
+                if (value.isOnline()) {
+                    setStatusBorder(contact_white_online);
+                } else {
+                    setStatusBorder(contact_white_offline);
+                }
             }
         } else {
             getRootPanel().setBackground(list.getBackground());
             getRootPanel().setForeground(list.getForeground());
             getRootPanel().setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(195, 195, 195)));
-            setPortraint(contact_gray_online);
+            if (value.isOnline()) {
+                setStatusBorder(contact_gray_online);
+            } else {
+                setStatusBorder(contact_gray_offline);
+            }
         }
         return this.getRootPanel();
     }
 
-    private void setupContactCellText(ContactItem value) {
+    private void setupContactCellText(ContactListItem value) {
         User user = value.getUser();
         if (user != null) {
             if (user.getId() == 0) {
@@ -60,6 +73,7 @@ public class ListCellRendererContact extends ContactItem implements ListCellRend
             } else {
                 setUserName(user.getFirstName() + " " + user.getLastName());
             }
+            setPhoto(value.getPhoto());
             setLastMsg(value.getLastMsg().getText());
             setLastMsgDate(value.getLastMsgDate().getText());
             setUnreadCount(value.getUnreadCount() + "");
@@ -67,7 +81,11 @@ public class ListCellRendererContact extends ContactItem implements ListCellRend
         }
     }
 
-    public synchronized ContactItem getSelectedItem() {
+    public synchronized ContactListItem getSelectedItem() {
         return selectedItem;
+    }
+
+    public void clearSelectedItem() {
+        selectedItem = null;
     }
 }

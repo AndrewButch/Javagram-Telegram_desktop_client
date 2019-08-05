@@ -1,6 +1,5 @@
 package Presenter;
 
-import Model.Model;
 import View.Forms.ViewSignUp;
 import View.WindowManager;
 
@@ -8,12 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PrSignUp implements IPresenter {
-    Model model;
     ViewSignUp view;
 
     public PrSignUp(ViewSignUp view) {
         this.view = view;
-        this.model = Model.getInstance();
         setListeners();
     }
 

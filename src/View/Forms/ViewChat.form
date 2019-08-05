@@ -8,9 +8,6 @@
       <alignmentX value="0.5"/>
       <alignmentY value="0.5"/>
       <background color="-328966"/>
-      <maximumSize width="900" height="620"/>
-      <minimumSize width="900" height="620"/>
-      <opaque value="false"/>
     </properties>
     <border type="none"/>
     <children>
@@ -21,6 +18,7 @@
         </constraints>
         <properties>
           <background color="-16731162"/>
+          <maximumSize width="255" height="50"/>
           <minimumSize width="255" height="50"/>
           <preferredSize width="255" height="50"/>
           <requestFocusEnabled value="true"/>
@@ -31,7 +29,7 @@
       <grid id="91aef" binding="userJPanel" layout-manager="FlowLayout" hgap="20" vgap="10" flow-align="2">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
+          <gridbag weightx="0.1" weighty="0.0"/>
         </constraints>
         <properties>
           <background color="-16731162"/>
@@ -40,10 +38,16 @@
         </properties>
         <border type="none"/>
         <children>
+          <component id="8f2ae" class="javax.swing.JButton" binding="updateDialogButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="updateDialog"/>
+            </properties>
+          </component>
           <grid id="1f508" binding="userLogoMiniJPanel" custom-create="true" layout-manager="GridBagLayout">
             <constraints/>
             <properties>
-              <background color="-6502337"/>
+              <background color="-16731162"/>
               <foreground color="-4506306"/>
               <minimumSize width="29" height="29"/>
               <opaque value="true"/>
@@ -81,8 +85,9 @@
         </constraints>
         <properties>
           <background color="-328966"/>
-          <minimumSize width="104" height="50"/>
-          <preferredSize width="122" height="50"/>
+          <maximumSize width="255" height="50"/>
+          <minimumSize width="255" height="50"/>
+          <preferredSize width="255" height="50"/>
         </properties>
         <border type="none"/>
         <children>
@@ -143,10 +148,13 @@
       <grid id="5504a" binding="contactJPanel" layout-manager="GridBagLayout">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
+          <gridbag weightx="0.1" weighty="0.0"/>
         </constraints>
         <properties>
           <background color="-1"/>
+          <maximumSize width="2147483647" height="50"/>
+          <minimumSize width="35" height="50"/>
+          <preferredSize width="35" height="50"/>
         </properties>
         <border type="none"/>
         <children>
@@ -156,7 +164,7 @@
               <gridbag top="0" left="20" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
-              <background color="-16668711"/>
+              <background color="-1"/>
               <minimumSize width="29" height="29"/>
               <opaque value="true"/>
               <preferredSize width="29" height="29"/>
@@ -223,13 +231,11 @@
       </scrollpane>
       <scrollpane id="9684f" binding="messageListScrollPane" custom-create="true">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.1" weighty="0.1"/>
         </constraints>
         <properties>
           <horizontalScrollBarPolicy value="31"/>
-          <maximumSize width="645" height="450"/>
-          <minimumSize width="645" height="450"/>
           <preferredSize width="645" height="450"/>
           <verticalScrollBarPolicy value="21"/>
           <visible value="true"/>
@@ -246,22 +252,25 @@
           </component>
         </children>
       </scrollpane>
-      <grid id="7720a" binding="sendMessageJPanel" layout-manager="FlowLayout" hgap="0" vgap="10" flow-align="1">
+      <grid id="7720a" binding="sendMessageJPanel" layout-manager="GridBagLayout">
         <constraints>
-          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.1" weighty="0.0"/>
         </constraints>
         <properties>
           <background color="-1"/>
           <minimumSize width="477" height="70"/>
           <opaque value="true"/>
           <preferredSize width="477" height="70"/>
-          <visible value="true"/>
+          <visible value="false"/>
         </properties>
         <border type="none"/>
         <children>
           <component id="11a08" class="javax.swing.JTextField" binding="sendMessageTextField">
-            <constraints/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="20" bottom="0" right="5" weightx="0.1" weighty="0.0"/>
+            </constraints>
             <properties>
               <background color="-2039584"/>
               <font name="Open Sans Semibold" size="14"/>
@@ -270,18 +279,21 @@
               <minimumSize width="464" height="45"/>
               <preferredSize width="504" height="45"/>
               <text value="Текст сообщения"/>
-              <visible value="false"/>
+              <visible value="true"/>
             </properties>
           </component>
           <component id="50922" class="javax.swing.JButton" binding="sendMessageBtn">
-            <constraints/>
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="0" bottom="0" right="20" weightx="0.0" weighty="0.0"/>
+            </constraints>
             <properties>
               <icon value="button-send.png"/>
               <maximumSize width="62" height="45"/>
               <minimumSize width="62" height="45"/>
               <preferredSize width="62" height="45"/>
               <text value=""/>
-              <visible value="false"/>
+              <visible value="true"/>
             </properties>
           </component>
         </children>
@@ -293,8 +305,10 @@
         </constraints>
         <properties>
           <background color="-1579033"/>
+          <maximumSize width="86" height="70"/>
+          <minimumSize width="86" height="70"/>
           <opaque value="true"/>
-          <preferredSize width="86" height="42"/>
+          <preferredSize width="86" height="70"/>
           <visible value="true"/>
         </properties>
         <border type="none"/>

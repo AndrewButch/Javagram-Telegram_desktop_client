@@ -7,25 +7,31 @@ import View.Forms.Modal.ViewAddContact;
 import View.Forms.Modal.ViewEditContact;
 import View.Forms.Modal.ViewEditProfile;
 import View.IView;
-import View.ListItem.ContactItem;
+import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
 import View.ListRenderer.ListCellRendererContact;
 import View.ListRenderer.ListCellRendererMessage;
 import View.Resources;
 import View.WindowManager;
+import org.javagram.response.object.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
+import static java.lang.Thread.sleep;
+
 
 public class ViewChat implements IView {
+    int width;
+    int height;
     private PrChat presenter;
 
     private ListCellRendererContact contactListRenderer; // визуализатор списка контактов
     private ListCellRendererMessage messageListRenderer; // визуализатор списка сообщений
 
-    private volatile DefaultListModel<ContactItem> modelContacts;
+    private volatile DefaultListModel<ContactListItem> modelContacts;
     private volatile DefaultListModel<MessageItem> modelMessages;
 
 
@@ -44,13 +50,14 @@ public class ViewChat implements IView {
     private JPanel contaclLogoMiniJPanel;
     private JLabel contactNameLable;
     private JButton contactEditBtn;
-    private JList<ContactItem> contactsJList;
+    private JList<ContactListItem> contactsJList;
 
     // Компоненты поиска контактов
     private JPanel searchContactsJPanel;
     private JPanel searchIconJPanel;
     private JTextField searchContactTextField;
     private JScrollPane contactsListScrollPane;
+    private JButton clearBtn;
 
     // Компоненты доавления контактов
     private JPanel addContactJPanel;
@@ -59,9 +66,10 @@ public class ViewChat implements IView {
     // Компоненты сообщений
     private JPanel sendMessageJPanel;
     private JButton sendMessageBtn;
-    private JTextField messageTextField;
+    private JTextField sendMessageTextField;
     private JScrollPane messageListScrollPane;
     private JList<MessageItem> messagesJList;
+    private JButton updateDialogButton;
 
     // Изображения
     private BufferedImage logoMicroImg;
@@ -73,6 +81,13 @@ public class ViewChat implements IView {
     private BufferedImage maskWhiteImg;
     private BufferedImage maskGrayImg;
     private BufferedImage maskDarkGrayBigImg;
+    private BufferedImage userPhotoBlue;
+    private BufferedImage contactPhotoWhite;
+
+    // Масштабированные фото
+    private Image defaultPhoto;
+    private Image contactPhotoWhiteMini;
+    private Image userPhotoBlueMini;
 
 
     // Модальные view с редактированием профиля, добавлением и редактированием контактов
@@ -92,13 +107,72 @@ public class ViewChat implements IView {
         contactsJList.setCellRenderer(contactListRenderer);
         messagesJList.setCellRenderer(messageListRenderer);
         messagesJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        defaultPhoto = Resources.getPhoto(Resources.DEFAULT_BIG, false).getScaledInstance(29, 29, 5);
+
+        userPhotoBlueMini = defaultPhoto;
+        contactPhotoWhiteMini = defaultPhoto;
+        updateDialogButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateDialogs();
+            }
+        });
+        Thread threadPhoto = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    do {
+                        userPhotoBlue = Resources.getPhoto(presenter.getSelfUser().getPhone(), true);
+                    } while (userPhotoBlue == null);
+
+                } catch (NullPointerException e) {
+                    System.err.println(e);
+                    try {
+                        sleep(5000);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                userPhotoBlueMini = userPhotoBlue.getScaledInstance(29, 29, 5);
+
+            }
+        });
+        threadPhoto.start();
+        // Добавение rootPanel в z-index на нижний слой
+        layeredRootPane.add(rootPanel, JLayeredPane.DEFAULT_LAYER, -1);
+
+        // Форма ViewEditProfile добавляется в z-index на слой выше
+        editProfile = new ViewEditProfile(presenter);
+        editProfile.getRootPanel().setSize(width, height);
+        layeredRootPane.add(editProfile.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
+
+        // Форма ViewEditContact добавляется в z-index на слой выше
+        editContact = new ViewEditContact(presenter);
+        editContact.getRootPanel().setSize(width, height);
+        layeredRootPane.add(editContact.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
+
+        // Форма ViewAddContact добавляются в z-index на слой выше
+        addContact = new ViewAddContact(presenter);
+        addContact.getRootPanel().setSize(width, height);
+        layeredRootPane.add(addContact.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
+
+        // Обработка события на изменение размера
+        WindowManager.getContentPanel().addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                layeredRootPane.setSize(e.getComponent().getSize());
+                rootPanel.setSize(e.getComponent().getSize());
+                editProfile.getRootPanel().setSize(e.getComponent().getSize());
+                editContact.getRootPanel().setSize(e.getComponent().getSize());
+                addContact.getRootPanel().setSize(e.getComponent().getSize());
+            }
+        });
     }
 
     private void createUIComponents() {
         // Получение ресурсов изображений
         loadImages();
-        rootPanel = new JPanel(new GridBagLayout());
-        rootPanel.setSize(900, 600);
         setupLists();
         setupLayerdPane();
         setupIcons();
@@ -116,7 +190,6 @@ public class ViewChat implements IView {
         maskWhiteImg = Resources.getImage(Resources.MASK_WHITE);
         maskGrayImg = Resources.getImage(Resources.MASK_GRAY);
         maskDarkGrayBigImg = Resources.getImage(Resources.MASK_DARK_GRAY_BIG);
-
     }
 
     private void setupLists() {
@@ -130,37 +203,24 @@ public class ViewChat implements IView {
     }
 
     private void setupLayerdPane() {
+        width = WindowManager.getScreenWidth();
+        height = WindowManager.getScreenHeight();
+
         // Создание панели с Z-index (слои)
         layeredRootPane = new JLayeredPane();
-        layeredRootPane.setPreferredSize(new Dimension(900, 600));
-        layeredRootPane.setMinimumSize(new Dimension(900, 600));
-        layeredRootPane.setSize(new Dimension(900, 600));
+        layeredRootPane.setMinimumSize(new Dimension(500, 300));
 
-        // Добавение rootPanel в самый в z-index на нижний слой
-        layeredRootPane.add(rootPanel, JLayeredPane.DEFAULT_LAYER, -1);
+//        layeredRootPane.setMinimumSize(new Dimension(width, height));
+        layeredRootPane.setSize(new Dimension(width, height));
+        layeredRootPane.setPreferredSize(new Dimension(width, height));
 
-        // Форма ViewEditProfile добавляется в z-index на слой выше
-        editProfile = new ViewEditProfile();
-        layeredRootPane.add(editProfile.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
+        rootPanel = new JPanel(new GridBagLayout());
+        rootPanel.setMinimumSize(new Dimension(width, height));
+        rootPanel.setSize(new Dimension(width, height));
+        rootPanel.setPreferredSize(new Dimension(width, height));
 
-        // Форма ViewEditContact добавляется в z-index на слой выше
-        editContact = new ViewEditContact();
-        layeredRootPane.add(editContact.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
 
-        // Форма ViewAddContact добавляются в z-index на слой выше
-        addContact = new ViewAddContact();
-        layeredRootPane.add(addContact.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
 
-        // Обработка события на изменение размера
-        layeredRootPane.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                rootPanel.setSize( e.getComponent().getSize() );
-                editProfile.getRootPanel().setSize(e.getComponent().getSize());
-                editContact.getRootPanel().setSize(e.getComponent().getSize());
-                addContact.getRootPanel().setSize(e.getComponent().getSize());
-            }
-        });
     }
 
     private void setupIcons() {
@@ -177,6 +237,7 @@ public class ViewChat implements IView {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                g.drawImage(contactPhotoWhiteMini, 0, 0, null);
                 g.drawImage(maskWhiteMiniImg, 0, 0, null);
             }
         };
@@ -193,6 +254,7 @@ public class ViewChat implements IView {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
+                g.drawImage(userPhotoBlueMini, 0, 0, null);
                 g.drawImage(maskBlueMiniImg, 0, 0, null);
             }
         };
@@ -206,10 +268,11 @@ public class ViewChat implements IView {
     private void setupBorders() {
         contactsJList.setBorder(null);
         contactJPanel.setBorder(BorderFactory.createMatteBorder(0, 1,1, 0, new Color(237, 237, 237)));
-        messageTextField.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        sendMessageTextField.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         searchContactTextField.setBorder(null);
         contactsListScrollPane.setBorder(null);
         messageListScrollPane.setBorder(null);
+
     }
 
     private void setListeners() {
@@ -218,39 +281,74 @@ public class ViewChat implements IView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Send Message");
-                presenter.sendMessage(contactListRenderer.getSelectedItem().getUser().getId(), messageTextField.getText());
+                presenter.sendMessage(sendMessageTextField.getText());
                 messageListScrollPane.getVerticalScrollBar().setValue(messageListScrollPane.getVerticalScrollBar().getMaximum());
             }
         });
 
         // Обработчик нажатия на поле ввода сообщения
-        messageTextField.addActionListener(new ActionListener() {
+        sendMessageTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Send Message");
-                //presenter.sendMessage();
-                //verticalBar.setValue(verticalBar.getMaximum());
+                presenter.sendMessage(sendMessageTextField.getText());
+                messageListScrollPane.getVerticalScrollBar().setValue(messageListScrollPane.getVerticalScrollBar().getMaximum());
             }
         });
 
         // Обработчик фокуса для поля ввода сообщения
-        messageTextField.addFocusListener(new FocusAdapter() {
+        sendMessageTextField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
-                if ("Текст сообщения".equals(messageTextField.getText())) {
-                    messageTextField.setText("");
+                if ("Текст сообщения".equals(sendMessageTextField.getText())) {
+                    sendMessageTextField.setText("");
                 }
             }
             @Override
             public void focusLost(FocusEvent e) {
-                if ("".equals(messageTextField.getText())) {
-                    messageTextField.setText("Текст сообщения");
+                if ("".equals(sendMessageTextField.getText())) {
+                    sendMessageTextField.setText("Текст сообщения");
                 }
             }
         });
 
+        // Обработчик нажатия кнопки поиска
+        searchContactTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presenter.updateSearch(searchContactTextField.getText());
+            }
+        });
+        searchContactTextField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if ("Поиск".equals(searchContactTextField.getText())) {
+                    searchContactTextField.setText("");
+                }
+                clearBtn.setVisible(true);
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if ("Поиск".equals(searchContactTextField.getText())) {
+                    clearBtn.setVisible(false);
+                }
+                if ("".equals(searchContactTextField.getText())) {
+                    clearBtn.setVisible(false);
+                    searchContactTextField.setText("Поиск");
+                }
+            }
+        });
+        clearBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchContactTextField.setText("");
+                searchContactTextField.requestFocus();
+                presenter.setDialogList();
+            }
+        });
+
         // Обработчик нажатия на кнопку редактирования профиля пользователя
-        getUserSettingsBtn().addActionListener(new ActionListener() {
+        userSettingsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showEditUserProfileView();
@@ -296,23 +394,21 @@ public class ViewChat implements IView {
         return sendMessageBtn;
     }
 
-    public JTextField getMessageTextField() {
-        return messageTextField;
+    public JTextField getSendMessageTextField() {
+        return sendMessageTextField;
     }
 
     public JScrollPane getMessageListScrollPane() {
         return messageListScrollPane;
     }
 
-    public JLabel getUserNameLabel() {
-        return userNameLabel;
-    }
+
 
     public JLabel getContactNameLable() {
         return contactNameLable;
     }
 
-    public JList<ContactItem> getContactsJList() {
+    public JList<ContactListItem> getContactsJList() {
         return contactsJList;
     }
 
@@ -328,7 +424,7 @@ public class ViewChat implements IView {
         return messageListRenderer;
     }
 
-    public DefaultListModel<ContactItem> getModelContacts() {
+    public DefaultListModel<ContactListItem> getModelContacts() {
         return modelContacts;
     }
 
@@ -351,11 +447,15 @@ public class ViewChat implements IView {
 
     // Показать модальное окно с редактированием своего профиля
     public void showEditUserProfileView() {
+        User user = presenter.getSelfUser();
+        editProfile.setUserInfo(user.getFirstName(), user.getLastName(), user.getPhone());
         editProfile.getRootPanel().setVisible(true);
     }
 
     // Показать модальное окно с редактированием контакта
     public void showEditContactView() {
+        User user = presenter.getSelectedContact().getUser();
+        editContact.setContactInfo(user.toString(), user.getPhone());
         editContact.getRootPanel().setVisible(true);
     }
 
@@ -363,10 +463,10 @@ public class ViewChat implements IView {
     
     // Очистить поле ввода сообщения
     public void clearMessageTextField() {
-        messageTextField.setText("");
+        sendMessageTextField.setText("");
     }
 
-    public void showDialogs(DefaultListModel<ContactItem> model) {
+    public void showDialogs(DefaultListModel<ContactListItem> model) {
         modelContacts = model;
         contactsJList.setModel(model);
         contactsJList.revalidate();
@@ -376,7 +476,6 @@ public class ViewChat implements IView {
     public void showMessages(DefaultListModel<MessageItem> model) {
         modelMessages = model;
         messagesJList.setModel(model);
-        scrollMessagesToEnd();
     }
 
     public void scrollMessagesToEnd() {
@@ -386,8 +485,49 @@ public class ViewChat implements IView {
         verticalBar.setValue(verticalBar.getMaximum());
     }
 
-    public void updateContactLabel(String userName) {
+
+
+    // Очищаем выбор контакта, сообщения, скрываем компоненты имени, фото и кнопки редактирования  контакта,
+    // поле ввода сообщения и кнопку отправки.
+    public void hideContactInterface() {
+        contactListRenderer.clearSelectedItem();
+        modelMessages.clear();
+        contactNameLable.setText("");
+
+        contaclLogoMiniJPanel.setVisible(false);
+        contactEditBtn.setVisible(false);
+        sendMessageJPanel.setVisible(false);
+    }
+
+    // Отображаем компоненты имя, фото и кнопку редактирования контакта,
+    // поле ввобда сообщения и кнопку отправки
+    public void showContactInterface() {
+//        contactListRenderer.clearSelectedItem();
+
+        contaclLogoMiniJPanel.setVisible(true);
+        contactEditBtn.setVisible(true);
+        sendMessageJPanel.setVisible(true);
+    }
+
+    public void updateDialogs() {
+        presenter.setDialogList();
+    }
+
+    public void setContactLabel(String userName) {
         contactNameLable.setText(userName);
     }
+
+    public void setUserLabel(String userName) {
+        userNameLabel.setText(userName);
+    }
+
+    public void setContactPhoto(BufferedImage photo) {
+        contactPhotoWhiteMini = photo.getScaledInstance(29, 29, 5);
+    }
+
+    public void setUserPhoto(BufferedImage photo) {
+        userPhotoBlueMini = photo.getScaledInstance(29, 29, 5);
+    }
+
 }
 

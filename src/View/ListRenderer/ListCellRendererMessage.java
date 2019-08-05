@@ -1,9 +1,8 @@
 package View.ListRenderer;
 
-import Utils.DateConverter;
+import Utils.DateUtils;
 import View.ListItem.MessageItem;
 import View.Resources;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,19 +31,21 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
         String text = "";
         text = value.getMessage().getMessage();
         text = text == null ? "" : text;
+        int rowCount = getRowCount(text);
         // Определение высоты контейнер сообщения из кол-ва строк сообщения
         // 1-й параметр вычисляем считая, что в тексте нет переносов строки
-        int rowCount = text.length() / MAX_ROW_LENGHT;
+//        int rowCount = text.length() / MAX_ROW_LENGHT;
         // 2-й параметр считает кол-во переносов строки
-        int enterCount = StringUtils.countMatches(text, "\n" );
+//        int enterCount = StringUtils.countMatches(text, "\n" );
         // Число строк выбирается, как самый большой параметр (1-й или 2-ой)
-        rowCount = rowCount < enterCount ? enterCount : rowCount;
-
+//        rowCount = rowCount < enterCount ? enterCount : rowCount;
+//        rowCount = rowCount + enterCount;
         int height = ROW_HEIGHT + rowCount * ROW_HEIGHT;
         getMessageJTextPane().setPreferredSize(new Dimension(308, height));
+        getMessageJTextPane().setSize(new Dimension(308, height));
 
         setMessage(value.getMessage().getMessage());
-        setDate(DateConverter.convertIntDateToString(value.getMessage().getDate()));
+        setDate(DateUtils.convertIntDateToString(value.getMessage().getDate()));
         return this.getRootPanel();
     }
 
@@ -77,6 +78,19 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
         topOutMessageIMG = Resources.getImage(Resources.MESSAGE_OUT_TOP);
         botOutMessageIMG = Resources.getImage(Resources.MESSAGE_OUT_BOTTOM);
         rightOutMessageIMG = Resources.getImage(Resources.MESSAGE_OUT_RIGHT);
+    }
+
+    /** Подсчет количества строк в сообщении */
+    private int getRowCount(String message) {
+        // Разбить сообщение по переносам строки
+        String[] enterSplitted = message.split("\n");
+        int rowCount = 0;
+        for (String s : enterSplitted) {
+            // Если разбитое сообщение не содержит символов, значит там только перенос строки и это все равно +1
+            int count = s.length() / MAX_ROW_LENGHT == 0 ? 1 : s.length() / MAX_ROW_LENGHT;
+            rowCount += count ;
+        }
+        return rowCount;
     }
 
 

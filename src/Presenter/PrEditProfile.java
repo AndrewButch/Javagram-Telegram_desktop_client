@@ -1,20 +1,21 @@
 package Presenter;
 
-import Model.Model;
 import View.Forms.Modal.ViewEditProfile;
+import View.Forms.ViewEnterPhone;
 import org.javagram.response.object.User;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class PrEditProfile implements IPresenter {
-    Model model;
     ViewEditProfile view;
+    PrChat prChat;
     User user;
 
-    public PrEditProfile(ViewEditProfile view) {
+    public PrEditProfile(ViewEditProfile view, PrChat prChat) {
         this.view = view;
-        this.model = Model.getInstance();
+        this.prChat = prChat;
         setListeners();
         this.user = model.getSelfUser();
         view.setUserInfo(user.getFirstName(), user.getLastName(), user.getPhone());
@@ -22,12 +23,25 @@ public class PrEditProfile implements IPresenter {
 
     private void setListeners() {
         // TODO
-
         // Слушатель на кнопку "сохранения"
         view.getSaveBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO SAVE SETTING
+                String newFirstName = view.getFirstNameTF().getText();
+                String newLastName = view.getLastNameTF().getText();
+                User updatedUser = null;
+                try {
+                    updatedUser = model.updateProfileInfo(newFirstName, newLastName);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                if (updatedUser != null) {
+                    user = updatedUser;
+                    prChat.updateContactInfo(updatedUser);
+                } else {
+                    System.err.println("Не удалось обновить профиль");
+                }
                 System.err.println("EditProfile Сохранить");
                 view.getRootPanel().setVisible(false);
             }
@@ -37,7 +51,9 @@ public class PrEditProfile implements IPresenter {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO LOGOUT
+                model.logOut();
                 System.err.println("EditProfile Выйти");
+                new ViewEnterPhone();
             }
         });
 

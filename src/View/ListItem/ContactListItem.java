@@ -1,32 +1,44 @@
 package View.ListItem;
 
-import Utils.DateConverter;
+import Utils.DateUtils;
+import View.Resources;
 import org.javagram.response.object.Message;
 import org.javagram.response.object.User;
+import org.javagram.response.object.UserContact;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class ContactItem {
+public class ContactListItem {
     private JPanel portraitJPanel;
     private JLabel userName;
     private JLabel lastMsg;
     private JLabel lastMsgDate;
     private JPanel rootPanel;
     private JLabel unreadLabel;
-    private BufferedImage portraint;
-    private User user;
+    private BufferedImage statusBorder;
+    private BufferedImage smallPhoto;
+    private Image photo;
+    private UserContact user;
     private Message message;
     private int unreadCount;
+    private boolean isOnline;
 
-    public ContactItem(){}
+    public ContactListItem(){}
 
-    public ContactItem(User userContact, Message topMsg, int unreadCount) {
+    public ContactListItem(UserContact userContact, Message topMsg, int unreadCount) {
         this.user = userContact;
-        this.message = topMsg;
-        setLastMsg(message.getMessage());
-        setLastMsgDate(DateConverter.convertIntDateToStringShort(message.getDate()));
+        this.isOnline = userContact.isOnline();
+        if (topMsg != null) {
+            this.message = topMsg;
+            setLastMsg(message.getMessage());
+            setLastMsgDate(DateUtils.convertIntDateToStringShort(message.getDate()));
+        }
+        smallPhoto = Resources.getPhoto(Resources.DEFAULT_BIG, false);
+        smallPhoto = Resources.getPhoto(userContact.getPhone(), true);
+        photo = smallPhoto.getScaledInstance(41, 41, 5);
+
         this.unreadCount = 0;
         if (unreadCount == 0) {
             unreadLabel.setText("");
@@ -35,24 +47,36 @@ public class ContactItem {
         }
     }
 
-    public ContactItem(User userContact, Message topMsg) {
+    public ContactListItem(UserContact userContact, Message topMsg) {
         this(userContact, topMsg, 0);
+    }
+
+    public ContactListItem(UserContact userContact) {
+        this(userContact, null, 0);
     }
 
     public User getUser() {
         return user;
     }
 
+    public Message getMessage() {
+        return message;
+    }
+
     public JPanel getRootPanel() {
         return rootPanel;
     }
 
-    public BufferedImage getPortraint() {
-        return portraint;
+    public BufferedImage getStatusBorder() {
+        return statusBorder;
     }
 
-    public void setPortraint(BufferedImage portraint) {
-        this.portraint = portraint;
+    public void setStatusBorder(BufferedImage statusBorder) {
+        this.statusBorder = statusBorder;
+    }
+
+    public void setPhoto(Image photo) {
+        this.photo = photo;
     }
 
     public JPanel getPortraitJPanel() {
@@ -73,6 +97,14 @@ public class ContactItem {
 
     public JLabel getLastMsg() {
         return lastMsg;
+    }
+
+    public Image getPhoto() {
+        return photo;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
     }
 
     public void setLastMsg(String lastMsg) {
@@ -100,9 +132,10 @@ public class ContactItem {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                if (portraint != null) {
-                    g.drawImage(portraint, 0, 0, null);
-                }
+                g.drawImage(photo, 0, 0, null);
+                g.drawImage(statusBorder, 0, 0, null);
+
+
             }
         };
     }

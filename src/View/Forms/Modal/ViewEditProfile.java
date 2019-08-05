@@ -1,8 +1,10 @@
 package View.Forms.Modal;
 
 import Presenter.IPresenter;
+import Presenter.PrChat;
 import Presenter.PrEditContact;
 import Presenter.PrEditProfile;
+import View.Forms.ViewChat;
 import View.IView;
 import View.Resources;
 
@@ -28,8 +30,8 @@ public class ViewEditProfile implements IView {
 
     private PrEditProfile presenter;
 
-    public ViewEditProfile() {
-        setPresenter(new PrEditProfile(this));
+    public ViewEditProfile(PrChat prChat) {
+        setPresenter(new PrEditProfile(this, prChat));
     }
 
     public JPanel getRootPanel() {
@@ -52,6 +54,14 @@ public class ViewEditProfile implements IView {
         firstNameTF.setText(firstName);
         lastNameTF.setText(lastName);
         phoneLabel.setText(phoneNumber);
+    }
+
+    public JTextField getFirstNameTF() {
+        return firstNameTF;
+    }
+
+    public JTextField getLastNameTF() {
+        return lastNameTF;
     }
 
     public JButton getSaveBtn() {

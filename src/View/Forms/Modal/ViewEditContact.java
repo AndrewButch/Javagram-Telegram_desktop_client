@@ -1,15 +1,15 @@
 package View.Forms.Modal;
 
 import Presenter.IPresenter;
+import Presenter.PrChat;
 import Presenter.PrEditContact;
+import View.Forms.ViewChat;
 import View.IView;
 import View.Resources;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 
@@ -26,19 +26,24 @@ public class ViewEditContact implements IView {
     private JLabel phoneLabel;
 
     private BufferedImage backBtnImg;
-    private BufferedImage contactImg;
+    private BufferedImage borderImg;
+    private BufferedImage photo;
+    private Image scaledPhoto;
 
     private PrEditContact presenter;
 
-    public ViewEditContact() {
-        setPresenter(new PrEditContact(this));
+    public ViewEditContact(PrChat prChat) {
+        setPresenter(new PrEditContact(this, prChat));
+        deleteBtn.setBorder(BorderFactory.createLineBorder(new Color(187,61,62), 2));
+
     }
 
     private void createUIComponents() {
         // Получение ресурсов изображений
         backBtnImg = Resources.getImage(Resources.ICON_BACK);
-        contactImg = Resources.getImage(Resources.MASK_DARK_GRAY_BIG);
-
+        borderImg = Resources.getImage(Resources.MASK_DARK_GRAY_BIG);
+        photo = Resources.getPhoto(Resources.DEFAULT_BIG, false);
+        scaledPhoto = photo.getScaledInstance(66,66, 5);
         setupRootPanel();
         setupBackButton();
         setupContactPhoto();
@@ -61,6 +66,10 @@ public class ViewEditContact implements IView {
         return deleteBtn;
     }
 
+    public JLabel getPhoneLabel() {
+        return phoneLabel;
+    }
+
     @Override
     public void setPresenter(IPresenter presenter) {
         this.presenter = (PrEditContact) presenter;
@@ -70,6 +79,8 @@ public class ViewEditContact implements IView {
     public void setContactInfo(String name, String phoneNumber) {
         nameTF.setText(name);
         phoneLabel.setText(phoneNumber);
+        photo = Resources.getPhoto(phoneNumber, false);
+        scaledPhoto = photo.getScaledInstance(66,66, 5);
     }
 
     private void setupRootPanel() {
@@ -110,7 +121,8 @@ public class ViewEditContact implements IView {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(contactImg, 0, 0, null);
+                g.drawImage(scaledPhoto, 0, 0, null);
+//                g.drawImage(borderImg, 0, 0, null);
             }
         };
     }
@@ -121,5 +133,9 @@ public class ViewEditContact implements IView {
         border = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE);
         nameTF = new JTextField();
         nameTF.setBorder(border);
+    }
+
+    public JTextField getNameTF() {
+        return nameTF;
     }
 }

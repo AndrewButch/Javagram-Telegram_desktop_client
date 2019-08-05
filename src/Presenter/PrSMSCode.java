@@ -1,6 +1,5 @@
 package Presenter;
 
-import Model.Model;
 import View.Forms.ViewSMSCode;
 import View.WindowManager;
 
@@ -13,12 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PrSMSCode implements IPresenter {
-    Model model;
     ViewSMSCode view;
 
     public PrSMSCode(ViewSMSCode view) {
         this.view = view;
-        this.model = Model.getInstance();
         view.getPhoneNumberLabel().setText(model.getPhone());
         setupCodeField();
         setListeners();

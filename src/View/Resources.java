@@ -1,13 +1,20 @@
 package View;
 
+import Model.Model;
+import org.javagram.response.object.UserContact;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Resources {
     private static HashMap<String, BufferedImage> images = new HashMap<>();
+    private static HashMap<String, BufferedImage> userPhotos = new HashMap<>();
 
     public static final String BACKGROUND = "BACKGROUND";
     public static final String LOGO = "LOGO";
@@ -30,6 +37,11 @@ public class Resources {
     public static final String MESSAGE_OUT_BOTTOM = "MESSAGE_OUT_BOTTOM";
     public static final String MESSAGE_OUT_RIGHT = "MESSAGE_OUT_RIGHT";
     public static final String MESSAGE_OUT_TOP = "MESSAGE_OUT_TOP";
+
+    public static final String SMALL_INDEX = "_small";
+    public static final String BIG_INDEX = "_big";
+    public static final String DEFAULT_SMALL = "default" + SMALL_INDEX;
+    public static final String DEFAULT_BIG = "default" + BIG_INDEX;
 
     static {
         try {
@@ -54,6 +66,8 @@ public class Resources {
             images.put(MESSAGE_OUT_TOP, ImageIO.read(new File ("res/img/GUI_Components/message-out-top.png")));
             images.put(MESSAGE_OUT_BOTTOM, ImageIO.read(new File ("res/img/GUI_Components/message-out-bottom.png")));
             images.put(MESSAGE_OUT_RIGHT, ImageIO.read(new File ("res/img/GUI_Components/message-out-right.png")));
+            userPhotos.put(DEFAULT_SMALL, ImageIO.read(new File("res/photo/", DEFAULT_SMALL + ".png")));
+            userPhotos.put(DEFAULT_BIG, ImageIO.read(new File("res/photo/", DEFAULT_BIG + ".png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,5 +75,53 @@ public class Resources {
 
     public static BufferedImage getImage(String img) {
         return images.get(img);
+    }
+
+    public static void loadPhotos(HashMap<Integer, UserContact> contacts) {
+        HashMap<String, byte[]> photos = new HashMap<>();
+
+//        Model model = Model.getInstance();
+        try {
+            // Получение из контактов изображений больших и маленьких
+//            for (Map.Entry <String, UserContact> entry: model.getContacts(false).entrySet()) {
+            for (Map.Entry <Integer, UserContact> entry : contacts.entrySet()) {
+                    photos.put(entry.getValue().getPhone() + SMALL_INDEX, entry.getValue().getPhoto(true));
+                    photos.put(entry.getValue().getPhone() + BIG_INDEX, entry.getValue().getPhoto(false));
+
+            }
+            // сохранение изображений контактов
+            savePhotos(photos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void savePhotos(HashMap<String, byte[]> photos) throws IOException {
+        // сохранение в памяти картинок контактов
+        for (Map.Entry<String, byte[]> b : photos.entrySet()) {
+            BufferedImage photo;
+            byte[] photoBytes = b.getValue();
+            if (photoBytes != null) {
+                photo = ImageIO.read(new ByteArrayInputStream(photoBytes));
+                if (photo != null) {
+                    // сохраняем фото
+                    ImageIO.write(photo, "jpg", new File("res/photo/", b.getKey() + ".jpg"));
+                    userPhotos.put(b.getKey(), photo);
+                }
+            }
+        }
+    }
+
+    /** Возвращает фото, если оно загружено, либо Default изображение*/
+    public static BufferedImage getPhoto(String photo, boolean small) {
+        // Ключ: номер телефона + _размер (пример: 71234567_small или 71234567_big)
+        String key = photo + (small ? SMALL_INDEX : BIG_INDEX);
+        if (userPhotos.containsKey(key)) {
+            return userPhotos.get(key);
+        } else if(small) {
+            return userPhotos.get(DEFAULT_SMALL);
+        } else {
+            return userPhotos.get(DEFAULT_BIG);
+        }
     }
 }

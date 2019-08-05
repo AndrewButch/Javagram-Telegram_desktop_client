@@ -3,6 +3,8 @@ package View.Forms;
 import View.Resources;
 import View.WindowComponents.ComponentMover;
 import View.WindowComponents.ComponentResizer;
+import View.WindowManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -57,7 +59,7 @@ public class Decoration extends JPanel {
         });
 
         componentMover = new ComponentMover(frame, titlePanel);
-        componentResizer = new ComponentResizer(frame);
+//        componentResizer = new ComponentResizer(frame);
         background = Resources.getImage(Resources.BACKGROUND);
     }
 
@@ -68,7 +70,8 @@ public class Decoration extends JPanel {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(background, 0, 0, null);
+                Image bgImg = background.getScaledInstance(WindowManager.getFrame().getWidth(), WindowManager.getFrame().getHeight(), 5);
+                g.drawImage(bgImg, 0, 0, null);
             }
         };
     }
@@ -84,7 +87,7 @@ public class Decoration extends JPanel {
     }
 
     public Component getContentPanel() {
-        return contentPanel.getComponent(0);
+        return contentPanel;
     }
 
 }
