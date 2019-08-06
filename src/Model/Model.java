@@ -309,7 +309,13 @@ public class Model {
     public synchronized void addMessage(int contactId, Message msg) {
         LinkedList<Message> messages = getMessageHistoryByUserID(contactId);
         messages.addFirst(msg);
-        dialogList.get(contactId).incrementUnread();
+        ContactListItem contactListItem = dialogList.get(contactId);
+        if (contactListItem != null) {
+            contactListItem.incrementUnread();
+        } else {
+            UserContact contact = model.getContacts(false).get(contactId);
+            dialogList.put(contactId, new ContactListItem(contact, msg));
+        }
     }
 
 
@@ -391,7 +397,7 @@ public class Model {
         return result;
     }
 
-    public ArrayList<Message> messagesSearch( String searchQuery) throws IOException {
+    public ArrayList<Message> messagesSearch(String searchQuery) throws IOException {
 //        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
         TLRequestMessagesSearch search = new TLRequestMessagesSearch(
                 new TLInputPeerEmpty(),searchQuery, new TLInputMessagesFilterEmpty(), -1, -1, 0, Integer.MAX_VALUE, 50);
@@ -412,5 +418,6 @@ public class Model {
         ContactListItem replacedItem = dialogList.get(contactId);
         dialogList.put(contactId, new ContactListItem(userContact, replacedItem.getMessage(), replacedItem.getUnreadCount()));
     }
+
 
 }

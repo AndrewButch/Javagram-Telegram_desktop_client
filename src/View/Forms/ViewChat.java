@@ -316,7 +316,7 @@ public class ViewChat implements IView {
         searchContactTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                presenter.updateSearch(searchContactTextField.getText());
+                presenter.search(searchContactTextField.getText());
             }
         });
         searchContactTextField.addFocusListener(new FocusAdapter() {

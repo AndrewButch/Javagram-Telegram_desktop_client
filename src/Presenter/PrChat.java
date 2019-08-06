@@ -215,13 +215,19 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         view.getContactsJList().setSelectedIndex(selected);
     }
 
-    public void updateSearch(String search) {
+    public void search(String search) {
+        // Поиск по контактам
+
         DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
         HashMap<Integer, UserContact> contacts = model.getContacts(false);
+
+
         for (Map.Entry<Integer, UserContact> entry : contacts.entrySet()) {
             String userName = entry.getValue().toString();
-            if (userName != null && userName.contains(search)) {
-//                ContactListItem contactItem = new ContactListItem(entry.getValue(), topMessages.get(i));
+            if ("^".equals(search)) {
+                ContactListItem contactItem = new ContactListItem(entry.getValue());
+                modelContacts.addElement(contactItem);
+            } else if (userName != null && userName.contains(search)) {
                 ContactListItem contactItem = new ContactListItem(entry.getValue());
                 modelContacts.addElement(contactItem);
             }
@@ -289,6 +295,11 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         view.setContactLabel(selected.toString());
         BufferedImage photo = Resources.getPhoto(selected.getPhone(), true);
         view.setContactPhoto(photo);
+    }
+
+    public void refreshDialogList() {
+        DefaultListModel<ContactListItem> model = new DefaultListModel<>();
+        model.addElement(model.);
     }
 
     public void updateUserLabel(User updatedUser) {
