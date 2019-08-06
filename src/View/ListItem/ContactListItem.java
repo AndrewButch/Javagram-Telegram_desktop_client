@@ -134,8 +134,6 @@ public class ContactListItem {
                 super.paintComponent(g);
                 g.drawImage(photo, 0, 0, null);
                 g.drawImage(statusBorder, 0, 0, null);
-
-
             }
         };
     }
@@ -146,5 +144,15 @@ public class ContactListItem {
 
     public void incrementUnread() {
         this.unreadCount++;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (this.getUser() == null)
+            return false;
+        ContactListItem item = (ContactListItem) obj;
+        return this.getUser().getId() == item.getUser().getId();
     }
 }

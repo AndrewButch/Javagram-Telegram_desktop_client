@@ -13,6 +13,7 @@ import org.telegram.api.*;
 import org.telegram.api.contacts.TLImportedContacts;
 import org.telegram.api.engine.TelegramApi;
 import org.telegram.api.messages.TLAbsMessages;
+import org.telegram.api.messages.TLAffectedHistory;
 import org.telegram.api.requests.*;
 import org.telegram.tl.TLVector;
 
@@ -258,9 +259,9 @@ public class Model {
 //        return foundedMsg;
 //    }
 
-    public synchronized LinkedList<Message> getMessageHistoryByUserID(int userId) {
+    public synchronized LinkedList<Message> getMessageHistoryByUserID(int userId, boolean forceUpdate) {
         LinkedList<Message> history = contactsMessageHistory.get(userId);
-        if (history == null) {
+        if (history == null || forceUpdate) {
                 try {
                     ArrayList<Message> messages = getMessageHistoryByUserID(userId, 0, Integer.MAX_VALUE, 50);
                     history = new LinkedList<>(messages);
@@ -278,6 +279,13 @@ public class Model {
         try {
 
             messageStatus = bridge.messagesSendMessage(userId, message, randomId);
+            // Создание локального сообщения
+            TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
+            TLMessage tlMessage = new TLMessage(messageStatus.getId(), userId, tlPeerUser, true, true, messageStatus.getDate(), message, null);
+            Message msg = new Message(tlMessage);
+
+            // добавляем локальное сообщение в хранилище
+            model.addMessageToLocal(userId, msg);
         } catch (IOException e) {
             e.printStackTrace();
             return messageStatus;
@@ -306,8 +314,8 @@ public class Model {
     }
 
 
-    public synchronized void addMessage(int contactId, Message msg) {
-        LinkedList<Message> messages = getMessageHistoryByUserID(contactId);
+    public synchronized void addMessageToLocal(int contactId, Message msg) {
+        LinkedList<Message> messages = getMessageHistoryByUserID(contactId, false);
         messages.addFirst(msg);
         ContactListItem contactListItem = dialogList.get(contactId);
         if (contactListItem != null) {
@@ -417,6 +425,13 @@ public class Model {
         UserContact userContact = model.getContacts(true).get(contactId);
         ContactListItem replacedItem = dialogList.get(contactId);
         dialogList.put(contactId, new ContactListItem(userContact, replacedItem.getMessage(), replacedItem.getUnreadCount()));
+    }
+
+    public void deleteContactMessageHistory(int userId) throws IOException {
+        TLAbsInputPeer peer = new TLInputPeerContact(userId);
+        TLRequestMessagesDeleteHistory delete = new TLRequestMessagesDeleteHistory(peer, 0);
+        TLAffectedHistory history = this.api.doRpcCall(delete);
+
     }
 
 

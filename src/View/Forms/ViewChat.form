@@ -38,6 +38,12 @@
         </properties>
         <border type="none"/>
         <children>
+          <component id="bd159" class="javax.swing.JButton" binding="clearMsg">
+            <constraints/>
+            <properties>
+              <text value="clearMessages"/>
+            </properties>
+          </component>
           <component id="8f2ae" class="javax.swing.JButton" binding="updateDialogButton" default-binding="true">
             <constraints/>
             <properties>

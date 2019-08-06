@@ -141,15 +141,15 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
     @Override
     public synchronized Object handle(int i, String s) {
         System.out.println("Add to " + i);
-        if (model.getMessageHistoryByUserID(i) == null) {
+        if (model.getMessageHistoryByUserID(i, false) == null) {
             System.err.println("Пользователя с ID " + i + " нет в контактах");
             return null;
         }
         TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
         TLMessage tlMessage = new TLMessage(0, i, tlPeerUser, false, true, DateUtils.getDateInt(), s, null);
         Message msg = new Message(tlMessage);
-        model.addMessage(i, msg);
-        updateDialogsOrder(i, msg);
+        model.addMessageToLocal(i, msg);
+        updateDialogsOrder(i);
         return null;
     }
 
@@ -159,14 +159,9 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         int messageId = random.nextInt();
         // Отправка сообщения
         MessagesSentMessage sent = model.sendMessage(selectedContactId, message, messageId);
-        // Создание локального сообщения
-        TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
-        TLMessage tlMessage = new TLMessage(sent.getId(), selectedContactId, tlPeerUser, true, true, DateUtils.getDateInt(), message, null);
-        Message msg = new Message(tlMessage);
-
-        // добавляем локальное сообщение в хранилище
-        model.addMessage(selectedContactId, msg);
-        updateDialogsOrder(selectedContactId, msg);
+        if (sent != null) {
+            updateDialogsOrder(selectedContactId);
+        }
         view.clearMessageTextField();
         refreshChat();
     }
@@ -174,7 +169,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
     public synchronized void refreshChat() {
         refreshInterfaceBySelectedContact();
         int userId = this.selectedContact.getUser().getId();
-        LinkedList<Message> messages = model.getMessageHistoryByUserID(userId);
+        LinkedList<Message> messages = model.getMessageHistoryByUserID(userId, false);
         DefaultListModel<MessageItem> model = new DefaultListModel<>();
         Iterator<Message> it =  messages.descendingIterator();
         while (it.hasNext()) {
@@ -187,24 +182,24 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
     }
 
 
-    private synchronized void updateDialogsOrder(int userId, Message msg) {
+    private synchronized void updateDialogsOrder(int userId) {
         // Получаем диалог по ID юзера
         ContactListItem lastMessageAdd = model.getDialogByUserId(userId);
-
+        String lastMessage = model.getMessageHistoryByUserID(userId, false).getLast().getMessage();
         DefaultListModel<ContactListItem> contactModel = view.getModelContacts();
         // Проверям содержит ли модель списка имеющийся диалог
         // Если содержит, то удаляем и вставляем в начало
+
         if (contactModel.contains(lastMessageAdd)) {
             int index = contactModel.indexOf(lastMessageAdd);
             ContactListItem replaceContact = contactModel.get(index);
-            replaceContact.setLastMsg(msg.getMessage());
+            replaceContact.setLastMsg(lastMessage);
             replaceContact.setLastMsgDate(DateUtils.convertIntDateToStringShort(DateUtils.getDateInt()));
-//            replaceContact.incrementUnread();
             contactModel.remove(index);
             contactModel.add(0, replaceContact);
 
         } else {
-            lastMessageAdd.setLastMsg(msg.getMessage());
+            lastMessageAdd.setLastMsg(lastMessage);
             lastMessageAdd.setLastMsgDate(DateUtils.convertIntDateToStringShort(DateUtils.getDateInt()));
             lastMessageAdd.incrementUnread();
             contactModel.add(0, lastMessageAdd);
@@ -299,7 +294,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
 
     public void refreshDialogList() {
         DefaultListModel<ContactListItem> model = new DefaultListModel<>();
-        model.addElement(model.);
+//        model.addElement(model.);
     }
 
     public void updateUserLabel(User updatedUser) {
@@ -328,6 +323,16 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         int index = view.getModelContacts().indexOf(view.getContactListRenderer().getSelectedItem());
         view.getModelContacts().remove(index);
         view.hideContactInterface();
+    }
+
+    public void deleteHistory() {
+        try {
+            int selected = selectedContact.getUser().getId();
+            model.deleteContactMessageHistory(selected);
+            model.getMessageHistoryByUserID(selected, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

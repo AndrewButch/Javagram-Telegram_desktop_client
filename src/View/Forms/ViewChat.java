@@ -70,6 +70,7 @@ public class ViewChat implements IView {
     private JScrollPane messageListScrollPane;
     private JList<MessageItem> messagesJList;
     private JButton updateDialogButton;
+    private JButton clearMsg;
 
     // Изображения
     private BufferedImage logoMicroImg;
@@ -118,6 +119,13 @@ public class ViewChat implements IView {
                 updateDialogs();
             }
         });
+        clearMsg.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presenter.deleteHistory();
+            }
+        });
+
         Thread threadPhoto = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -168,6 +176,7 @@ public class ViewChat implements IView {
                 addContact.getRootPanel().setSize(e.getComponent().getSize());
             }
         });
+
     }
 
     private void createUIComponents() {
