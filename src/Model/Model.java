@@ -1,5 +1,6 @@
 package Model;
 
+import Utils.DateUtils;
 import View.ListItem.ContactListItem;
 import com.oracle.tools.packager.Log;
 import org.javagram.TelegramApiBridge;
@@ -407,10 +408,12 @@ public class Model {
         return result;
     }
 
-    public ArrayList<Message> messagesSearch(String searchQuery) throws IOException {
+    public ArrayList<Message> messagesSearch(String searchQuery, int id) throws IOException {
 //        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
+
+
         TLRequestMessagesSearch search = new TLRequestMessagesSearch(
-                new TLInputPeerEmpty(),searchQuery, new TLInputMessagesFilterEmpty(), -1, -1, 0, Integer.MAX_VALUE, 50);
+                new TLInputPeerEmpty(), searchQuery, new TLInputMessagesFilterEmpty(), -1, DateUtils.getDateInt(), 0, Integer.MAX_VALUE, 50);
         TLAbsMessages absMessages = this.api.doRpcCall(search);
         TLVector<TLAbsMessage> tlAbsMessages = absMessages.getMessages();
         ArrayList<Message> messages = new ArrayList<>();
@@ -439,5 +442,14 @@ public class Model {
 
     public HashMap<Integer, ContactListItem> getDialogList() {
         return dialogList;
+    }
+
+    public void getUsers(ArrayList<Integer> ids) {
+        TLVector<TLInputUserForeign> v = new TLVector();
+        for (int id : ids) {
+            v.add(new TLInputUserForeign(id, ));
+        }
+
+        TLRequestUsersGetUsers users = new TLRequestUsersGetUsers()
     }
 }

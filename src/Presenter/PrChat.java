@@ -227,7 +227,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
             }
         }
         try {
-            ArrayList<Message> messages = model.messagesSearch(search);
+            ArrayList<Message> messages = model.messagesSearch(search, selectedContact.getUser().getId());
             System.err.println("Найдено: " + messages.size() + " сообщений");
         } catch (IOException e) {
             e.printStackTrace();
@@ -247,28 +247,6 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
                 messageIds.add(dialog.getTopMessage());
         }
         return messageIds;
-    }
-
-    /** Получение ID того, кто прислал сообщения */
-    private ArrayList<Integer> getIdFromMessages(ArrayList<Message> messages) {
-        ArrayList<Integer> userIds = new ArrayList<>();
-        for (Message msg : messages) {
-            if (msg.isOut()) {
-                userIds.add(msg.getToId());
-            } else {
-                userIds.add(msg.getFromId());
-            }
-//            if (msg.getToId() == 0 || msg.getFromId() == 0) {
-//                continue;
-//            } else if (user.getId() == msg.getFromId()) {
-//                userIds.add(msg.getToId());
-//            } else {
-//                userIds.add(msg.getFromId());
-//            }
-            System.err.println("Message: " + msg.getMessage().replace("\n", " ") + "\nFrom: " + msg.getFromId() + "\tTo: " + msg.getToId() );
-        }
-        System.err.println("------------------------------------------------\n");
-        return userIds;
     }
 
     public ContactListItem getSelectedContact() {
