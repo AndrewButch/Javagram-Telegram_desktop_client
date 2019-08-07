@@ -35,7 +35,9 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         Thread contactListThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                setDialogList();
+                updateDialogsLocal();
+                refreshDialogList();
+//                updatePhoto();
             }
         });
         contactListThread.start();
@@ -51,19 +53,11 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
      *  На основании сообщений, упорядоченных по убыванию даты (делает Telegram)
      *  формируем список контактов
      *  */
-    public void setDialogList() {
-        // TODO разбить на методы
-        HashMap<Integer, UserContact> contacts = model.getContacts(true);
-
-        // загрузить фото
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Resources.loadPhotos(model.getContacts(false));
-//            }
-//        });
-//        thread.start();
-
+    public void updateDialogsLocal() {
+        while(!model.updateContacts()) {
+            System.err.println("Неудалось обновить контакты");
+        }
+        HashMap<Integer, UserContact> contacts = model.getContacts();
 
         ArrayList<Dialog> dialogs = model.getDialogs();
         ArrayList<Integer> dialogsTopMsgIds = getDialogsTopMsgIds(dialogs);
@@ -73,11 +67,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
             e.printStackTrace();
         }
         ArrayList<Message> dialogTopMsgs = model.getMessagesById(dialogsTopMsgIds);
-        ArrayList<Integer> dialogContactIds = getIdFromMessages(dialogTopMsgs);
-        ArrayList<User> dialogContact = model.getUsersById(dialogContactIds);   //
-        ArrayList<ContactStatus> dialogContactStatuses = model.getContactStatuses();
 
-        DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
         for (Dialog d : dialogs) {
             int msgId = d.getTopMessage();
             for (int i = 0; i < dialogTopMsgs.size(); i++) {
@@ -90,6 +80,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
                         contactId = topMessage.getFromId();
                     }
                     UserContact userContact = contacts.get(contactId);
+                    // проверка на пользователя телеграм
                     if (userContact == null) {
                         if (contactId == 777000) {
                             userContact = new UserContact(new TLUserContact(contactId, "Telegram", "", 0, "", null, new TLUserStatusOffline()));
@@ -100,14 +91,14 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
 
                     ContactListItem contactItem = new ContactListItem(userContact, topMessage, d.getUnreadCount());
                     // добавление элемента в модель списка
-                    modelContacts.addElement(contactItem);
                     // сохраненеи элемента с привязкой к ID контакта
                     model.addDialog(contactItem.getUser().getId(), contactItem);
                 }
             }
         }
 
-        view.showDialogs(modelContacts);
+
+
 
 
 //        Thread t1 = new Thread(new Runnable() {
@@ -166,6 +157,14 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         refreshChat();
     }
 
+    public void updatePhoto() {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                Resources.loadPhotos(model.getContacts());
+            }
+        });
+    }
+
     public synchronized void refreshChat() {
         refreshInterfaceBySelectedContact();
         int userId = this.selectedContact.getUser().getId();
@@ -214,7 +213,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         // Поиск по контактам
 
         DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
-        HashMap<Integer, UserContact> contacts = model.getContacts(false);
+        HashMap<Integer, UserContact> contacts = model.getContacts();
 
 
         for (Map.Entry<Integer, UserContact> entry : contacts.entrySet()) {
@@ -293,8 +292,11 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
     }
 
     public void refreshDialogList() {
-        DefaultListModel<ContactListItem> model = new DefaultListModel<>();
-//        model.addElement(model.);
+        DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
+       for (ContactListItem item : model.getDialogList().values()) {
+           modelContacts.addElement(item);
+       }
+        view.showDialogs(modelContacts);
     }
 
     public void updateUserLabel(User updatedUser) {
@@ -311,7 +313,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
             user = updatedUser;
             view.setUserLabel(user.toString());
         } else {
-//            setDialogList();
+//            updateDialogsLocal();
             model.updateLocalDialog(updatedUser.getId());
             int index = view.getModelContacts().indexOf(selectedContact);
             ContactListItem contactListItem = model.getDialogByUserId(updatedUser.getId());
