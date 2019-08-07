@@ -19,10 +19,7 @@ import org.telegram.tl.TLVector;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Model {
     private final int request_interval = 5000;
@@ -49,7 +46,7 @@ public class Model {
     // Список контактов
     private volatile HashMap<Integer, UserContact> contacts; // <contactId, UserContact>
     // Список диалогов
-    private volatile HashMap<Integer, ContactListItem> dialogList = new HashMap<>(); // <contactId, ContactListItem>
+    private volatile LinkedHashMap<Integer, ContactListItem> dialogList = new LinkedHashMap<>(); // <contactId, ContactListItem>
 
 
     private Model() {
@@ -135,21 +132,25 @@ public class Model {
     }
 
     /** Получение контактов из Telegram*/
-    public synchronized HashMap<Integer, UserContact> getContacts(boolean forceUpdate) {
-        if (contacts == null || forceUpdate) {
-
-            try {
-                ArrayList<UserContact> conts = bridge.contactsGetContacts();
-                contacts = new HashMap<>();
-                for (UserContact cont : conts) {
-                    contacts.put(cont.getId(), cont);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                return contacts;
-            }
+    public synchronized HashMap<Integer, UserContact> getContacts() {
+        if (this.contacts == null) {
+            updateContacts();
         }
-        return contacts;
+        return this.contacts;
+    }
+
+    public synchronized boolean updateContacts() {
+        try {
+            ArrayList<UserContact> conts = bridge.contactsGetContacts();
+            this.contacts = new HashMap<>();
+            for (UserContact cont : conts) {
+                this.contacts.put(cont.getId(), cont);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public ArrayList<ContactStatus> getContactStatuses() {
@@ -321,7 +322,7 @@ public class Model {
         if (contactListItem != null) {
             contactListItem.incrementUnread();
         } else {
-            UserContact contact = model.getContacts(false).get(contactId);
+            UserContact contact = getContacts().get(contactId);
             dialogList.put(contactId, new ContactListItem(contact, msg));
         }
     }
@@ -393,7 +394,8 @@ public class Model {
         boolean result = false;
         try {
             result = bridge.contactsDeleteContact(userId);
-            contacts = getContacts(true);
+            updateContacts();
+            contacts = getContacts();
         } catch (IOException e) {
             e.printStackTrace();
             return result;
@@ -422,7 +424,8 @@ public class Model {
     }
 
     public void updateLocalDialog(int contactId) {
-        UserContact userContact = model.getContacts(true).get(contactId);
+        updateContacts();
+        UserContact userContact = getContacts().get(contactId);
         ContactListItem replacedItem = dialogList.get(contactId);
         dialogList.put(contactId, new ContactListItem(userContact, replacedItem.getMessage(), replacedItem.getUnreadCount()));
     }
@@ -434,5 +437,7 @@ public class Model {
 
     }
 
-
+    public HashMap<Integer, ContactListItem> getDialogList() {
+        return dialogList;
+    }
 }

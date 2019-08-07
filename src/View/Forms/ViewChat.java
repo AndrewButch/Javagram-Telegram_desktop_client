@@ -116,7 +116,13 @@ public class ViewChat implements IView {
         updateDialogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateDialogs();
+                javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                    public void run() {
+                        updateDialogs();
+                    }
+                });
+
+
             }
         });
         clearMsg.addActionListener(new ActionListener() {
@@ -352,7 +358,7 @@ public class ViewChat implements IView {
             public void actionPerformed(ActionEvent e) {
                 searchContactTextField.setText("");
                 searchContactTextField.requestFocus();
-                presenter.setDialogList();
+                presenter.refreshDialogList();
             }
         });
 
@@ -519,7 +525,8 @@ public class ViewChat implements IView {
     }
 
     public void updateDialogs() {
-        presenter.setDialogList();
+        presenter.updateDialogsLocal();
+        presenter.refreshDialogList();
     }
 
     public void setContactLabel(String userName) {

@@ -46,7 +46,8 @@ public class PrAddContact implements IPresenter {
                     e1.printStackTrace();
                 }
                 if (importedId != 0) {
-                    UserContact contact = model.getContacts(true).get(importedId);
+                    model.updateContacts();
+                    UserContact contact = model.getContacts().get(importedId);
                     ContactListItem item = new ContactListItem(contact);
                     model.addDialog(importedId, item);
                     prChat.cleatSelectedContact();

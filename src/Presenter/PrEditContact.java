@@ -28,7 +28,7 @@ public class PrEditContact implements IPresenter {
                 // TODO SAVE SETTING (НЕ работает метод в Bridge)
                 System.err.println("EditContact Сохранить");
                 ContactListItem selectedContact = prChat.getSelectedContact();
-                UserContact contact = model.getContacts(false).get(selectedContact.getUser().getId());
+                UserContact contact = model.getContacts().get(selectedContact.getUser().getId());
                 String name = view.getNameTF().getText();
                 try {
                     if (contact != null) {
@@ -52,8 +52,8 @@ public class PrEditContact implements IPresenter {
                 model.deleteContact(prChat.getSelectedContact().getUser().getId());
                 // Удалить выбранный контакт из списка диалогов,сбросить селект и спрятать интерфейс
                 prChat.deleteDialog();
-
-                model.getContacts(true);
+                model.updateContacts();
+                model.getContacts();
                 view.getRootPanel().setVisible(false);
                 System.err.println("EditContact Удалить контакт");
             }
