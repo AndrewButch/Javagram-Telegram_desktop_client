@@ -408,22 +408,44 @@ public class Model {
         return result;
     }
 
-    public ArrayList<Message> messagesSearch(String searchQuery, int id) throws IOException {
+    public ArrayList<ContactListItem> messagesSearch(String searchQuery) throws IOException {
 //        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
-
 
         TLRequestMessagesSearch search = new TLRequestMessagesSearch(
                 new TLInputPeerEmpty(), searchQuery, new TLInputMessagesFilterEmpty(), -1, DateUtils.getDateInt(), 0, Integer.MAX_VALUE, 50);
         TLAbsMessages absMessages = this.api.doRpcCall(search);
+        // Собираем сообщения
         TLVector<TLAbsMessage> tlAbsMessages = absMessages.getMessages();
         ArrayList<Message> messages = new ArrayList<>();
         Iterator var7 = tlAbsMessages.iterator();
-
         while (var7.hasNext()) {
             TLAbsMessage tlMessage = (TLAbsMessage) var7.next();
             messages.add(new Message(tlMessage));
         }
-        return messages;
+        // Собираем пользователей
+        ArrayList<User> users = new ArrayList<>();
+        TLVector<TLAbsUser> tlAbsUsers = absMessages.getUsers();
+        Iterator var8 = tlAbsUsers.iterator();
+        while (var8.hasNext()) {
+            TLAbsUser tlAbsUser = (TLAbsUser) var8.next();
+            users.add(new User(tlAbsUser));
+        }
+        // заполняем результат
+        ArrayList<ContactListItem> result = new ArrayList<>();
+        for (Message msg : messages) {
+            int contactId;
+            if (msg.isOut()) {
+                contactId = msg.getToId();
+            } else {
+                contactId = msg.getToId();
+            }
+            UserContact contact = contacts.get(contactId);
+            if (contact != null) {
+                ContactListItem listItem = new ContactListItem(contact, msg, 0);
+                result.add(listItem);
+            }
+        }
+        return result;
     }
 
     public void updateLocalDialog(int contactId) {
@@ -444,12 +466,4 @@ public class Model {
         return dialogList;
     }
 
-    public void getUsers(ArrayList<Integer> ids) {
-        TLVector<TLInputUserForeign> v = new TLVector();
-        for (int id : ids) {
-            v.add(new TLInputUserForeign(id, ));
-        }
-
-        TLRequestUsersGetUsers users = new TLRequestUsersGetUsers()
-    }
 }

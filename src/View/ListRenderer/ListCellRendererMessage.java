@@ -28,6 +28,14 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
     public Component getListCellRendererComponent(JList<? extends MessageItem> list, MessageItem value, int index, boolean isSelected, boolean cellHasFocus) {
         // Визуальная настройка сообщения
         setupMessage(value);
+        if (isSelected) {
+            System.err.println("Сообщение выделено");
+            getRootPanel().setBackground(list.getSelectionBackground());
+            getRootPanel().setForeground(list.getSelectionForeground());
+        } else {
+            getRootPanel().setBackground(list.getBackground());
+            getRootPanel().setForeground(list.getForeground());
+        }
         String text = "";
         text = value.getMessage().getMessage();
         text = text == null ? "" : text;

@@ -227,8 +227,10 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
             }
         }
         try {
-            ArrayList<Message> messages = model.messagesSearch(search, selectedContact.getUser().getId());
-            System.err.println("Найдено: " + messages.size() + " сообщений");
+            ArrayList<ContactListItem> result = model.messagesSearch(search);
+            for (ContactListItem item : result) {
+                modelContacts.addElement(item);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
