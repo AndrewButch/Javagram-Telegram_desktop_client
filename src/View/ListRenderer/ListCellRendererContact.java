@@ -74,10 +74,8 @@ public class ListCellRendererContact extends ContactListItem implements ListCell
                 setUserName(user.getFirstName() + " " + user.getLastName());
             }
             setPhoto(value.getPhoto());
-            setLastMsg(value.getLastMsg().getText());
-            setLastMsgDate(value.getLastMsgDate().getText());
+            setMessage(value.getMessage());
             setUnreadCount(value.getUnreadCount() + "");
-
         }
     }
 

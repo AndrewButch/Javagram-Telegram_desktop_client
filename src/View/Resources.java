@@ -83,7 +83,7 @@ public class Resources {
 //        Model model = Model.getInstance();
         try {
             // Получение из контактов изображений больших и маленьких
-//            for (Map.Entry <String, UserContact> entry: model.getContacts(false).entrySet()) {
+//            for (Map.Entry <String, UserContact> entry: model.contactsGetContacts(false).entrySet()) {
             for (Map.Entry <Integer, UserContact> entry : contacts.entrySet()) {
                     photos.put(entry.getValue().getPhone() + SMALL_INDEX, entry.getValue().getPhoto(true));
                     photos.put(entry.getValue().getPhone() + BIG_INDEX, entry.getValue().getPhoto(false));

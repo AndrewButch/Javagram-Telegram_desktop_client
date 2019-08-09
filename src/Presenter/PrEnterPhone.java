@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PrEnterPhone implements IPresenter{
-    public static final String TEST_NUMBER = "9996622222";
+    public static final String TEST_NUMBER = "9996621111";
     private ViewEnterPhone view;
 
     public PrEnterPhone(ViewEnterPhone view) {

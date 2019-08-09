@@ -1,7 +1,6 @@
 package Presenter;
 
 import View.Forms.Modal.ViewEditContact;
-import View.Forms.ViewChat;
 import View.ListItem.ContactListItem;
 import org.javagram.response.object.User;
 import org.javagram.response.object.UserContact;
@@ -28,13 +27,13 @@ public class PrEditContact implements IPresenter {
                 // TODO SAVE SETTING (НЕ работает метод в Bridge)
                 System.err.println("EditContact Сохранить");
                 ContactListItem selectedContact = prChat.getSelectedContact();
-                UserContact contact = model.getContacts().get(selectedContact.getUser().getId());
+                UserContact contact = model.contactsGetContacts().get(selectedContact.getUser().getId());
                 String name = view.getNameTF().getText();
                 try {
                     if (contact != null) {
                         String phoneNumber = contact.getPhone();
                         int id = contact.getId();
-                        User updated = model.updateContactInfo(id, phoneNumber, name, "");
+                        User updated = model.contactUpdateContactInfo(id, phoneNumber, name, "");
                         if (updated != null) {
                             prChat.updateContactInfo(updated);
                         }
@@ -49,11 +48,11 @@ public class PrEditContact implements IPresenter {
         view.getDeleteBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.deleteContact(prChat.getSelectedContact().getUser().getId());
+                model.contactDeleteContact(prChat.getSelectedContact().getUser().getId());
                 // Удалить выбранный контакт из списка диалогов,сбросить селект и спрятать интерфейс
                 prChat.deleteDialog();
-                model.updateContacts();
-                model.getContacts();
+                model.contactsUpdateContacts();
+                model.contactsGetContacts();
                 view.getRootPanel().setVisible(false);
                 System.err.println("EditContact Удалить контакт");
             }

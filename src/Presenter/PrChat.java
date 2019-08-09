@@ -54,19 +54,19 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
      *  формируем список контактов
      *  */
     public void updateDialogsLocal() {
-        while(!model.updateContacts()) {
+        while(!model.contactsUpdateContacts()) {
             System.err.println("Неудалось обновить контакты");
         }
-        HashMap<Integer, UserContact> contacts = model.getContacts();
+        HashMap<Integer, UserContact> contacts = model.contactsGetContacts();
 
-        ArrayList<Dialog> dialogs = model.getDialogs();
+        ArrayList<Dialog> dialogs = model.dialogGetDialogs();
         ArrayList<Integer> dialogsTopMsgIds = getDialogsTopMsgIds(dialogs);
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ArrayList<Message> dialogTopMsgs = model.getMessagesById(dialogsTopMsgIds);
+        ArrayList<Message> dialogTopMsgs = model.messageGetMessagesById(dialogsTopMsgIds);
 
         for (Dialog d : dialogs) {
             int msgId = d.getTopMessage();
@@ -92,7 +92,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
                     ContactListItem contactItem = new ContactListItem(userContact, topMessage, d.getUnreadCount());
                     // добавление элемента в модель списка
                     // сохраненеи элемента с привязкой к ID контакта
-                    model.addDialog(contactItem.getUser().getId(), contactItem);
+                    model.dialogAddDialogToLocal(contactItem.getUser().getId(), contactItem);
                 }
             }
         }
@@ -132,14 +132,14 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
     @Override
     public synchronized Object handle(int i, String s) {
         System.out.println("Add to " + i);
-        if (model.getMessageHistoryByUserID(i, false) == null) {
+        if (model.messageGetMessageHistoryByUserID(i, false) == null) {
             System.err.println("Пользователя с ID " + i + " нет в контактах");
             return null;
         }
         TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
         TLMessage tlMessage = new TLMessage(0, i, tlPeerUser, false, true, DateUtils.getDateInt(), s, null);
         Message msg = new Message(tlMessage);
-        model.addMessageToLocal(i, msg);
+        model.messageAddMessageToLocal(i, msg);
         updateDialogsOrder(i);
         return null;
     }
@@ -149,7 +149,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         // Формироване сообщения
         int messageId = random.nextInt();
         // Отправка сообщения
-        MessagesSentMessage sent = model.sendMessage(selectedContactId, message, messageId);
+        MessagesSentMessage sent = model.messageSendMessage(selectedContactId, message, messageId);
         if (sent != null) {
             updateDialogsOrder(selectedContactId);
         }
@@ -160,7 +160,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
     public void updatePhoto() {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                Resources.loadPhotos(model.getContacts());
+                Resources.loadPhotos(model.contactsGetContacts());
             }
         });
     }
@@ -168,7 +168,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
     public synchronized void refreshChat() {
         refreshInterfaceBySelectedContact();
         int userId = this.selectedContact.getUser().getId();
-        LinkedList<Message> messages = model.getMessageHistoryByUserID(userId, false);
+        LinkedList<Message> messages = model.messageGetMessageHistoryByUserID(userId, false);
         DefaultListModel<MessageItem> model = new DefaultListModel<>();
         Iterator<Message> it =  messages.descendingIterator();
         while (it.hasNext()) {
@@ -183,28 +183,29 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
 
     private synchronized void updateDialogsOrder(int userId) {
         // Получаем диалог по ID юзера
-        ContactListItem lastMessageAdd = model.getDialogByUserId(userId);
-        String lastMessage = model.getMessageHistoryByUserID(userId, false).getLast().getMessage();
+        ContactListItem lastMessageAdd = model.dialogGetDialogByUserId(userId);
+        // Получаем последнее локальное сообщение, для юзера
+        Message lastMessage = model.messageGetMessageHistoryByUserID(userId, false).getFirst();
+
         DefaultListModel<ContactListItem> contactModel = view.getModelContacts();
         // Проверям содержит ли модель списка имеющийся диалог
-        // Если содержит, то удаляем и вставляем в начало
+        // Если содержит, то удаляем и вставляем уже обновленный диалог в начало
 
         if (contactModel.contains(lastMessageAdd)) {
             int index = contactModel.indexOf(lastMessageAdd);
             ContactListItem replaceContact = contactModel.get(index);
-            replaceContact.setLastMsg(lastMessage);
-            replaceContact.setLastMsgDate(DateUtils.convertIntDateToStringShort(DateUtils.getDateInt()));
+            replaceContact.setMessage(lastMessage);
             contactModel.remove(index);
             contactModel.add(0, replaceContact);
 
         } else {
-            lastMessageAdd.setLastMsg(lastMessage);
-            lastMessageAdd.setLastMsgDate(DateUtils.convertIntDateToStringShort(DateUtils.getDateInt()));
+            lastMessageAdd.setMessage(lastMessage);
             lastMessageAdd.incrementUnread();
             contactModel.add(0, lastMessageAdd);
         }
         // Возвращаем select на прежний элемент после изменения порядка
         int selected = contactModel.indexOf(view.getContactListRenderer().getSelectedItem());
+        view.showDialogs(contactModel);
         view.getContactsJList().clearSelection();
         view.getContactsJList().setSelectedIndex(selected);
     }
@@ -213,7 +214,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         // Поиск по контактам
 
         DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
-        HashMap<Integer, UserContact> contacts = model.getContacts();
+        HashMap<Integer, UserContact> contacts = model.contactsGetContacts();
 
 
         for (Map.Entry<Integer, UserContact> entry : contacts.entrySet()) {
@@ -227,7 +228,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
             }
         }
         try {
-            ArrayList<ContactListItem> result = model.messagesSearch(search);
+            ArrayList<ContactListItem> result = model.messageSearchMessage(search);
             for (ContactListItem item : result) {
                 modelContacts.addElement(item);
             }
@@ -273,7 +274,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
 
     public void refreshDialogList() {
         DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
-       for (ContactListItem item : model.getDialogList().values()) {
+       for (ContactListItem item : model.dialogGetDialogList().values()) {
            modelContacts.addElement(item);
        }
         view.showDialogs(modelContacts);
@@ -294,9 +295,9 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
             view.setUserLabel(user.toString());
         } else {
 //            updateDialogsLocal();
-            model.updateLocalDialog(updatedUser.getId());
+            model.dialogUpdateDialogLocal(updatedUser.getId());
             int index = view.getModelContacts().indexOf(selectedContact);
-            ContactListItem contactListItem = model.getDialogByUserId(updatedUser.getId());
+            ContactListItem contactListItem = model.dialogGetDialogByUserId(updatedUser.getId());
             view.getModelContacts().set(index, contactListItem);
         }
     }
@@ -310,8 +311,8 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
     public void deleteHistory() {
         try {
             int selected = selectedContact.getUser().getId();
-            model.deleteContactMessageHistory(selected);
-            model.getMessageHistoryByUserID(selected, true);
+            model.messageDeleteMessageHistory(selected);
+            model.messageGetMessageHistoryByUserID(selected, true);
         } catch (IOException e) {
             e.printStackTrace();
         }

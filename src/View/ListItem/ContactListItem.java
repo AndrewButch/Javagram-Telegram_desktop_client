@@ -31,9 +31,7 @@ public class ContactListItem {
         this.user = userContact;
         this.isOnline = userContact.isOnline();
         if (topMsg != null) {
-            this.message = topMsg;
-            setLastMsg(message.getMessage());
-            setLastMsgDate(DateUtils.convertIntDateToStringShort(message.getDate()));
+            setMessage(topMsg);
         }
         smallPhoto = Resources.getPhoto(Resources.DEFAULT_BIG, false);
         smallPhoto = Resources.getPhoto(userContact.getPhone(), true);
@@ -83,14 +81,6 @@ public class ContactListItem {
         return portraitJPanel;
     }
 
-    public void setPortraitJPanel(JPanel portraitJPanel) {
-        this.portraitJPanel = portraitJPanel;
-    }
-
-    public JLabel getUserName() {
-        return userName;
-    }
-
     public void setUserName(String userName) {
         this.userName.setText(userName);
     }
@@ -107,16 +97,11 @@ public class ContactListItem {
         return isOnline;
     }
 
-    public void setLastMsg(String lastMsg) {
-        this.lastMsg.setText(lastMsg);
-    }
+    public void setMessage(Message msg) {
+        this.message = msg;
+        this.lastMsg.setText(msg.getMessage());
+        this.lastMsgDate.setText(DateUtils.convertIntDateToStringShort(msg.getDate()));
 
-    public JLabel getLastMsgDate() {
-        return lastMsgDate;
-    }
-
-    public void setLastMsgDate(String lastMsgDate) {
-        this.lastMsgDate.setText(lastMsgDate);
     }
 
     public void setUnreadCount(String count) {

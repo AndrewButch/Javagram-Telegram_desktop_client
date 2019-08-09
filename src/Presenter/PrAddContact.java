@@ -41,15 +41,15 @@ public class PrAddContact implements IPresenter {
 
                 int importedId = 0;
                 try {
-                    importedId = model.sendInvite(phoneNumber, firstName, lastName);
+                    importedId = model.contactSendInvite(phoneNumber, firstName, lastName);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
                 if (importedId != 0) {
-                    model.updateContacts();
-                    UserContact contact = model.getContacts().get(importedId);
+                    model.contactsUpdateContacts();
+                    UserContact contact = model.contactsGetContacts().get(importedId);
                     ContactListItem item = new ContactListItem(contact);
-                    model.addDialog(importedId, item);
+                    model.dialogAddDialogToLocal(importedId, item);
                     prChat.cleatSelectedContact();
                     prChat.setSelectedContact(item);
                     prChat.refreshChat();

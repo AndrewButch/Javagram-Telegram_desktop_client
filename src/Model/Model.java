@@ -121,94 +121,22 @@ public class Model {
         }
     }
 
-    public User getSelfUser() {
-        if (selfUser == null) {
-            if (authorization == null) {
-                return null;
-            } else {
-                selfUser = authorization.getUser();
-            }
-        }
-        return selfUser;
+    public String getPhone() {
+        return phone;
     }
 
-    /** Получение контактов из Telegram*/
-    public synchronized HashMap<Integer, UserContact> getContacts() {
-        if (this.contacts == null) {
-            updateContacts();
-        }
-        return this.contacts;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public synchronized boolean updateContacts() {
-        try {
-            ArrayList<UserContact> conts = bridge.contactsGetContacts();
-            this.contacts = new HashMap<>();
-            for (UserContact cont : conts) {
-                this.contacts.put(cont.getId(), cont);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+    public String getSmsCode() {
+        return smsCode;
     }
 
-    public ArrayList<ContactStatus> getContactStatuses() {
-        ArrayList<ContactStatus> statuses = null;
-        try {
-            statuses = bridge.contactsGetStatuses();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return statuses;
-        }
-        return statuses;
+    public void setSmsCode(String smsCode) {
+        this.smsCode = smsCode;
     }
 
-    /** Получение контакта из локального хранилища по номеру телефона */
-    public ArrayList<Dialog> getDialogs() {
-        ArrayList<Dialog> dialogs = null;
-            try {
-                dialogs = bridge.messagesGetDialogs(0, Integer.MAX_VALUE, 0);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return dialogs;
-            }
-        return dialogs;
-    }
-
-    public void addDialog(int userId, ContactListItem dialog) {
-        dialogList.put(userId, dialog);
-    }
-
-    public ContactListItem getDialogByUserId(int userId) {
-        return dialogList.get(userId);
-
-    }
-
-
-    public ArrayList<Message> getMessagesById(ArrayList<Integer> ids) {
-        ArrayList<Message> messages = null;
-        try {
-            messages = bridge.messagesGetMessages(ids);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return messages;
-        }
-        return messages;
-    }
-
-    public ArrayList<User> getUsersById(ArrayList<Integer> ids) {
-        ArrayList<User> users = null;
-        try {
-            users = bridge.usersGetUsers(ids);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return users;
-        }
-        return users;
-
-    }
 
     /**
      * Получаем приватный объект TelegramApi используем рефлексию java.
@@ -228,108 +156,40 @@ public class Model {
         return api;
     }
 
-    /**
-     * Это фактически чуть-чуть измененный метод класса TelegramApiBridge. Сравните их - увидите,
-     * что сюда передаем еще параметр контакта целевого (его Id = userContact.getId()).
-     * @param userId
-     * @param offset
-     * @param maxId
-     * @param limit
-     * @return
-     * @throws IOException
-     */
-    private ArrayList<Message> getMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
-        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
-        TLVector<TLAbsMessage> tlAbsMessages = ((TLAbsMessages) getTelegramApi(bridge).doRpcCall(request)).getMessages();
-        ArrayList<Message> messages = new ArrayList<>();
-        Iterator var7 = tlAbsMessages.iterator();
-
-        while (var7.hasNext()) {
-            TLAbsMessage tlMessage = (TLAbsMessage) var7.next();
-            messages.add(new Message(tlMessage));
+    public User getSelfUser() {
+        if (selfUser == null) {
+            if (authorization == null) {
+                return null;
+            } else {
+                selfUser = authorization.getUser();
+            }
         }
-        return messages;
+        return selfUser;
     }
 
-//    private synchronized ArrayList<Message> getMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
-//        ArrayList<Message> foundedMsg = new ArrayList();
-//        for (Message msg : bridge.messageGetHistory()) {
-//            if (msg.getFromId() == userId || msg.getToId() == userId) {
-//                foundedMsg.add(msg);
-//            }
-//        }
-//        return foundedMsg;
-//    }
-
-    public synchronized LinkedList<Message> getMessageHistoryByUserID(int userId, boolean forceUpdate) {
-        LinkedList<Message> history = contactsMessageHistory.get(userId);
-        if (history == null || forceUpdate) {
-                try {
-                    ArrayList<Message> messages = getMessageHistoryByUserID(userId, 0, Integer.MAX_VALUE, 50);
-                    history = new LinkedList<>(messages);
-                    contactsMessageHistory.put(userId, history);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return history;
-                }
+    /** Получение контактов из Telegram*/
+    public synchronized HashMap<Integer, UserContact> contactsGetContacts() {
+        if (this.contacts == null) {
+            contactsUpdateContacts();
         }
-        return history;
+        return this.contacts;
     }
 
-    public MessagesSentMessage sendMessage(int userId, String message, long randomId) {
-        MessagesSentMessage messageStatus = null;
+    public synchronized boolean contactsUpdateContacts() {
         try {
-
-            messageStatus = bridge.messagesSendMessage(userId, message, randomId);
-            // Создание локального сообщения
-            TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
-            TLMessage tlMessage = new TLMessage(messageStatus.getId(), userId, tlPeerUser, true, true, messageStatus.getDate(), message, null);
-            Message msg = new Message(tlMessage);
-
-            // добавляем локальное сообщение в хранилище
-            model.addMessageToLocal(userId, msg);
+            ArrayList<UserContact> conts = bridge.contactsGetContacts();
+            this.contacts = new HashMap<>();
+            for (UserContact cont : conts) {
+                this.contacts.put(cont.getId(), cont);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            return messageStatus;
+            return false;
         }
-        return messageStatus;
+        return true;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getSmsCode() {
-        return smsCode;
-    }
-
-    public void setSmsCode(String smsCode) {
-        this.smsCode = smsCode;
-    }
-
-    public void setMessageHandler(IncomingMessageHandler handler) {
-        bridge.setIncomingMessageHandler(handler);
-    }
-
-
-    public synchronized void addMessageToLocal(int contactId, Message msg) {
-        LinkedList<Message> messages = getMessageHistoryByUserID(contactId, false);
-        messages.addFirst(msg);
-        ContactListItem contactListItem = dialogList.get(contactId);
-        if (contactListItem != null) {
-            contactListItem.incrementUnread();
-        } else {
-            UserContact contact = getContacts().get(contactId);
-            dialogList.put(contactId, new ContactListItem(contact, msg));
-        }
-    }
-
-
-    public int sendInvite(String phoneNumber, String firstName, String lastName) throws IOException {
+    public int contactSendInvite(String phoneNumber, String firstName, String lastName) throws IOException {
         firstName = firstName.replaceAll("\\\\s+", " ");
         lastName = lastName.replaceAll("\\\\s+", " ");
 
@@ -350,19 +210,7 @@ public class Model {
         return importedId;
     }
 
-    public User updateProfileInfo(String newFirstName, String newLastName) throws IOException {
-        newFirstName = newFirstName.replaceAll("\\\\s+", " ");
-        newLastName = newLastName.replaceAll("\\\\s+", " ");
-
-        User updatedUser = null;
-        updatedUser = bridge.accountUpdateUsername(newFirstName, newLastName);
-        selfUser = updatedUser;
-        System.err.println("Обновленный пользователь: " + updatedUser);
-
-        return updatedUser;
-    }
-
-    public User updateContactInfo(int id, String phoneNumber, String newFirstName, String newLastName) throws IOException {
+    public User contactUpdateContactInfo(int id, String phoneNumber, String newFirstName, String newLastName) throws IOException {
         newFirstName = newFirstName.replaceAll("\\\\s+", " ");
         newLastName = newLastName.replaceAll("\\\\s+", " ");
 
@@ -385,18 +233,19 @@ public class Model {
         if (importedId != 0) {
             ArrayList<Integer> ids = new ArrayList<>();
             ids.add(importedId);
-            ArrayList<User> users = getUsersById(ids);
+            ArrayList<User> users = userGetUsersById(ids);
             return users.get(0);
         }
         return null;
     }
 
-    public boolean deleteContact(int userId) {
+
+    public boolean contactDeleteContact(int userId) {
         boolean result = false;
         try {
             result = bridge.contactsDeleteContact(userId);
-            updateContacts();
-            contacts = getContacts();
+            contactsUpdateContacts();
+            contacts = contactsGetContacts();
         } catch (IOException e) {
             e.printStackTrace();
             return result;
@@ -408,7 +257,122 @@ public class Model {
         return result;
     }
 
-    public ArrayList<ContactListItem> messagesSearch(String searchQuery) throws IOException {
+    /** Получение контакта из локального хранилища по номеру телефона */
+    public ArrayList<Dialog> dialogGetDialogs() {
+        ArrayList<Dialog> dialogs = null;
+            try {
+                dialogs = bridge.messagesGetDialogs(0, Integer.MAX_VALUE, 0);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return dialogs;
+            }
+        return dialogs;
+    }
+
+    public void dialogAddDialogToLocal(int userId, ContactListItem dialog) {
+        dialogList.put(userId, dialog);
+    }
+
+    public ContactListItem dialogGetDialogByUserId(int userId) {
+        return dialogList.get(userId);
+
+    }
+
+    public HashMap<Integer, ContactListItem> dialogGetDialogList() {
+        return dialogList;
+    }
+
+    public void dialogUpdateDialogLocal(int contactId) {
+        contactsUpdateContacts();
+        UserContact userContact = contactsGetContacts().get(contactId);
+        ContactListItem replacedItem = dialogList.get(contactId);
+        dialogList.put(contactId, new ContactListItem(userContact, replacedItem.getMessage(), replacedItem.getUnreadCount()));
+    }
+
+
+    public ArrayList<Message> messageGetMessagesById(ArrayList<Integer> ids) {
+        ArrayList<Message> messages = null;
+        try {
+            messages = bridge.messagesGetMessages(ids);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return messages;
+        }
+        return messages;
+    }
+
+
+
+
+
+    /**
+     * Это фактически чуть-чуть измененный метод класса TelegramApiBridge. Сравните их - увидите,
+     * что сюда передаем еще параметр контакта целевого (его Id = userContact.getId()).
+     * @param userId
+     * @param offset
+     * @param maxId
+     * @param limit
+     * @return
+     * @throws IOException
+     */
+    private ArrayList<Message> messageGetMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
+        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
+        TLVector<TLAbsMessage> tlAbsMessages = ((TLAbsMessages) getTelegramApi(bridge).doRpcCall(request)).getMessages();
+        ArrayList<Message> messages = new ArrayList<>();
+        Iterator var7 = tlAbsMessages.iterator();
+
+        while (var7.hasNext()) {
+            TLAbsMessage tlMessage = (TLAbsMessage) var7.next();
+            messages.add(new Message(tlMessage));
+        }
+        return messages;
+    }
+
+//    private synchronized ArrayList<Message> messageGetMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
+//        ArrayList<Message> foundedMsg = new ArrayList();
+//        for (Message msg : bridge.messageGetHistory()) {
+//            if (msg.getFromId() == userId || msg.getToId() == userId) {
+//                foundedMsg.add(msg);
+//            }
+//        }
+//        return foundedMsg;
+//    }
+
+    public synchronized LinkedList<Message> messageGetMessageHistoryByUserID(int userId, boolean forceUpdate) {
+        LinkedList<Message> history = contactsMessageHistory.get(userId);
+        if (history == null || forceUpdate) {
+                try {
+                    ArrayList<Message> messages = messageGetMessageHistoryByUserID(userId, 0, Integer.MAX_VALUE, 50);
+                    history = new LinkedList<>(messages);
+                    contactsMessageHistory.put(userId, history);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return history;
+                }
+        }
+        return history;
+    }
+
+    public MessagesSentMessage messageSendMessage(int userId, String message, long randomId) {
+        MessagesSentMessage messageStatus = null;
+        try {
+
+            messageStatus = bridge.messagesSendMessage(userId, message, randomId);
+            // Создание локального сообщения
+            TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
+            TLMessage tlMessage = new TLMessage(messageStatus.getId(), userId, tlPeerUser, true, true, messageStatus.getDate(), message, null);
+            Message msg = new Message(tlMessage);
+
+            // добавляем локальное сообщение в хранилище
+            model.messageAddMessageToLocal(userId, msg);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return messageStatus;
+        }
+        return messageStatus;
+    }
+
+    public ArrayList<ContactListItem> messageSearchMessage(String searchQuery) throws IOException {
 //        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
 
         TLRequestMessagesSearch search = new TLRequestMessagesSearch(
@@ -448,22 +412,64 @@ public class Model {
         return result;
     }
 
-    public void updateLocalDialog(int contactId) {
-        updateContacts();
-        UserContact userContact = getContacts().get(contactId);
-        ContactListItem replacedItem = dialogList.get(contactId);
-        dialogList.put(contactId, new ContactListItem(userContact, replacedItem.getMessage(), replacedItem.getUnreadCount()));
+    public synchronized void messageAddMessageToLocal(int contactId, Message msg) {
+        LinkedList<Message> messages = messageGetMessageHistoryByUserID(contactId, false);
+        messages.addFirst(msg);
+        ContactListItem contactListItem = dialogList.get(contactId);
+        if (contactListItem != null) {
+            contactListItem.incrementUnread();
+        } else {
+            UserContact contact = contactsGetContacts().get(contactId);
+            dialogList.put(contactId, new ContactListItem(contact, msg));
+        }
     }
 
-    public void deleteContactMessageHistory(int userId) throws IOException {
+    public void messageDeleteMessageHistory(int userId) throws IOException {
         TLAbsInputPeer peer = new TLInputPeerContact(userId);
         TLRequestMessagesDeleteHistory delete = new TLRequestMessagesDeleteHistory(peer, 0);
         TLAffectedHistory history = this.api.doRpcCall(delete);
 
     }
 
-    public HashMap<Integer, ContactListItem> getDialogList() {
-        return dialogList;
+
+    public void setMessageHandler(IncomingMessageHandler handler) {
+        bridge.setIncomingMessageHandler(handler);
     }
+
+    public ArrayList<User> userGetUsersById(ArrayList<Integer> ids) {
+        ArrayList<User> users = null;
+        try {
+            users = bridge.usersGetUsers(ids);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return users;
+        }
+        return users;
+
+    }
+
+
+
+    public User updateProfileInfo(String newFirstName, String newLastName) throws IOException {
+        newFirstName = newFirstName.replaceAll("\\\\s+", " ");
+        newLastName = newLastName.replaceAll("\\\\s+", " ");
+
+        User updatedUser = null;
+        updatedUser = bridge.accountUpdateUsername(newFirstName, newLastName);
+        selfUser = updatedUser;
+        System.err.println("Обновленный пользователь: " + updatedUser);
+
+        return updatedUser;
+    }
+
+
+
+
+
+
+
+
+
+
 
 }
