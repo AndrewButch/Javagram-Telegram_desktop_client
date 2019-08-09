@@ -169,13 +169,27 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         refreshInterfaceBySelectedContact();
         int userId = this.selectedContact.getUser().getId();
         LinkedList<Message> messages = model.getMessageHistoryByUserID(userId, false);
-        DefaultListModel<MessageItem> model = new DefaultListModel<>();
+        DefaultListModel<MessageItem> listModel = new DefaultListModel<>();
         Iterator<Message> it =  messages.descendingIterator();
         while (it.hasNext()) {
             Message msg = it.next();
-            model.addElement(new MessageItem(msg));
+            listModel.addElement(new MessageItem(msg));
+
         }
-        view.showMessages(model);
+        view.showMessages(listModel);
+//        if (selectedContact.getMessage() != null) {
+//            ListModel<MessageItem> listModel1 = view.getMessagesJList().getModel();
+//            for (int i = 0; i < listModel1.getSize(); i++) {
+//                MessageItem item = listModel1.getElementAt(i);
+//
+//                if (item.getMessage().getId() == selectedContact.getMessage().getId()) {
+//                    view.getMessagesJList().setSelectedIndex(i);
+//                    break;
+//                }
+//
+//            }
+//        }
+
         view.scrollMessagesToEnd();
         view.showContactInterface();
     }

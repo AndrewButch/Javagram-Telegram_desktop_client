@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 
 public class ListCellRendererMessage extends MessageItem implements ListCellRenderer<MessageItem> {
-    private static final int MAX_ROW_LENGHT = 30; // максимальное кол-во символов в одной строке сообщения
+    private static final int MAX_ROW_LENGHT = 38; // максимальное кол-во символов в одной строке сообщения
     private static final int ROW_HEIGHT = 20; // высота строки
 
     private BufferedImage topInMessageIMG;
@@ -40,15 +40,9 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
         text = value.getMessage().getMessage();
         text = text == null ? "" : text;
         int rowCount = getRowCount(text);
-        // Определение высоты контейнер сообщения из кол-ва строк сообщения
-        // 1-й параметр вычисляем считая, что в тексте нет переносов строки
-//        int rowCount = text.length() / MAX_ROW_LENGHT;
-        // 2-й параметр считает кол-во переносов строки
-//        int enterCount = StringUtils.countMatches(text, "\n" );
-        // Число строк выбирается, как самый большой параметр (1-й или 2-ой)
-//        rowCount = rowCount < enterCount ? enterCount : rowCount;
-//        rowCount = rowCount + enterCount;
-        int height = ROW_HEIGHT + rowCount * ROW_HEIGHT;
+
+        int height = rowCount * ROW_HEIGHT;
+//        Font font = new Font("Helvetica", Font.PLAIN, 12);
         getMessageJTextPane().setPreferredSize(new Dimension(308, height));
         getMessageJTextPane().setSize(new Dimension(308, height));
 
@@ -94,8 +88,8 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
         String[] enterSplitted = message.split("\n");
         int rowCount = 0;
         for (String s : enterSplitted) {
-            // Если разбитое сообщение не содержит символов, значит там только перенос строки и это все равно +1
-            int count = s.length() / MAX_ROW_LENGHT == 0 ? 1 : s.length() / MAX_ROW_LENGHT;
+            // Если разбитое сообщение не содержит символов и это все равно +1
+            int count = s.length() / MAX_ROW_LENGHT + 1;
             rowCount += count ;
         }
         return rowCount;
