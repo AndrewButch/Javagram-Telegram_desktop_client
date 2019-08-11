@@ -3,11 +3,27 @@
   <component name="ChangeListManager">
     <list default="true" id="a397921b-82ef-4e7c-8563-5c696832816c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/photo/default_big.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/photo/default/default_big.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/photo/default_small.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/photo/default/default_small.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Presenter/IPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/Interface/IPresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Presenter/PrAddContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrAddContact.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Presenter/PrChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrChat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Presenter/PrEditContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrEditContact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Presenter/PrEditProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrEditProfile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Presenter/PrEnterPhone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrEnterPhone.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Presenter/PrSMSCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrSMSCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Presenter/PrSignUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrSignUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewAddContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewAddContact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewChat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewSignUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewSignUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/IView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/IView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/View/ListItem/ContactListItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/ListItem/ContactListItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/View/Resources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Resources.java" afterDir="false" />
@@ -37,16 +53,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/Model.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="379" selection-start-line="379" selection-end-line="379" />
+            <state relative-caret-position="238">
+              <caret line="173" column="54" selection-start-line="173" selection-start-column="54" selection-end-line="173" selection-end-column="54" />
               <folding>
-                <element signature="e#5476#5477#0" expanded="true" />
-                <element signature="e#5522#5523#0" expanded="true" />
-                <element signature="e#5436#5437#0" expanded="true" />
-                <element signature="e#5469#5470#0" expanded="true" />
-                <element signature="e#15308#15309#0" expanded="true" />
-                <element signature="e#15365#15366#0" expanded="true" />
-                <element signature="e#11568#12035#0" />
+                <element signature="e#8714#8715#0" expanded="true" />
+                <element signature="e#8760#8761#0" expanded="true" />
+                <element signature="e#8942#8943#0" expanded="true" />
+                <element signature="e#8975#8976#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -55,8 +68,36 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Presenter/PrEditContact.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="426">
-              <caret line="35" column="60" selection-start-line="35" selection-start-column="60" selection-end-line="35" selection-end-column="60" />
+            <state relative-caret-position="778">
+              <caret line="36" column="31" lean-forward="true" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Presenter/PrChat.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="116">
+              <caret line="153" selection-start-line="153" selection-end-line="153" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#5588#5589#0" expanded="true" />
+                <element signature="e#5669#5670#0" expanded="true" />
+                <element signature="e#10375#10376#0" expanded="true" />
+                <element signature="e#10418#10419#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Presenter/PrEnterPhone.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1152">
+              <caret line="71" selection-start-line="71" selection-end-line="71" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -67,50 +108,68 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewChat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="333" selection-start-line="333" selection-end-line="333" />
+            <state relative-caret-position="426">
+              <caret line="518" selection-start-line="518" selection-end-line="518" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#12564#12565#0" expanded="true" />
-                <element signature="e#15707#15708#0" expanded="true" />
-                <element signature="e#15743#15744#0" expanded="true" />
+                <element signature="e#18927#18928#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Presenter/PrChat.java">
+        <entry file="file://$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="230" selection-start-line="230" selection-end-line="230" />
+            <state relative-caret-position="304">
+              <caret line="68" column="43" selection-start-line="68" selection-start-column="43" selection-end-line="68" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1319#1320#0" expanded="true" />
-                <element signature="e#1346#1347#0" expanded="true" />
-                <element signature="e#4023#4024#0" expanded="true" />
-                <element signature="e#4065#4066#0" expanded="true" />
-                <element signature="e#8854#8855#0" expanded="true" />
-                <element signature="e#8897#8898#0" expanded="true" />
-                <element signature="e#9317#9318#0" expanded="true" />
-                <element signature="e#9355#9356#0" expanded="true" />
-                <element signature="e#9415#9416#0" expanded="true" />
-                <element signature="e#9458#9459#0" expanded="true" />
-                <element signature="e#10385#10386#0" expanded="true" />
-                <element signature="e#10428#10429#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/View/Resources.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="161">
+              <caret line="100" selection-start-line="100" selection-end-line="100" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="167">
+              <caret line="34" selection-start-line="34" selection-end-line="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="169">
+              <caret line="55" selection-start-line="55" selection-end-line="55" />
+              <folding>
+                <element signature="e#1464#1465#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/View/ListItem/ContactListItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="101" selection-start-line="101" selection-end-line="101" />
+            <state relative-caret-position="284">
+              <caret line="38" selection-start-line="38" selection-end-line="38" />
               <folding>
-                <element signature="e#1922#1923#0" expanded="true" />
-                <element signature="e#1957#1958#0" expanded="true" />
+                <element signature="e#3292#3293#0" expanded="true" />
+                <element signature="e#3326#3327#0" expanded="true" />
+                <element signature="e#3363#3364#0" expanded="true" />
+                <element signature="e#3397#3398#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -132,6 +191,7 @@
       <find>UserContact</find>
       <find>searc</find>
       <find>search</find>
+      <find>first</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -154,8 +214,6 @@
         <option value="$PROJECT_DIR$/src/View/Forms/EditForms/ViewEditContact.java" />
         <option value="$PROJECT_DIR$/src/View/FormManager.java" />
         <option value="$PROJECT_DIR$/src/Loader.java" />
-        <option value="$PROJECT_DIR$/src/View/IView.java" />
-        <option value="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/ViewSignUp.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java" />
@@ -167,7 +225,6 @@
         <option value="$PROJECT_DIR$/src/FakeData/FakeTelegramBridge.java" />
         <option value="$PROJECT_DIR$/src/View/ListItem/ContactItem.form" />
         <option value="$PROJECT_DIR$/src/View/WindowComponents/ComponentResizer.java" />
-        <option value="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.form" />
         <option value="$PROJECT_DIR$/src/View/Forms/Decoration.form" />
         <option value="$PROJECT_DIR$/src/View/WindowManager.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/Decoration.java" />
@@ -177,26 +234,29 @@
         <option value="$PROJECT_DIR$/src/Presenter/PrSignUp.java" />
         <option value="$PROJECT_DIR$/src/Utils/DateUtils.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.form" />
-        <option value="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.form" />
         <option value="$PROJECT_DIR$/src/View/Forms/Modal/ViewAddContact.java" />
         <option value="$PROJECT_DIR$/src/View/ListItem/ContactItem.java" />
         <option value="$PROJECT_DIR$/src/View/ListItem/DialogtItem.java" />
-        <option value="$PROJECT_DIR$/src/Presenter/PrAddContact.java" />
-        <option value="$PROJECT_DIR$/src/View/Resources.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditProfile.java" />
-        <option value="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.java" />
-        <option value="$PROJECT_DIR$/src/Presenter/PrEditContact.java" />
         <option value="$PROJECT_DIR$/src/View/ListItem/ContactListItem.form" />
-        <option value="$PROJECT_DIR$/src/Presenter/PrEditProfile.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/ViewChat.form" />
-        <option value="$PROJECT_DIR$/src/View/Forms/ViewChat.java" />
         <option value="$PROJECT_DIR$/lib/ID" />
         <option value="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererMessage.java" />
-        <option value="$PROJECT_DIR$/src/Presenter/PrEnterPhone.java" />
+        <option value="$PROJECT_DIR$/src/Presenter/PrEditContact.java" />
+        <option value="$PROJECT_DIR$/src/Presenter/PrEditProfile.java" />
+        <option value="$PROJECT_DIR$/src/Presenter/PrAddContact.java" />
+        <option value="$PROJECT_DIR$/src/View/IView.java" />
+        <option value="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java" />
+        <option value="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.form" />
+        <option value="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.form" />
         <option value="$PROJECT_DIR$/src/Model/Model.java" />
-        <option value="$PROJECT_DIR$/src/View/ListItem/ContactListItem.java" />
+        <option value="$PROJECT_DIR$/src/Presenter/PrEnterPhone.java" />
         <option value="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java" />
+        <option value="$PROJECT_DIR$/src/View/ListItem/ContactListItem.java" />
+        <option value="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.java" />
         <option value="$PROJECT_DIR$/src/Presenter/PrChat.java" />
+        <option value="$PROJECT_DIR$/src/View/Forms/ViewChat.java" />
+        <option value="$PROJECT_DIR$/src/View/Resources.java" />
       </list>
     </option>
   </component>
@@ -234,26 +294,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
           <expand>
@@ -275,6 +315,32 @@
             <path>
               <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="lib" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Telegram API bridge v2.jar" type="ab9368bb:PsiFileNode" />
+              <item name="org" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="lib" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Telegram API bridge v2.jar" type="ab9368bb:PsiFileNode" />
+              <item name="org" type="462c0819:PsiDirectoryNode" />
+              <item name="javagram" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="photo" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
@@ -287,28 +353,34 @@
               <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Presenter" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Interface" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="Forms" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="ListItem" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="ListRenderer" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
@@ -321,7 +393,7 @@
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH" value="252" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW" value="true" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="299" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1565371597589" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1565527658472" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Unit_10_Homework/PhoneBook" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
@@ -331,11 +403,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="Presenter.Interface" />
       <recent name="" />
       <recent name="Utils" />
       <recent name="View" />
       <recent name="Model" />
-      <recent name="FakeData" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Workspace\Skillbox\Java\Unit_16_Homework\Javagram\lib" />
@@ -349,6 +421,7 @@
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Workspace\Skillbox\Java\Unit_16_Homework\Javagram\res\photo\default" />
       <recent name="D:\Workspace\Skillbox\Java\Unit_16_Homework\Javagram\src\View\ListItem" />
       <recent name="D:\Workspace\Skillbox\Java\Unit_9_Homework\TelegramExperiment\src\Forms\EditForms" />
       <recent name="D:\Workspace\Skillbox\Java\Unit_9_Homework\TelegramExperiment\src\Test" />
@@ -673,7 +746,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565288180334</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="направльная работа всплывания диалога исправлена">
+      <created>1565371644265</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1565371644266</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TodoView">
@@ -693,13 +773,13 @@
       <window_info id="Designer" order="1" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Capture Tool" order="3" />
-      <window_info id="Structure" order="4" sideWeight="0.66558444" side_tool="true" weight="0.22867803" />
+      <window_info id="Structure" order="4" sideWeight="0.2381579" side_tool="true" visible="true" weight="0.14605543" />
       <window_info id="Favorites" order="5" sideWeight="0.54310346" side_tool="true" weight="0.25053304" />
-      <window_info content_ui="combo" id="Project" order="6" sideWeight="0.33441558" visible="true" weight="0.22867803" />
+      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.76184213" visible="true" weight="0.14605543" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.5779221" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.5952381" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.5768398" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.10497835" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" visible="true" weight="0.17748918" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32816228" />
@@ -801,7 +881,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Add interface IView. All Views implements IView" />
     <MESSAGE value="Add interface IPresenter. Refactor presenters" />
     <MESSAGE value="Fix window closing" />
     <MESSAGE value="Add TODO for logout" />
@@ -826,46 +905,29 @@
     <MESSAGE value="при поиске контактов, можно сразу писать контакту" />
     <MESSAGE value="поиск сообщений находит сообщения.&#10;надо придумать, как выводить на экран" />
     <MESSAGE value="Работает поиск сообщений. Надо реализовать выделение сообщения по клику в поиске" />
-    <option name="LAST_COMMIT_MESSAGE" value="Работает поиск сообщений. Надо реализовать выделение сообщения по клику в поиске" />
+    <MESSAGE value="направльная работа всплывания диалога исправлена" />
+    <option name="LAST_COMMIT_MESSAGE" value="направльная работа всплывания диалога исправлена" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Presenter/PrEditProfile.java</url>
-          <line>32</line>
-          <properties />
-          <option name="timeStamp" value="73" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/View/Forms/ViewChat.java</url>
-          <line>227</line>
+          <line>204</line>
           <properties />
           <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Presenter/PrEditContact.java</url>
-          <line>50</line>
-          <properties />
-          <option name="timeStamp" value="201" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Presenter/PrAddContact.java</url>
-          <line>43</line>
-          <properties />
-          <option name="timeStamp" value="204" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Presenter/PrChat.java</url>
-          <line>297</line>
+          <line>280</line>
           <properties />
           <option name="timeStamp" value="207" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Presenter/PrChat.java</url>
-          <line>185</line>
+          <url>file://$PROJECT_DIR$/src/View/Forms/ViewChat.java</url>
+          <line>518</line>
           <properties />
-          <option name="timeStamp" value="211" />
+          <option name="timeStamp" value="225" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -873,6 +935,7 @@
       <configuration name="Application">
         <watch expression="model.dialogList" language="JAVA" />
         <watch expression="model.contactsMessageHistory" language="JAVA" />
+        <watch expression="Resources.userPhotos" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>
@@ -882,6 +945,11 @@
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
+      <expression>
+        <expression-string>Resources.userPhotos</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>model.contactsMessageHistory</expression-string>
         <language-id>JAVA</language-id>
@@ -927,11 +995,6 @@
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>WindowManager.decoration.contentPanel.height</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
     <expressions id="setValue">
       <expression>
@@ -952,191 +1015,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/javagram/TelegramApiBridge.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="224" column="30" selection-start-line="224" selection-start-column="30" selection-end-line="224" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.desktop/javax/swing/JComponent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="3342" selection-start-line="3342" selection-end-line="3342" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/util/HashMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="554" column="13" selection-start-line="554" selection-start-column="13" selection-end-line="554" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/TLAbsUser.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/requests/TLRequestUsersGetFullUser.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#1815#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/TLPeerUser.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/TLContact.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#1453#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/TLInputUserSelf.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#421#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/TLInputUserContact.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#1125#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/requests/TLRequestContactsGetSuggested.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-396">
-          <folding>
-            <element signature="e#0#1762#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/requests/TLRequestUpdatesGetState.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#1209#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/javagram/response/object/State.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Resources.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1157">
-          <caret line="87" column="42" lean-forward="true" selection-start-line="87" selection-start-column="42" selection-end-line="87" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Forms/Modal/ViewEditProfile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="32" column="16" lean-forward="true" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="16" />
-          <folding>
-            <element signature="e#834#835#0" expanded="true" />
-            <element signature="e#897#898#0" expanded="true" />
-            <element signature="e#1033#1034#0" expanded="true" />
-            <element signature="e#1091#1092#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.desktop/java/awt/event/ActionListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="50" column="16" selection-start-line="50" selection-start-column="16" selection-end-line="50" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/ListItem/ContactListItem.form">
-      <provider selected="true" editor-type-id="ui-designer" />
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/TLUserContact.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="35" column="51" selection-start-line="35" selection-start-column="51" selection-end-line="35" selection-end-column="51" />
-          <folding>
-            <element signature="method#setPresenter#0;class#ViewEditContact#0" />
-            <element signature="method#setupBackButton#0;class#ViewEditContact#0" />
-            <element signature="method#setupNameField#0;class#ViewEditContact#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/javagram/response/MessagesSentMessage.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.desktop/javax/swing/DefaultListModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="194" column="27" lean-forward="true" selection-start-line="194" selection-start-column="27" selection-end-line="194" selection-end-column="27" />
-          <folding>
-            <element signature="e#5510#5511#0" expanded="true" />
-            <element signature="e#5556#5557#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/util/Vector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="384" column="19" selection-start-line="384" selection-start-column="19" selection-end-line="384" selection-end-column="19" />
-          <folding>
-            <element signature="e#14301#14302#0" expanded="true" />
-            <element signature="e#14342#14343#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/requests/TLRequestMessagesDeleteMessages.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="23" column="42" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="42" />
-          <folding>
-            <element signature="e#0#1386#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/TLAbsInputPeer.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -1172,16 +1050,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
           <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/javagram/response/object/User.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="47" selection-start-line="47" selection-end-line="47" />
-          <folding>
-            <element signature="e#1613#1614#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1221,17 +1089,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
           <caret line="108" column="22" selection-start-line="108" selection-start-column="22" selection-end-line="108" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/tl/TLVector.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="155" column="13" selection-start-line="155" selection-start-column="13" selection-end-line="155" selection-end-column="13" />
-          <folding>
-            <element signature="e#4373#4374#0" expanded="true" />
-            <element signature="e#4413#4414#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1275,11 +1132,6 @@
     <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewChat.form">
       <provider selected="true" editor-type-id="ui-designer" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-396" />
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/javagram/response/object/Message.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -1287,39 +1139,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/PrEnterPhone.java">
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/util/LinkedList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-488">
-          <caret line="11" column="56" selection-start-line="11" selection-start-column="56" selection-end-line="11" selection-end-column="56" />
+        <state relative-caret-position="122">
+          <caret line="247" selection-start-line="247" selection-end-line="247" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presenter/PrSMSCode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/PrAddContact.java">
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/util/HashMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="43" selection-start-line="43" selection-end-line="43" />
+        <state relative-caret-position="255">
+          <caret line="608" column="41" selection-start-line="608" selection-start-column="41" selection-end-line="608" selection-end-column="41" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#24280#24281#0" expanded="true" />
+            <element signature="e#24345#24346#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="871" column="23" selection-start-line="871" selection-start-column="23" selection-end-line="871" selection-end-column="23" />
+          <folding>
+            <element signature="e#32196#32197#0" expanded="true" />
+            <element signature="e#32228#32229#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/tl/TLVector.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="112" column="29" selection-start-line="112" selection-start-column="29" selection-end-line="112" selection-end-column="29" />
+          <folding>
+            <element signature="e#3387#3388#0" expanded="true" />
+            <element signature="e#3431#3432#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/javagram/TelegramApiBridge.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="257" column="48" selection-start-line="257" selection-start-column="30" selection-end-line="257" selection-end-column="48" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Presenter/PrEditProfile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="40" column="27" selection-start-line="40" selection-start-column="27" selection-end-line="40" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/PrEditContact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
+        <state relative-caret-position="638">
           <caret line="35" column="60" selection-start-line="35" selection-start-column="60" selection-end-line="35" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1327,74 +1206,189 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java">
+    <entry file="file://$PROJECT_DIR$/src/View/WindowManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="78" selection-start-line="78" selection-end-line="78" />
+        <state relative-caret-position="132">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/IView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="64" column="39" selection-start-line="64" selection-start-column="39" selection-end-line="64" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presenter/PrAddContact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="880">
+          <caret line="53" column="66" selection-start-line="53" selection-start-column="66" selection-end-line="53" selection-end-column="66" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewChat.java">
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewSignUp.form">
+      <provider selected="true" editor-type-id="ui-designer" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.form">
+      <provider selected="true" editor-type-id="ui-designer" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewSMSCode.form">
+      <provider selected="true" editor-type-id="ui-designer" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Model.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="333" selection-start-line="333" selection-end-line="333" />
+        <state relative-caret-position="238">
+          <caret line="173" column="54" selection-start-line="173" selection-start-column="54" selection-end-line="173" selection-end-column="54" />
+          <folding>
+            <element signature="e#8714#8715#0" expanded="true" />
+            <element signature="e#8760#8761#0" expanded="true" />
+            <element signature="e#8942#8943#0" expanded="true" />
+            <element signature="e#8975#8976#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/javagram/response/object/User.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="62" column="18" selection-start-line="62" selection-start-column="18" selection-end-line="62" selection-end-column="18" />
+          <folding>
+            <element signature="e#1583#1584#0" expanded="true" />
+            <element signature="e#1613#1614#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="68" column="43" selection-start-line="68" selection-start-column="43" selection-end-line="68" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#12564#12565#0" expanded="true" />
-            <element signature="e#15707#15708#0" expanded="true" />
-            <element signature="e#15743#15744#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/photo/big/420998_big.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/photo/big/945688_big.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/photo/big/35172649_big.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/photo/big/45362571_big.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/photo/big/802896042_big.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/photo/big/114494502_big.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/photo/big/134202179_big.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/photo/big/984382_big.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="55" selection-start-line="55" selection-end-line="55" />
+          <folding>
+            <element signature="e#1464#1465#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Resources.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="100" selection-start-line="100" selection-end-line="100" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/ListItem/ContactListItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+          <folding>
+            <element signature="e#3292#3293#0" expanded="true" />
+            <element signature="e#3326#3327#0" expanded="true" />
+            <element signature="e#3363#3364#0" expanded="true" />
+            <element signature="e#3397#3398#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Presenter/PrChat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="230" selection-start-line="230" selection-end-line="230" />
+        <state relative-caret-position="116">
+          <caret line="153" selection-start-line="153" selection-end-line="153" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1319#1320#0" expanded="true" />
-            <element signature="e#1346#1347#0" expanded="true" />
-            <element signature="e#4023#4024#0" expanded="true" />
-            <element signature="e#4065#4066#0" expanded="true" />
-            <element signature="e#8854#8855#0" expanded="true" />
-            <element signature="e#8897#8898#0" expanded="true" />
-            <element signature="e#9317#9318#0" expanded="true" />
-            <element signature="e#9355#9356#0" expanded="true" />
-            <element signature="e#9415#9416#0" expanded="true" />
-            <element signature="e#9458#9459#0" expanded="true" />
-            <element signature="e#10385#10386#0" expanded="true" />
-            <element signature="e#10428#10429#0" expanded="true" />
+            <element signature="e#5588#5589#0" expanded="true" />
+            <element signature="e#5669#5670#0" expanded="true" />
+            <element signature="e#10375#10376#0" expanded="true" />
+            <element signature="e#10418#10419#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Model.java">
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewChat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="379" selection-start-line="379" selection-end-line="379" />
+        <state relative-caret-position="426">
+          <caret line="518" selection-start-line="518" selection-end-line="518" />
           <folding>
-            <element signature="e#5476#5477#0" expanded="true" />
-            <element signature="e#5522#5523#0" expanded="true" />
-            <element signature="e#5436#5437#0" expanded="true" />
-            <element signature="e#5469#5470#0" expanded="true" />
-            <element signature="e#15308#15309#0" expanded="true" />
-            <element signature="e#15365#15366#0" expanded="true" />
-            <element signature="e#11568#12035#0" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#18927#18928#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/ListItem/ContactListItem.java">
+    <entry file="file://$PROJECT_DIR$/src/Presenter/PrEditContact.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="101" selection-start-line="101" selection-end-line="101" />
+        <state relative-caret-position="778">
+          <caret line="36" column="31" lean-forward="true" selection-start-line="36" selection-start-column="31" selection-end-line="36" selection-end-column="31" />
           <folding>
-            <element signature="e#1922#1923#0" expanded="true" />
-            <element signature="e#1957#1958#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presenter/PrEnterPhone.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1152">
+          <caret line="71" selection-start-line="71" selection-end-line="71" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

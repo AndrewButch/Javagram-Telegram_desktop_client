@@ -1,5 +1,6 @@
 package Presenter;
 
+import Presenter.Interface.IPresenter;
 import View.Forms.Modal.ViewEditContact;
 import View.ListItem.ContactListItem;
 import org.javagram.response.object.User;
@@ -48,13 +49,17 @@ public class PrEditContact implements IPresenter {
         view.getDeleteBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.contactDeleteContact(prChat.getSelectedContact().getUser().getId());
-                // Удалить выбранный контакт из списка диалогов,сбросить селект и спрятать интерфейс
-                prChat.deleteDialog();
-                model.contactsUpdateContacts();
-                model.contactsGetContacts();
-                view.getRootPanel().setVisible(false);
-                System.err.println("EditContact Удалить контакт");
+                boolean result = model.contactDeleteContact(prChat.getSelectedContact().getUser().getId());
+                if (result) {
+                    // Удалить выбранный контакт из списка диалогов,сбросить селект и спрятать интерфейс
+                    prChat.deleteDialog();
+                    model.contactsUpdateContacts();
+                    model.contactsGetContacts();
+                    view.getRootPanel().setVisible(false);
+                    System.err.println("Контакт " + prChat.getSelectedContact().getUser() + " удален");
+                } else {
+                    System.err.println("Контакт " + prChat.getSelectedContact().getUser() + " не удален");
+                }
             }
         });
 

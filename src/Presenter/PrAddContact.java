@@ -1,12 +1,15 @@
 package Presenter;
 
+import Presenter.Interface.IPresenter;
 import View.Forms.Modal.ViewAddContact;
 import View.ListItem.ContactListItem;
+import org.javagram.response.object.Message;
 import org.javagram.response.object.UserContact;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class PrAddContact implements IPresenter {
     private ViewAddContact view;
@@ -48,8 +51,11 @@ public class PrAddContact implements IPresenter {
                 if (importedId != 0) {
                     model.contactsUpdateContacts();
                     UserContact contact = model.contactsGetContacts().get(importedId);
-                    ContactListItem item = new ContactListItem(contact);
+                    LinkedList<Message> msgList = model.messageGetMessageHistoryByUserID(importedId);
+                    Message lastMessage = msgList.size() > 0 ? msgList.getFirst(): null;
+                    ContactListItem item = new ContactListItem(contact, lastMessage);
                     model.dialogAddDialogToLocal(importedId, item);
+                    prChat.refreshDialogList();
                     prChat.cleatSelectedContact();
                     prChat.setSelectedContact(item);
                     prChat.refreshChat();

@@ -30,11 +30,12 @@ public class ContactListItem {
     public ContactListItem(UserContact userContact, Message topMsg, int unreadCount) {
         this.user = userContact;
         this.isOnline = userContact.isOnline();
-        if (topMsg != null) {
-            setMessage(topMsg);
-        }
-        smallPhoto = Resources.getPhoto(Resources.DEFAULT_BIG, false);
-        smallPhoto = Resources.getPhoto(userContact.getPhone(), true);
+
+        setMessage(topMsg);
+
+
+        smallPhoto = Resources.getPhoto(0, false);
+        smallPhoto = Resources.getPhoto(userContact.getId(), true);
         photo = smallPhoto.getScaledInstance(41, 41, 5);
 
         this.unreadCount = 0;
@@ -99,8 +100,13 @@ public class ContactListItem {
 
     public void setMessage(Message msg) {
         this.message = msg;
-        this.lastMsg.setText(msg.getMessage());
-        this.lastMsgDate.setText(DateUtils.convertIntDateToStringShort(msg.getDate()));
+        if (msg != null) {
+            this.lastMsg.setText(msg.getMessage());
+            this.lastMsgDate.setText(DateUtils.convertIntDateToStringShort(msg.getDate()));
+        } else {
+            this.lastMsg.setText("");
+            this.lastMsgDate.setText("");
+        }
 
     }
 

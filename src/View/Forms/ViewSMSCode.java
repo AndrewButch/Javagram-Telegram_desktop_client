@@ -1,6 +1,6 @@
 package View.Forms;
 
-import Presenter.IPresenter;
+import Presenter.Interface.IPresenter;
 import Presenter.PrSMSCode;
 import View.IView;
 import View.Resources;

@@ -1,9 +1,8 @@
 package View.Forms.Modal;
 
-import Presenter.IPresenter;
+import Presenter.Interface.IPresenter;
 import Presenter.PrChat;
 import Presenter.PrEditContact;
-import View.Forms.ViewChat;
 import View.IView;
 import View.Resources;
 
@@ -42,7 +41,7 @@ public class ViewEditContact implements IView {
         // Получение ресурсов изображений
         backBtnImg = Resources.getImage(Resources.ICON_BACK);
         borderImg = Resources.getImage(Resources.MASK_DARK_GRAY_BIG);
-        photo = Resources.getPhoto(Resources.DEFAULT_BIG, false);
+        photo = Resources.getPhoto(0, false);
         scaledPhoto = photo.getScaledInstance(66,66, 5);
         setupRootPanel();
         setupBackButton();
@@ -76,10 +75,10 @@ public class ViewEditContact implements IView {
 
     }
 
-    public void setContactInfo(String name, String phoneNumber) {
+    public void setContactInfo(String name, String phoneNumber, int userId) {
         nameTF.setText(name);
         phoneLabel.setText(phoneNumber);
-        photo = Resources.getPhoto(phoneNumber, false);
+        photo = Resources.getPhoto(userId, false);
         scaledPhoto = photo.getScaledInstance(66,66, 5);
     }
 

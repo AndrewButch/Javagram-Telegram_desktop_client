@@ -1,6 +1,6 @@
 package View.Forms;
 
-import Presenter.IPresenter;
+import Presenter.Interface.IPresenter;
 import Presenter.PrChat;
 import Utils.MyMouseWheelScroller;
 import View.Forms.Modal.ViewAddContact;
@@ -109,8 +109,6 @@ public class ViewChat implements IView {
         messagesJList.setCellRenderer(messageListRenderer);
         messagesJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        defaultPhoto = Resources.getPhoto(Resources.DEFAULT_BIG, false).getScaledInstance(29, 29, 5);
-
         userPhotoBlueMini = defaultPhoto;
         contactPhotoWhiteMini = defaultPhoto;
         updateDialogButton.addActionListener(new ActionListener() {
@@ -132,27 +130,6 @@ public class ViewChat implements IView {
             }
         });
 
-        Thread threadPhoto = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    do {
-                        userPhotoBlue = Resources.getPhoto(presenter.getSelfUser().getPhone(), true);
-                    } while (userPhotoBlue == null);
-
-                } catch (NullPointerException e) {
-                    System.err.println(e);
-                    try {
-                        sleep(5000);
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-                userPhotoBlueMini = userPhotoBlue.getScaledInstance(29, 29, 5);
-
-            }
-        });
-        threadPhoto.start();
         // Добавение rootPanel в z-index на нижний слой
         layeredRootPane.add(rootPanel, JLayeredPane.DEFAULT_LAYER, -1);
 
@@ -359,6 +336,7 @@ public class ViewChat implements IView {
                 searchContactTextField.setText("");
                 searchContactTextField.requestFocus();
                 presenter.refreshDialogList();
+                hideContactInterface();
             }
         });
 
@@ -470,7 +448,7 @@ public class ViewChat implements IView {
     // Показать модальное окно с редактированием контакта
     public void showEditContactView() {
         User user = presenter.getSelectedContact().getUser();
-        editContact.setContactInfo(user.toString(), user.getPhone());
+        editContact.setContactInfo(user.toString(), user.getPhone(), user.getId());
         editContact.getRootPanel().setVisible(true);
     }
 

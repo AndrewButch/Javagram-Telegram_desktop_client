@@ -1,6 +1,6 @@
 package View;
 
-import Presenter.IPresenter;
+import Presenter.Interface.IPresenter;
 
 import javax.swing.*;
 

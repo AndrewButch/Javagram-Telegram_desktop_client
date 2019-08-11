@@ -8,14 +8,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.text.ParseException;
 
-import Presenter.IPresenter;
+import Presenter.Interface.IPresenter;
 import Presenter.PrAddContact;
 import Presenter.PrChat;
-import View.Forms.ViewChat;
 import View.Resources;
 import View.IView;
-import org.telegram.api.TLPeerUser;
-import org.telegram.api.TLUserRequest;
 
 
 public class ViewAddContact implements IView {

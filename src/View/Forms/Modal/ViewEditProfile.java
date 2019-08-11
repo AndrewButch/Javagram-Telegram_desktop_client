@@ -1,18 +1,14 @@
 package View.Forms.Modal;
 
-import Presenter.IPresenter;
+import Presenter.Interface.IPresenter;
 import Presenter.PrChat;
-import Presenter.PrEditContact;
 import Presenter.PrEditProfile;
-import View.Forms.ViewChat;
 import View.IView;
 import View.Resources;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 

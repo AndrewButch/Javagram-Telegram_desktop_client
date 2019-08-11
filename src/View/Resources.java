@@ -1,14 +1,13 @@
 package View;
 
-import Model.Model;
 import org.javagram.response.object.UserContact;
+import org.telegram.api.engine.RpcException;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,8 +65,8 @@ public class Resources {
             images.put(MESSAGE_OUT_TOP, ImageIO.read(new File ("res/img/GUI_Components/message-out-top.png")));
             images.put(MESSAGE_OUT_BOTTOM, ImageIO.read(new File ("res/img/GUI_Components/message-out-bottom.png")));
             images.put(MESSAGE_OUT_RIGHT, ImageIO.read(new File ("res/img/GUI_Components/message-out-right.png")));
-            userPhotos.put(DEFAULT_SMALL, ImageIO.read(new File("res/photo/", DEFAULT_SMALL + ".png")));
-            userPhotos.put(DEFAULT_BIG, ImageIO.read(new File("res/photo/", DEFAULT_BIG + ".png")));
+            userPhotos.put(DEFAULT_SMALL, ImageIO.read(new File("res/photo/default", DEFAULT_SMALL + ".png")));
+            userPhotos.put(DEFAULT_BIG, ImageIO.read(new File("res/photo/default", DEFAULT_BIG + ".png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,25 +77,35 @@ public class Resources {
     }
 
     public static void loadPhotos(HashMap<Integer, UserContact> contacts) {
-        HashMap<String, byte[]> photos = new HashMap<>();
-
-//        Model model = Model.getInstance();
+        HashMap<String, byte[]> photoSmall = new HashMap<>();
+        HashMap<String, byte[]> photoBig = new HashMap<>();
         try {
             // Получение из контактов изображений больших и маленьких
-//            for (Map.Entry <String, UserContact> entry: model.contactsGetContacts(false).entrySet()) {
             for (Map.Entry <Integer, UserContact> entry : contacts.entrySet()) {
-                    photos.put(entry.getValue().getPhone() + SMALL_INDEX, entry.getValue().getPhoto(true));
-                    photos.put(entry.getValue().getPhone() + BIG_INDEX, entry.getValue().getPhoto(false));
-
+                try {
+                    byte[] smallByte = entry.getValue().getPhoto(true);
+                    photoSmall.put(entry.getValue().getId() + SMALL_INDEX, smallByte);
+                } catch (RpcException e) {
+                    e.printStackTrace();
+                    photoSmall.put(entry.getValue().getId() + SMALL_INDEX, null);
+                }
+                try {
+                    byte[] bigByte = entry.getValue().getPhoto(false);
+                    photoBig.put(entry.getValue().getId() + BIG_INDEX, bigByte);
+                } catch (RpcException e) {
+                    e.printStackTrace();
+                    photoBig.put(entry.getValue().getId() + BIG_INDEX, null);
+                }
             }
             // сохранение изображений контактов
-            savePhotos(photos);
+            savePhotos(photoSmall, "res/photo/small");
+            savePhotos(photoBig, "res/photo/big");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static void savePhotos(HashMap<String, byte[]> photos) throws IOException {
+    private static void savePhotos(HashMap<String, byte[]> photos, String path) throws IOException {
         // сохранение в памяти картинок контактов
         for (Map.Entry<String, byte[]> b : photos.entrySet()) {
             BufferedImage photo;
@@ -105,7 +114,7 @@ public class Resources {
                 photo = ImageIO.read(new ByteArrayInputStream(photoBytes));
                 if (photo != null) {
                     // сохраняем фото
-                    ImageIO.write(photo, "jpg", new File("res/photo/", b.getKey() + ".jpg"));
+//                    ImageIO.write(photo, "jpg", new File(path, b.getKey() + ".jpg"));
                     userPhotos.put(b.getKey(), photo);
                 }
             }
@@ -113,9 +122,8 @@ public class Resources {
     }
 
     /** Возвращает фото, если оно загружено, либо Default изображение*/
-    public static BufferedImage getPhoto(String photo, boolean small) {
-        // Ключ: номер телефона + _размер (пример: 71234567_small или 71234567_big)
-        String key = photo + (small ? SMALL_INDEX : BIG_INDEX);
+    public static BufferedImage getPhoto(int id, boolean small) {
+        String key = id + (small ? SMALL_INDEX : BIG_INDEX);
         if (userPhotos.containsKey(key)) {
             return userPhotos.get(key);
         } else if(small) {

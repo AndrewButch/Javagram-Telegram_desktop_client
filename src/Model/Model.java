@@ -167,7 +167,10 @@ public class Model {
         return selfUser;
     }
 
-    /** Получение контактов из Telegram*/
+    /** Получение контактов из локального хранения.
+     * Предполагается, что контакты обновляются с помощью метода обновления контаков
+     * @see #contactsUpdateContacts() */
+
     public synchronized HashMap<Integer, UserContact> contactsGetContacts() {
         if (this.contacts == null) {
             contactsUpdateContacts();
@@ -215,7 +218,7 @@ public class Model {
         newLastName = newLastName.replaceAll("\\\\s+", " ");
 
 //        this.api = getTelegramApi(bridge);
-        TLVector<TLInputContact> v = new TLVector();
+        TLVector<TLInputContact> v = new TLVector<>();
         v.add(new TLInputContact(id, phoneNumber, newFirstName, newLastName));
 
         TLRequestContactsImportContacts ci = new TLRequestContactsImportContacts(v, true);
@@ -231,10 +234,8 @@ public class Model {
 
         int importedId = listIC.size() == 0 ? 0 : listIC.get(0).getUserId();
         if (importedId != 0) {
-            ArrayList<Integer> ids = new ArrayList<>();
-            ids.add(importedId);
-            ArrayList<User> users = userGetUsersById(ids);
-            return users.get(0);
+            contactsUpdateContacts();
+            return contactsGetContacts().get(importedId);
         }
         return null;
     }
@@ -278,7 +279,7 @@ public class Model {
 
     }
 
-    public HashMap<Integer, ContactListItem> dialogGetDialogList() {
+    public LinkedHashMap<Integer, ContactListItem> dialogGetDialogList() {
         return dialogList;
     }
 
@@ -301,23 +302,12 @@ public class Model {
         return messages;
     }
 
+    /** Измененный метод класса TelegramApiBridge с добавлением ID контакта.
+     * @see TelegramApiBridge#messagesGetHistory(int, int, int) */
 
-
-
-
-    /**
-     * Это фактически чуть-чуть измененный метод класса TelegramApiBridge. Сравните их - увидите,
-     * что сюда передаем еще параметр контакта целевого (его Id = userContact.getId()).
-     * @param userId
-     * @param offset
-     * @param maxId
-     * @param limit
-     * @return
-     * @throws IOException
-     */
-    private ArrayList<Message> messageGetMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
-        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
-        TLVector<TLAbsMessage> tlAbsMessages = ((TLAbsMessages) getTelegramApi(bridge).doRpcCall(request)).getMessages();
+    public ArrayList<Message> messageUpdateMessageHistoryByUserID(int userId) throws IOException {
+        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), 0, Integer.MAX_VALUE, 50);
+        TLVector<TLAbsMessage> tlAbsMessages =  getTelegramApi(bridge).doRpcCall(request).getMessages();
         ArrayList<Message> messages = new ArrayList<>();
         Iterator var7 = tlAbsMessages.iterator();
 
@@ -328,21 +318,12 @@ public class Model {
         return messages;
     }
 
-//    private synchronized ArrayList<Message> messageGetMessageHistoryByUserID(int userId, int offset, int maxId, int limit) throws IOException {
-//        ArrayList<Message> foundedMsg = new ArrayList();
-//        for (Message msg : bridge.messageGetHistory()) {
-//            if (msg.getFromId() == userId || msg.getToId() == userId) {
-//                foundedMsg.add(msg);
-//            }
-//        }
-//        return foundedMsg;
-//    }
-
-    public synchronized LinkedList<Message> messageGetMessageHistoryByUserID(int userId, boolean forceUpdate) {
+    /** Получение связного списка с историей сообщений текущего пользователя */
+    public synchronized LinkedList<Message> messageGetMessageHistoryByUserID(int userId) {
         LinkedList<Message> history = contactsMessageHistory.get(userId);
-        if (history == null || forceUpdate) {
+        if (history == null) {
                 try {
-                    ArrayList<Message> messages = messageGetMessageHistoryByUserID(userId, 0, Integer.MAX_VALUE, 50);
+                    ArrayList<Message> messages = messageUpdateMessageHistoryByUserID(userId);
                     history = new LinkedList<>(messages);
                     contactsMessageHistory.put(userId, history);
                 } catch (IOException e) {
@@ -372,12 +353,15 @@ public class Model {
         return messageStatus;
     }
 
-    public ArrayList<ContactListItem> messageSearchMessage(String searchQuery) throws IOException {
-//        TLRequestMessagesGetHistory request = new TLRequestMessagesGetHistory(new TLInputPeerContact(userId), offset, maxId, limit);
+    /** Создание запроса на поиск сообщений с ограничением
+     * результатов в количестве 50 сообщений
+     * @return список элементов готовый к вставке в DefaultListModel контактов*/
 
+    public ArrayList<ContactListItem> messageSearchMessage(String searchQuery) throws IOException {
         TLRequestMessagesSearch search = new TLRequestMessagesSearch(
                 new TLInputPeerEmpty(), searchQuery, new TLInputMessagesFilterEmpty(), -1, DateUtils.getDateInt(), 0, Integer.MAX_VALUE, 50);
         TLAbsMessages absMessages = this.api.doRpcCall(search);
+
         // Собираем сообщения
         TLVector<TLAbsMessage> tlAbsMessages = absMessages.getMessages();
         ArrayList<Message> messages = new ArrayList<>();
@@ -385,14 +369,6 @@ public class Model {
         while (var7.hasNext()) {
             TLAbsMessage tlMessage = (TLAbsMessage) var7.next();
             messages.add(new Message(tlMessage));
-        }
-        // Собираем пользователей
-        ArrayList<User> users = new ArrayList<>();
-        TLVector<TLAbsUser> tlAbsUsers = absMessages.getUsers();
-        Iterator var8 = tlAbsUsers.iterator();
-        while (var8.hasNext()) {
-            TLAbsUser tlAbsUser = (TLAbsUser) var8.next();
-            users.add(new User(tlAbsUser));
         }
         // заполняем результат
         ArrayList<ContactListItem> result = new ArrayList<>();
@@ -412,29 +388,33 @@ public class Model {
         return result;
     }
 
+    /** Сохранение сообщения во временное хранение */
     public synchronized void messageAddMessageToLocal(int contactId, Message msg) {
-        LinkedList<Message> messages = messageGetMessageHistoryByUserID(contactId, false);
+        LinkedList<Message> messages = messageGetMessageHistoryByUserID(contactId);
         messages.addFirst(msg);
         ContactListItem contactListItem = dialogList.get(contactId);
         if (contactListItem != null) {
-            contactListItem.incrementUnread();
+            if (!msg.isOut()) {
+                contactListItem.incrementUnread();
+            }
         } else {
             UserContact contact = contactsGetContacts().get(contactId);
             dialogList.put(contactId, new ContactListItem(contact, msg));
         }
     }
 
+    /** Удаление истории сообщений конкретного пользователя с сервера Telegram */
     public void messageDeleteMessageHistory(int userId) throws IOException {
         TLAbsInputPeer peer = new TLInputPeerContact(userId);
         TLRequestMessagesDeleteHistory delete = new TLRequestMessagesDeleteHistory(peer, 0);
         TLAffectedHistory history = this.api.doRpcCall(delete);
-
     }
 
-
+    /** Установка обработчика сообщений */
     public void setMessageHandler(IncomingMessageHandler handler) {
         bridge.setIncomingMessageHandler(handler);
     }
+
 
     public ArrayList<User> userGetUsersById(ArrayList<Integer> ids) {
         ArrayList<User> users = null;
@@ -449,16 +429,20 @@ public class Model {
     }
 
 
-
-    public User updateProfileInfo(String newFirstName, String newLastName) throws IOException {
+    public User updateProfileInfo(String newFirstName, String newLastName) {
         newFirstName = newFirstName.replaceAll("\\\\s+", " ");
         newLastName = newLastName.replaceAll("\\\\s+", " ");
 
-        User updatedUser = null;
-        updatedUser = bridge.accountUpdateUsername(newFirstName, newLastName);
+        User updatedUser;
+        try {
+            updatedUser = bridge.accountUpdateUsername(newFirstName, newLastName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Пользователь не обновлен");
+            return selfUser;
+        }
         selfUser = updatedUser;
         System.err.println("Обновленный пользователь: " + updatedUser);
-
         return updatedUser;
     }
 

@@ -44,6 +44,7 @@ public class ListCellRendererContact extends ContactListItem implements ListCell
             if (value.getUser() != null ) {
                 selectedItem = value;
                 presenter.setSelectedContact(value);
+                setUnreadCount("0");
                 presenter.refreshChat();
                 presenter.showInterface();
                 if (value.isOnline()) {

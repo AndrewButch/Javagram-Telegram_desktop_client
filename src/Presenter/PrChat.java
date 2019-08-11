@@ -1,5 +1,6 @@
 package Presenter;
 
+import Presenter.Interface.IPresenter;
 import Utils.DateUtils;
 import View.Forms.ViewChat;
 import View.IView;
@@ -30,14 +31,15 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         model.setMessageHandler(this);
 
         updateUserLabel(this.user);
-        updateUserPhoto(Resources.getPhoto(this.user.getPhone(), true));
 
         Thread contactListThread = new Thread(new Runnable() {
             @Override
             public void run() {
+                model.contactsGetContacts();
+                updatePhoto();
                 updateDialogsLocal();
                 refreshDialogList();
-//                updatePhoto();
+                updateUserPhoto(Resources.getPhoto(user.getId(), true));
             }
         });
         contactListThread.start();
@@ -88,7 +90,6 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
                             continue;
                         }
                     }
-
                     ContactListItem contactItem = new ContactListItem(userContact, topMessage, d.getUnreadCount());
                     // добавление элемента в модель списка
                     // сохраненеи элемента с привязкой к ID контакта
@@ -96,25 +97,6 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
                 }
             }
         }
-
-
-
-
-
-//        Thread t1 = new Thread(new Runnable() {
-////            @Override
-////            public void run() {
-////                while (true) {
-////                    try {
-////                        Thread.sleep(1500);
-////                        handle(random.nextInt(4) + 13, "hello");
-////                    } catch (InterruptedException e) {
-////                        e.printStackTrace();
-////                    }
-////                }
-////            }
-////        });
-////        t1.start();
     }
 
     public User getSelfUser() {
@@ -132,7 +114,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
     @Override
     public synchronized Object handle(int i, String s) {
         System.out.println("Add to " + i);
-        if (model.messageGetMessageHistoryByUserID(i, false) == null) {
+        if (model.messageGetMessageHistoryByUserID(i) == null) {
             System.err.println("Пользователя с ID " + i + " нет в контактах");
             return null;
         }
@@ -158,17 +140,19 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
     }
 
     public void updatePhoto() {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        Thread t = new Thread(new Runnable() {
+            @Override
             public void run() {
                 Resources.loadPhotos(model.contactsGetContacts());
             }
         });
+        t.start();
     }
 
     public synchronized void refreshChat() {
         refreshInterfaceBySelectedContact();
         int userId = this.selectedContact.getUser().getId();
-        LinkedList<Message> messages = model.messageGetMessageHistoryByUserID(userId, false);
+        LinkedList<Message> messages = model.messageGetMessageHistoryByUserID(userId);
         DefaultListModel<MessageItem> model = new DefaultListModel<>();
         Iterator<Message> it =  messages.descendingIterator();
         while (it.hasNext()) {
@@ -185,7 +169,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         // Получаем диалог по ID юзера
         ContactListItem lastMessageAdd = model.dialogGetDialogByUserId(userId);
         // Получаем последнее локальное сообщение, для юзера
-        Message lastMessage = model.messageGetMessageHistoryByUserID(userId, false).getFirst();
+        Message lastMessage = model.messageGetMessageHistoryByUserID(userId).getFirst();
 
         DefaultListModel<ContactListItem> contactModel = view.getModelContacts();
         // Проверям содержит ли модель списка имеющийся диалог
@@ -197,7 +181,6 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
             replaceContact.setMessage(lastMessage);
             contactModel.remove(index);
             contactModel.add(0, replaceContact);
-
         } else {
             lastMessageAdd.setMessage(lastMessage);
             lastMessageAdd.incrementUnread();
@@ -268,7 +251,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
     public void refreshInterfaceBySelectedContact() {
         User selected = selectedContact.getUser();
         view.setContactLabel(selected.toString());
-        BufferedImage photo = Resources.getPhoto(selected.getPhone(), true);
+        BufferedImage photo = Resources.getPhoto(selected.getId(), true);
         view.setContactPhoto(photo);
     }
 
@@ -312,7 +295,9 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         try {
             int selected = selectedContact.getUser().getId();
             model.messageDeleteMessageHistory(selected);
-            model.messageGetMessageHistoryByUserID(selected, true);
+            model.messageGetMessageHistoryByUserID(selected).clear();
+            model.messageUpdateMessageHistoryByUserID(selected);
+            refreshChat();
         } catch (IOException e) {
             e.printStackTrace();
         }

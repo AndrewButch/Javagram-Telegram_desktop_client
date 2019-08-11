@@ -1,12 +1,12 @@
 package Presenter;
 
+import Presenter.Interface.IPresenter;
 import View.Forms.Modal.ViewEditProfile;
 import View.Forms.ViewEnterPhone;
 import org.javagram.response.object.User;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class PrEditProfile implements IPresenter {
     ViewEditProfile view;
@@ -30,18 +30,9 @@ public class PrEditProfile implements IPresenter {
                 // TODO SAVE SETTING
                 String newFirstName = view.getFirstNameTF().getText();
                 String newLastName = view.getLastNameTF().getText();
-                User updatedUser = null;
-                try {
-                    updatedUser = model.updateProfileInfo(newFirstName, newLastName);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                if (updatedUser != null) {
-                    user = updatedUser;
-                    prChat.updateContactInfo(updatedUser);
-                } else {
-                    System.err.println("Не удалось обновить профиль");
-                }
+                User updatedUser = model.updateProfileInfo(newFirstName, newLastName);
+                user = updatedUser;
+                prChat.updateContactInfo(updatedUser);
                 System.err.println("EditProfile Сохранить");
                 view.getRootPanel().setVisible(false);
             }

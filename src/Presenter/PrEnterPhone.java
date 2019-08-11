@@ -1,5 +1,6 @@
 package Presenter;
 
+import Presenter.Interface.IPresenter;
 import View.Forms.ViewEnterPhone;
 import View.WindowManager;
 import org.javagram.response.AuthSentCode;
@@ -8,8 +9,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PrEnterPhone implements IPresenter{
-    public static final String TEST_NUMBER = "9996621111";
+public class PrEnterPhone implements IPresenter {
+    public static final String TEST_NUMBER = "9996622222";
     private ViewEnterPhone view;
 
     public PrEnterPhone(ViewEnterPhone view) {

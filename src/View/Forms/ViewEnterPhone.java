@@ -1,6 +1,6 @@
 package View.Forms;
 
-import Presenter.IPresenter;
+import Presenter.Interface.IPresenter;
 import Presenter.PrEnterPhone;
 import View.Resources;
 import View.IView;
@@ -63,7 +63,6 @@ public class ViewEnterPhone implements IView {
     }
 
     private void createUIComponents() {
-
         try {
             phoneJFormattedText = new JFormattedTextField(new MaskFormatter("+7 ### ### ## ##")) {
                 @Override

@@ -1,4 +1,4 @@
-package Presenter;
+package Presenter.Interface;
 
 import Model.Model;
 
