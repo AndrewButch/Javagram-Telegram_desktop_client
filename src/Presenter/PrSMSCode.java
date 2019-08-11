@@ -17,26 +17,8 @@ public class PrSMSCode implements IPresenter {
 
     public PrSMSCode(ViewSMSCode view) {
         this.view = view;
-        view.getPhoneNumberLabel().setText(model.getPhone());
+        view.setPhoneNumber(model.getPhone());
         setupCodeField();
-        setListeners();
-    }
-
-    private void setListeners() {
-        // слушатель на кнопку "Продолжить"
-        view.getNextButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkCodeForm();
-            }
-        });
-        // Слушатель для поля ввода СМС-кода
-        view.getCodePasswordField().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkCodeForm();
-            }
-        });
     }
 
     private void checkCodeForm() {

@@ -2,7 +2,7 @@ package View.Forms;
 
 import Presenter.Interface.IPresenter;
 import Presenter.PrSignUp;
-import View.IView;
+import View.Interface.IView;
 import View.Resources;
 import View.WindowManager;
 

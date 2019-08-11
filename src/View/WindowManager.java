@@ -1,6 +1,7 @@
 package View;
 
 import View.Forms.Decoration;
+import View.Interface.IView;
 
 import javax.swing.*;
 import java.awt.*;

@@ -12,7 +12,7 @@ import Presenter.Interface.IPresenter;
 import Presenter.PrAddContact;
 import Presenter.PrChat;
 import View.Resources;
-import View.IView;
+import View.Interface.IView;
 
 
 public class ViewAddContact implements IView {

@@ -3,7 +3,7 @@ package Presenter;
 import Presenter.Interface.IPresenter;
 import Utils.DateUtils;
 import View.Forms.ViewChat;
-import View.IView;
+import View.Interface.IView;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
 import View.Resources;

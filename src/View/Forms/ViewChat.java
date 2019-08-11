@@ -6,7 +6,7 @@ import Utils.MyMouseWheelScroller;
 import View.Forms.Modal.ViewAddContact;
 import View.Forms.Modal.ViewEditContact;
 import View.Forms.Modal.ViewEditProfile;
-import View.IView;
+import View.Interface.IView;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
 import View.ListRenderer.ListCellRendererContact;

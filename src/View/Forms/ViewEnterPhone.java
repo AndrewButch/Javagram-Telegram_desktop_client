@@ -1,20 +1,22 @@
 package View.Forms;
 
-import Presenter.Interface.IPresenter;
-import Presenter.PrEnterPhone;
+import Presenter.Interface.IPresenterPhoneInput;
+import Presenter.PrPhoneInput;
+import View.Interface.IViewPhoneInput;
 import View.Resources;
-import View.IView;
 import View.WindowManager;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.text.ParseException;
 
 
 
-public class ViewEnterPhone implements IView {
+public class ViewEnterPhone implements IViewPhoneInput {
     private JPanel rootPanel;
     private JButton nextButton;
     private JFormattedTextField phoneJFormattedText;
@@ -24,16 +26,29 @@ public class ViewEnterPhone implements IView {
     private BufferedImage background;
     private BufferedImage logo;
     private BufferedImage icon_phone;
-    private PrEnterPhone presenter;
+    private IPresenterPhoneInput presenter;
 
 
     public ViewEnterPhone() {
-        setPresenter(new PrEnterPhone(this));
+        setPresenter(new PrPhoneInput(this));
         logo = Resources.getImage(Resources.LOGO);
         icon_phone = Resources.getImage(Resources.ICON_PHONE);
         WindowManager.setContentView(this);
-        getPhoneJFormattedText().requestFocus();
+        phoneJFormattedText.requestFocus();
 
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presenter.authorizationPhone((String)phoneJFormattedText.getValue());
+            }
+        });
+        // слушатель на поле ввода телефона
+        phoneJFormattedText.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presenter.authorizationPhone((String)phoneJFormattedText.getValue());
+            }
+        });
     }
 
     @Override
@@ -42,16 +57,12 @@ public class ViewEnterPhone implements IView {
     }
 
     @Override
-    public void setPresenter(IPresenter presenter) {
-        this.presenter = (PrEnterPhone)presenter;
+    public void setPresenter(IPresenterPhoneInput presenter) {
+        this.presenter = presenter;
     }
 
-    public JFormattedTextField getPhoneJFormattedText() {
-        return phoneJFormattedText;
-    }
-
-    public JButton getNextButton() {
-        return nextButton;
+    public void clearPhoneField() {
+        phoneJFormattedText.setText("");
     }
 
     public JLabel getErrorText() {

@@ -2,7 +2,7 @@ package View.Forms;
 
 import Presenter.Interface.IPresenter;
 import Presenter.PrSMSCode;
-import View.IView;
+import View.Interface.IView;
 import View.Resources;
 import View.WindowManager;
 
@@ -13,6 +13,8 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class ViewSMSCode implements IView {
@@ -31,6 +33,7 @@ public class ViewSMSCode implements IView {
         logo = Resources.getImage(Resources.LOGO_MINI);
         lock_phone = Resources.getImage(Resources.ICON_LOCK);
         setPresenter(new PrSMSCode(this));
+        setListeners();
         WindowManager.setContentView(this);
         codePasswordField.requestFocus();
     }
@@ -44,6 +47,24 @@ public class ViewSMSCode implements IView {
         this.presenter = (PrSMSCode) presenter;
     }
 
+    private void setListeners() {
+        // слушатель на кнопку "Продолжить"
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkCodeForm();
+            }
+        });
+        // Слушатель для поля ввода СМС-кода
+        codePasswordField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkCodeForm();
+            }
+        });
+    }
+
+
     public void goToEnterPhoneView() {
         new ViewEnterPhone();
     }
@@ -56,16 +77,16 @@ public class ViewSMSCode implements IView {
         new ViewChat();
     }
 
-    public JLabel getPhoneNumberLabel() {
-        return phoneNumberLabel;
-    }
-
     public JPasswordField getCodePasswordField() {
         return codePasswordField;
     }
 
     public JButton getNextButton() {
         return nextButton;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        phoneNumberLabel.setText(phoneNumber);
     }
 
     private void createUIComponents() {

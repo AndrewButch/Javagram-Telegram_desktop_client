@@ -3,7 +3,7 @@ package View.Forms.Modal;
 import Presenter.Interface.IPresenter;
 import Presenter.PrChat;
 import Presenter.PrEditContact;
-import View.IView;
+import View.Interface.IView;
 import View.Resources;
 
 import javax.swing.*;
