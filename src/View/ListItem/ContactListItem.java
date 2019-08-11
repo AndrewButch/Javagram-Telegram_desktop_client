@@ -137,13 +137,13 @@ public class ContactListItem {
         this.unreadCount++;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null)
-            return false;
-        if (this.getUser() == null)
-            return false;
-        ContactListItem item = (ContactListItem) obj;
-        return this.getUser().getId() == item.getUser().getId();
-    }
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (obj == null)
+//            return false;
+//        if (this.getUser() == null)
+//            return false;
+//        ContactListItem item = (ContactListItem) obj;
+//        return this.getUser().getId() == item.getUser().getId();
+//    }
 }
