@@ -7,6 +7,7 @@ import View.Forms.Modal.ViewAddContact;
 import View.Forms.Modal.ViewEditContact;
 import View.Forms.Modal.ViewEditProfile;
 import View.Interface.IView;
+import View.Interface.IViewChat;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
 import View.ListRenderer.ListCellRendererContact;
@@ -23,7 +24,7 @@ import java.awt.image.BufferedImage;
 import static java.lang.Thread.sleep;
 
 
-public class ViewChat implements IView {
+public class ViewChat implements IViewChat {
     int width;
     int height;
     private PrChat presenter;
@@ -344,7 +345,7 @@ public class ViewChat implements IView {
         userSettingsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showEditUserProfileView();
+                showProfileEditView();
             }
         });
 
@@ -352,7 +353,7 @@ public class ViewChat implements IView {
         getContactEditBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showEditContactView();
+                showContactEditView();
             }
         });
 
@@ -360,7 +361,7 @@ public class ViewChat implements IView {
         getAddContactBtn().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showAddContactView();
+                showContactAddView();
             }
         });
     }
@@ -432,21 +433,24 @@ public class ViewChat implements IView {
     /** --------- Методы показа модальных окон ---------*/
 
     // Показать модальное окно с добавлением контакта
-    public void showAddContactView() {
+    @Override
+    public void showContactAddView() {
         addContact.clearFields();
         addContact.getRootPanel().setVisible(true);
         addContact.getPhoneJFormattedText().requestFocus();
     }
 
     // Показать модальное окно с редактированием своего профиля
-    public void showEditUserProfileView() {
+    @Override
+    public void showProfileEditView() {
         User user = presenter.getSelfUser();
         editProfile.setUserInfo(user.getFirstName(), user.getLastName(), user.getPhone());
         editProfile.getRootPanel().setVisible(true);
     }
 
     // Показать модальное окно с редактированием контакта
-    public void showEditContactView() {
+    @Override
+    public void showContactEditView() {
         User user = presenter.getSelectedContact().getUser();
         editContact.setContactInfo(user.toString(), user.getPhone(), user.getId());
         editContact.getRootPanel().setVisible(true);
@@ -455,10 +459,12 @@ public class ViewChat implements IView {
     /** --------- Методы управления --------- */
     
     // Очистить поле ввода сообщения
-    public void clearMessageTextField() {
+    @Override
+    public void clearMessageField() {
         sendMessageTextField.setText("");
     }
 
+    @Override
     public void showDialogs(DefaultListModel<ContactListItem> model) {
         modelContacts = model;
         contactsJList.setModel(model);
@@ -466,6 +472,7 @@ public class ViewChat implements IView {
         contactsJList.repaint();
     }
 
+    @Override
     public void showMessages(DefaultListModel<MessageItem> model) {
         modelMessages = model;
         messagesJList.setModel(model);
@@ -482,6 +489,7 @@ public class ViewChat implements IView {
 
     // Очищаем выбор контакта, сообщения, скрываем компоненты имени, фото и кнопки редактирования  контакта,
     // поле ввода сообщения и кнопку отправки.
+    @Override
     public void hideContactInterface() {
         contactListRenderer.clearSelectedItem();
         modelMessages.clear();
@@ -494,6 +502,7 @@ public class ViewChat implements IView {
 
     // Отображаем компоненты имя, фото и кнопку редактирования контакта,
     // поле ввобда сообщения и кнопку отправки
+    @Override
     public void showContactInterface() {
 //        contactListRenderer.clearSelectedItem();
 
@@ -502,16 +511,16 @@ public class ViewChat implements IView {
         sendMessageJPanel.setVisible(true);
     }
 
-    public void updateDialogs() {
+    private void updateDialogs() {
         presenter.updateDialogsLocal();
         presenter.refreshDialogList();
     }
 
-    public void setContactLabel(String userName) {
+    public void setContactName(String userName) {
         contactNameLable.setText(userName);
     }
 
-    public void setUserLabel(String userName) {
+    public void setUserName(String userName) {
         userNameLabel.setText(userName);
     }
 

@@ -1,9 +1,7 @@
 package View.Forms;
 
-import Presenter.Interface.IPresenter;
 import Presenter.Interface.IPresenterSMSCodeCheck;
 import Presenter.PrSMSCodeCheck;
-import View.Interface.IView;
 import View.Interface.IViewSMSCodeCheck;
 import View.Resources;
 import View.WindowManager;
@@ -42,7 +40,6 @@ public class ViewSMSCode implements IViewSMSCodeCheck {
         this.presenter = presenter;
     }
 
-
     @Override
     public void showSignUpView() {
         new ViewSignUp();
@@ -59,8 +56,8 @@ public class ViewSMSCode implements IViewSMSCodeCheck {
     }
 
     @Override
-    public char[] getCode() {
-        return codePasswordField.getPassword();
+    public String getCode() {
+        return new String(codePasswordField.getPassword());
     }
 
     @Override

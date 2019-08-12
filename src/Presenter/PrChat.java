@@ -135,7 +135,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         if (sent != null) {
             updateDialogsOrder(selectedContactId);
         }
-        view.clearMessageTextField();
+        view.clearMessageField();
         refreshChat();
     }
 
@@ -250,7 +250,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
 
     public void refreshInterfaceBySelectedContact() {
         User selected = selectedContact.getUser();
-        view.setContactLabel(selected.toString());
+        view.setContactName(selected.toString());
         BufferedImage photo = Resources.getPhoto(selected.getId(), true);
         view.setContactPhoto(photo);
     }
@@ -265,17 +265,17 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
 
     public void updateUserLabel(User updatedUser) {
         user = updatedUser;
-        view.setUserLabel(user.getFirstName() + " " + user.getLastName());
+        view.setUserName(user.getFirstName() + " " + user.getLastName());
     }
 
     public void updateUserPhoto(BufferedImage photo) {
-        view.setContactPhoto(photo);
+        view.setUserPhoto(photo);
     }
 
     public void updateContactInfo(User updatedUser) {
         if (updatedUser.getId() == this.user.getId()) {
             user = updatedUser;
-            view.setUserLabel(user.toString());
+            view.setUserName(user.toString());
         } else {
 //            updateDialogsLocal();
             model.dialogUpdateDialogLocal(updatedUser.getId());

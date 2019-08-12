@@ -1,17 +1,8 @@
 package Presenter;
 
-import Presenter.Interface.IPresenter;
 import Presenter.Interface.IPresenterSMSCodeCheck;
 import View.Forms.ViewSMSCode;
 import View.WindowManager;
-
-import javax.swing.*;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DocumentFilter;
-import javax.swing.text.PlainDocument;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PrSMSCodeCheck implements IPresenterSMSCodeCheck {
     ViewSMSCode view;
@@ -23,7 +14,7 @@ public class PrSMSCodeCheck implements IPresenterSMSCodeCheck {
 
     @Override
     public void checkCode() {
-        String code = new String(view.getCode());
+        String code = view.getCode();
         if (code.isEmpty())
             WindowManager.showWarningDialog("Необходимо ввести SMS-код");
         else if (model.getAuthSendCode().isRegistered()) {
