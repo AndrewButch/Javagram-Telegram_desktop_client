@@ -61,16 +61,18 @@ public class ViewEnterPhone implements IViewPhoneInput {
         this.presenter = presenter;
     }
 
+    @Override
     public void clearPhoneField() {
         phoneJFormattedText.setText("");
     }
 
-    public JLabel getErrorText() {
-        return errorText;
+    @Override
+    public void showSMSCheckView() {
+        new ViewSMSCode();
     }
 
-    public void goToSMSView() {
-        new ViewSMSCode();
+    public JLabel getErrorText() {
+        return errorText;
     }
 
     private void createUIComponents() {

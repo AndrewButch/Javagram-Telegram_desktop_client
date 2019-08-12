@@ -1,23 +1,22 @@
 package View.Forms;
 
 import Presenter.Interface.IPresenter;
-import Presenter.PrSMSCode;
+import Presenter.Interface.IPresenterSMSCodeCheck;
+import Presenter.PrSMSCodeCheck;
 import View.Interface.IView;
+import View.Interface.IViewSMSCodeCheck;
 import View.Resources;
 import View.WindowManager;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class ViewSMSCode implements IView {
+public class ViewSMSCode implements IViewSMSCodeCheck {
     private JPasswordField codePasswordField;
     private JButton nextButton;
     private JLabel phoneNumberLabel;
@@ -26,65 +25,45 @@ public class ViewSMSCode implements IView {
     private JPanel logoPanel;
     private BufferedImage logo;
     private BufferedImage lock_phone;
-    private PrSMSCode presenter;
+    private IPresenterSMSCodeCheck presenter;
 
 
     public ViewSMSCode() {
         logo = Resources.getImage(Resources.LOGO_MINI);
         lock_phone = Resources.getImage(Resources.ICON_LOCK);
-        setPresenter(new PrSMSCode(this));
+        setPresenter(new PrSMSCodeCheck(this));
         setListeners();
         WindowManager.setContentView(this);
         codePasswordField.requestFocus();
     }
 
-    public JPanel getRootPanel() {
-        return rootPanel;
+    @Override
+    public void setPresenter(IPresenterSMSCodeCheck presenter) {
+        this.presenter = presenter;
     }
+
 
     @Override
-    public void setPresenter(IPresenter presenter) {
-        this.presenter = (PrSMSCode) presenter;
-    }
-
-    private void setListeners() {
-        // слушатель на кнопку "Продолжить"
-        nextButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkCodeForm();
-            }
-        });
-        // Слушатель для поля ввода СМС-кода
-        codePasswordField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkCodeForm();
-            }
-        });
-    }
-
-
-    public void goToEnterPhoneView() {
-        new ViewEnterPhone();
-    }
-
-    public void goToSignUpView() {
+    public void showSignUpView() {
         new ViewSignUp();
     }
 
-    public void goToChatView() {
+    @Override
+    public void showPhoneInputView() {
+        new ViewEnterPhone();
+    }
+
+    @Override
+    public void showChatView() {
         new ViewChat();
     }
 
-    public JPasswordField getCodePasswordField() {
-        return codePasswordField;
+    @Override
+    public char[] getCode() {
+        return codePasswordField.getPassword();
     }
 
-    public JButton getNextButton() {
-        return nextButton;
-    }
-
+    @Override
     public void setPhoneNumber(String phoneNumber) {
         phoneNumberLabel.setText(phoneNumber);
     }
@@ -98,6 +77,15 @@ public class ViewSMSCode implements IView {
                 g.drawImage(lock_phone, 10, 7, null);
             }
         };
+        // Установка длины текста в поле кода
+        ((PlainDocument)codePasswordField.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                String string =fb.getDocument().getText(0, fb.getDocument().getLength())+text;
+                if (string.length() <= 5)
+                    super.replace(fb, offset, length, text, attrs);
+            }
+        });
 
         Border outerBorder, innerBorder;
         outerBorder = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.WHITE);
@@ -119,5 +107,26 @@ public class ViewSMSCode implements IView {
         Style mainStyle = sc.addStyle("My Style", defaultStyle);
         StyleConstants.setAlignment(mainStyle,StyleConstants.ALIGN_CENTER);
         doc.setLogicalStyle(0, mainStyle);
+    }
+
+    public JPanel getRootPanel() {
+        return rootPanel;
+    }
+
+    private void setListeners() {
+        // слушатель на кнопку "Продолжить"
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presenter.checkCode();
+            }
+        });
+        // Слушатель для поля ввода СМС-кода
+        codePasswordField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presenter.checkCode();
+            }
+        });
     }
 }

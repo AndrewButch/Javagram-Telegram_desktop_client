@@ -6,4 +6,5 @@ public interface IViewPhoneInput extends IView{
 
     void setPresenter(IPresenterPhoneInput presenter);
     void clearPhoneField();
+    void showSMSCheckView();
 }

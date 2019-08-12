@@ -36,7 +36,7 @@ public class PrPhoneInput implements IPresenterPhoneInput {
     private void sendSMS() {
         AuthSentCode sendCode = model.getAuthSendCode();
         if (sendCode != null) {
-            view.goToSMSView();
+            view.showSMSCheckView();
         } else {
             WindowManager.showWarningDialog("Что-то пошло не так");
         }

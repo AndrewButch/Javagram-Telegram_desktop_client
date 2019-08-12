@@ -2,32 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a397921b-82ef-4e7c-8563-5c696832816c" name="Default Changelist" comment="Работает: &#10;- Отправка и принятие сообщений&#10;- Добавление контактов&#10;- Удаление контактов&#10;- Переименовывание пользователя и контактов&#10;- Поиск сообщений и контактов&#10;- Получение и отображене фотографий контактов">
-      <change afterPath="$PROJECT_DIR$/src/Presenter/Interface/IPresenterChat.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Presenter/Interface/IPresenterContactAdd.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Presenter/Interface/IPresenterContactEdit.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Presenter/Interface/IPresenterPhoneInput.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Presenter/Interface/IPresenterProfileEdit.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Presenter/Interface/IPresenterSMSCodeCheck.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Presenter/Interface/IPresenterSignUp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Presenter/PrPhoneInput.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/View/Interface/IViewPhoneInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Presenter/PrChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrChat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Presenter/PrEnterPhone.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Presenter/PrSMSCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrSMSCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewAddContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewAddContact.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditProfile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewChat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/View/Interface/IViewChat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/View/Interface/IViewContactAdd.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/View/Interface/IViewContactEdit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/View/Interface/IViewProfileEdit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/View/Interface/IViewSMSCodeCheck.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/View/Interface/IViewSignUp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Presenter/Interface/IPresenterSMSCodeCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/Interface/IPresenterSMSCodeCheck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Presenter/PrPhoneInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrPhoneInput.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Presenter/PrSMSCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrSMSCodeCheck.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewSignUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewSignUp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/IView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Interface/IView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/WindowManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/WindowManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Interface/IViewPhoneInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Interface/IViewPhoneInput.java" afterDir="false" />
     </list>
-    <list id="c645d7f7-b47a-4601-af75-5da5b8d19288" name="save commit, before refactoring" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-    </list>
+    <list id="c645d7f7-b47a-4601-af75-5da5b8d19288" name="save commit, before refactoring" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/" />
     <ignored mask="*.iml" />
@@ -42,6 +30,10 @@
       <option value="directory" />
     </option>
   </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="testRunner" value="GRADLE" />
+    <option name="delegatedBuild" value="true" />
+  </component>
   <component name="FavoritesManager">
     <favorites_list name="Javagram" />
   </component>
@@ -50,27 +42,44 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+            <state relative-caret-position="714">
+              <caret line="56" column="32" lean-forward="true" selection-start-line="56" selection-start-column="32" selection-end-line="56" selection-end-column="32" />
               <folding>
-                <element signature="e#1577#1578#0" expanded="true" />
-                <element signature="e#1624#1625#0" expanded="true" />
-                <element signature="e#1837#1838#0" expanded="true" />
-                <element signature="e#1884#1885#0" expanded="true" />
-                <element signature="e#1444#1445#0" expanded="true" />
-                <element signature="e#1474#1475#0" expanded="true" />
-                <element signature="e#1782#1783#0" expanded="true" />
-                <element signature="e#1813#1814#0" expanded="true" />
+                <element signature="e#1324#1325#0" expanded="true" />
+                <element signature="e#1383#1384#0" expanded="true" />
+                <element signature="e#1352#1353#0" expanded="true" />
+                <element signature="e#1383#1384#0" expanded="true" />
+                <element signature="e#1421#1422#0" expanded="true" />
+                <element signature="e#1456#1457#0" expanded="true" />
+                <element signature="e#1534#1535#0" expanded="true" />
+                <element signature="e#2177#2178#0" expanded="true" />
+                <element signature="e#2217#2218#0" expanded="true" />
+                <element signature="e#2342#2343#0" expanded="true" />
+                <element signature="e#2395#2396#0" expanded="true" />
+                <element signature="method#createUIComponents#0;class#ViewSMSCode#0" />
+                <element signature="e#3786#3787#0" expanded="true" />
+                <element signature="e#3839#3840#0" expanded="true" />
+                <element signature="e#4042#4043#0" expanded="true" />
+                <element signature="e#4095#4096#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Presenter/PrSMSCode.java">
+        <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewSMSCodeCheck.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="682">
-              <caret line="41" column="20" lean-forward="true" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
+            <state relative-caret-position="85">
+              <caret line="5" column="54" selection-start-line="5" selection-start-column="54" selection-end-line="5" selection-end-column="54" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Presenter/PrSMSCodeCheck.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="476">
+              <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
             </state>
           </provider>
         </entry>
@@ -78,47 +87,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenterSMSCodeCheck.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="2" column="58" selection-start-line="2" selection-start-column="58" selection-end-line="2" selection-end-column="58" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Presenter/PrPhoneInput.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewPhoneInput.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenterPhoneInput.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+            <state relative-caret-position="85">
+              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
             </state>
           </provider>
         </entry>
@@ -156,13 +126,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/View/Forms/ViewViewChat.form" />
-        <option value="$PROJECT_DIR$/src/View/MyIncomingMessageHandler.java" />
-        <option value="$PROJECT_DIR$/src/Presenter/Presenter.java" />
-        <option value="$PROJECT_DIR$/src/FakeData/MyTelegramBridge.java" />
-        <option value="$PROJECT_DIR$/src/FakeData/FakeUserContact.java" />
-        <option value="$PROJECT_DIR$/src/FakeData/FakeTelegramBridge.java" />
-        <option value="$PROJECT_DIR$/src/View/ListItem/ContactItem.form" />
         <option value="$PROJECT_DIR$/src/View/WindowComponents/ComponentResizer.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/Decoration.form" />
         <option value="$PROJECT_DIR$/src/View/WindowManager.java" />
@@ -194,19 +157,26 @@
         <option value="$PROJECT_DIR$/src/View/Forms/ViewChat.java" />
         <option value="$PROJECT_DIR$/src/View/Resources.java" />
         <option value="$PROJECT_DIR$/src/Presenter/Interface/IPresenterPhoneInput.java" />
-        <option value="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java" />
         <option value="$PROJECT_DIR$/src/View/Interface/IView.java" />
         <option value="$PROJECT_DIR$/src/Presenter/PrEnterPhone.java" />
-        <option value="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java" />
         <option value="$PROJECT_DIR$/src/Presenter/Interface/IPresenterContactEdit.java" />
         <option value="$PROJECT_DIR$/src/Presenter/Interface/IPresenterContactAdd.java" />
         <option value="$PROJECT_DIR$/src/Presenter/Interface/IPresenterProfileEdit.java" />
-        <option value="$PROJECT_DIR$/src/Presenter/Interface/IPresenterSMSCodeCheck.java" />
         <option value="$PROJECT_DIR$/src/Presenter/Interface/IPresenterChat.java" />
         <option value="$PROJECT_DIR$/src/Presenter/Interface/IPresenterSignUp.java" />
         <option value="$PROJECT_DIR$/src/Presenter/PrSMSCode.java" />
+        <option value="$PROJECT_DIR$/src/View/Interface/IViewChat.java" />
+        <option value="$PROJECT_DIR$/src/View/Interface/IViewContactAdd.java" />
+        <option value="$PROJECT_DIR$/src/View/Interface/IViewProfileEdit.java" />
+        <option value="$PROJECT_DIR$/src/View/Interface/IViewContactEdit.java" />
+        <option value="$PROJECT_DIR$/src/View/Interface/IViewSignUp.java" />
+        <option value="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java" />
         <option value="$PROJECT_DIR$/src/Presenter/PrPhoneInput.java" />
+        <option value="$PROJECT_DIR$/src/Presenter/Interface/IPresenterSMSCodeCheck.java" />
         <option value="$PROJECT_DIR$/src/View/Interface/IViewPhoneInput.java" />
+        <option value="$PROJECT_DIR$/src/View/Interface/IViewSMSCodeCheck.java" />
+        <option value="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java" />
+        <option value="$PROJECT_DIR$/src/Presenter/PrSMSCodeCheck.java" />
       </list>
     </option>
   </component>
@@ -217,17 +187,105 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="523" />
-    <option name="y" value="155" />
-    <option name="width" value="1051" />
-    <option name="height" value="877" />
+    <option name="x" value="-1" />
+    <option name="y" value="15" />
+    <option name="width" value="1875" />
+    <option name="height" value="541" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Presenter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Presenter" type="462c0819:PsiDirectoryNode" />
+              <item name="Interface" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="View" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="View" type="462c0819:PsiDirectoryNode" />
+              <item name="Forms" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="View" type="462c0819:PsiDirectoryNode" />
+              <item name="Forms" type="462c0819:PsiDirectoryNode" />
+              <item name="ViewEnterPhone" type="e9f4de52:FormNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="View" type="462c0819:PsiDirectoryNode" />
+              <item name="Forms" type="462c0819:PsiDirectoryNode" />
+              <item name="ViewSMSCode" type="e9f4de52:FormNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="View" type="462c0819:PsiDirectoryNode" />
+              <item name="Interface" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="View" type="462c0819:PsiDirectoryNode" />
+              <item name="ListItem" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="View" type="462c0819:PsiDirectoryNode" />
+              <item name="ListRenderer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="PackagesPane">
         <subPane>
           <expand>
@@ -308,29 +366,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Javagram" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW" value="true" />
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH" value="252" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW" value="true" />
@@ -715,7 +754,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1176" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info id="Image Layers" order="0" />
       <window_info id="Designer" order="1" />
@@ -723,7 +763,7 @@
       <window_info id="Capture Tool" order="3" />
       <window_info id="Structure" order="4" sideWeight="0.23701298" side_tool="true" weight="0.14605543" />
       <window_info id="Favorites" order="5" sideWeight="0.54310346" side_tool="true" weight="0.25053304" />
-      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.762987" visible="true" weight="0.14605543" />
+      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.762987" visible="true" weight="0.28731343" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.5779221" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.10497835" />
@@ -733,7 +773,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32816228" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32900432" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50053304" side_tool="true" weight="0.3495671" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.37337664" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.37260535" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.32575756" />
       <window_info anchor="bottom" id="Analyze Dataflow from" order="11" weight="0.32900432" />
       <window_info anchor="bottom" id="Analyze Dataflow to" order="12" weight="0.6450216" />
@@ -966,53 +1006,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk-9.0.4/lib/src.zip!/java.base/java/lang/Object.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="108" column="22" selection-start-line="108" selection-start-column="22" selection-end-line="108" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/TLInputUserForeign.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="23" column="38" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/ID">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/telegram/api/requests/TLRequestContactsSearch.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#2007#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/javagram/response/object/UserContact.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererMessage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="29" column="28" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewChat.form">
-      <provider selected="true" editor-type-id="ui-designer" />
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/Telegram API bridge v2.jar!/org/javagram/response/object/Message.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
@@ -1079,11 +1072,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Presenter/PrAddContact.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="880">
-          <caret line="53" column="66" selection-start-line="53" selection-start-column="66" selection-end-line="53" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="782">
+          <caret line="52" column="52" selection-start-line="52" selection-start-column="52" selection-end-line="52" selection-end-column="52" />
         </state>
       </provider>
     </entry>
@@ -1095,14 +1085,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/Model.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="173" column="54" selection-start-line="173" selection-start-column="54" selection-end-line="173" selection-end-column="54" />
-          <folding>
-            <element signature="e#8714#8715#0" expanded="true" />
-            <element signature="e#8760#8761#0" expanded="true" />
-            <element signature="e#8942#8943#0" expanded="true" />
-            <element signature="e#8975#8976#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="5610">
+          <caret line="352" column="29" selection-start-line="352" selection-start-column="29" selection-end-line="352" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -1119,38 +1103,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="68" column="43" selection-start-line="68" selection-start-column="43" selection-end-line="68" selection-end-column="43" />
+        <state relative-caret-position="629">
+          <caret line="46" column="33" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/photo/big/420998_big.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/photo/big/945688_big.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/photo/big/35172649_big.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/photo/big/45362571_big.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/photo/big/802896042_big.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/photo/big/114494502_big.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/photo/big/134202179_big.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/photo/big/984382_big.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/res/photo/big/420998_big.jpg" />
+    <entry file="file://$PROJECT_DIR$/res/photo/big/945688_big.jpg" />
+    <entry file="file://$PROJECT_DIR$/res/photo/big/35172649_big.jpg" />
+    <entry file="file://$PROJECT_DIR$/res/photo/big/45362571_big.jpg" />
+    <entry file="file://$PROJECT_DIR$/res/photo/big/802896042_big.jpg" />
+    <entry file="file://$PROJECT_DIR$/res/photo/big/114494502_big.jpg" />
+    <entry file="file://$PROJECT_DIR$/res/photo/big/134202179_big.jpg" />
+    <entry file="file://$PROJECT_DIR$/res/photo/big/984382_big.jpg" />
     <entry file="file://$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="167">
@@ -1167,25 +1135,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/View/ListItem/ContactListItem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
-          <folding>
-            <element signature="e#3292#3293#0" expanded="true" />
-            <element signature="e#3326#3327#0" expanded="true" />
-            <element signature="e#3363#3364#0" expanded="true" />
-            <element signature="e#3397#3398#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1547">
+          <caret line="129" column="5" selection-start-line="129" selection-start-column="5" selection-end-line="129" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewChat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="518" selection-start-line="518" selection-end-line="518" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#18927#18928#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="6477">
+          <caret line="470" column="32" selection-start-line="470" selection-start-column="32" selection-end-line="470" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -1198,25 +1156,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Presenter/PrEditContact.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="946">
-          <caret line="62" column="35" lean-forward="true" selection-start-line="62" selection-start-column="35" selection-end-line="62" selection-end-column="35" />
-          <folding>
-            <element signature="e#2052#2053#0" expanded="true" />
-            <element signature="e#2108#2109#0" expanded="true" />
-            <element signature="e#1967#1968#0" expanded="true" />
-            <element signature="e#2001#2002#0" expanded="true" />
-            <element signature="method#createUIComponents#0;class#ViewEnterPhone#0" />
-          </folding>
+        <state relative-caret-position="578">
+          <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -1224,13 +1165,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1012">
           <caret line="68" column="5" lean-forward="true" selection-start-line="68" selection-start-column="5" selection-end-line="68" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Interface/IView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="5" column="30" lean-forward="true" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -1274,46 +1208,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Presenter/PrChat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="153" selection-start-line="153" selection-end-line="153" />
+        <state relative-caret-position="-255">
+          <caret line="133" column="41" selection-start-line="133" selection-start-column="41" selection-end-line="133" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5588#5589#0" expanded="true" />
-            <element signature="e#5669#5670#0" expanded="true" />
-            <element signature="e#10375#10376#0" expanded="true" />
-            <element signature="e#10418#10419#0" expanded="true" />
+            <element signature="e#1411#1412#0" expanded="true" />
+            <element signature="e#1438#1439#0" expanded="true" />
+            <element signature="e#3643#3644#0" expanded="true" />
+            <element signature="e#3685#3686#0" expanded="true" />
+            <element signature="e#5168#5169#0" expanded="true" />
+            <element signature="e#5249#5250#0" expanded="true" />
+            <element signature="e#8441#8442#0" expanded="true" />
+            <element signature="e#8484#8485#0" expanded="true" />
+            <element signature="e#8904#8905#0" expanded="true" />
+            <element signature="e#8942#8943#0" expanded="true" />
+            <element signature="e#9002#9003#0" expanded="true" />
+            <element signature="e#9045#9046#0" expanded="true" />
+            <element signature="e#9975#9976#0" expanded="true" />
+            <element signature="e#10018#10019#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenterSMSCodeCheck.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="58" selection-start-line="2" selection-start-column="58" selection-end-line="2" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
-          <folding>
-            <element signature="e#1577#1578#0" expanded="true" />
-            <element signature="e#1624#1625#0" expanded="true" />
-            <element signature="e#1837#1838#0" expanded="true" />
-            <element signature="e#1884#1885#0" expanded="true" />
-            <element signature="e#1444#1445#0" expanded="true" />
-            <element signature="e#1474#1475#0" expanded="true" />
-            <element signature="e#1782#1783#0" expanded="true" />
-            <element signature="e#1813#1814#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/PrSMSCode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="682">
-          <caret line="41" column="20" lean-forward="true" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -1324,27 +1237,136 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/ListItem/MessageItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1088">
+          <caret line="101" column="5" selection-start-line="101" selection-start-column="5" selection-end-line="101" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewSignUp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewProfileEdit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="47" selection-start-line="2" selection-start-column="47" selection-end-line="2" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewContactEdit.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="47" selection-start-line="2" selection-start-column="47" selection-end-line="2" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewContactAdd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="46" selection-start-line="2" selection-start-column="46" selection-end-line="2" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewChat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="40" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="469">
+          <caret line="48" column="64" selection-start-line="48" selection-start-column="64" selection-end-line="48" selection-end-column="64" />
+          <folding>
+            <element signature="e#2086#2087#0" expanded="true" />
+            <element signature="e#2119#2120#0" expanded="true" />
+            <element signature="e#2035#2036#0" expanded="true" />
+            <element signature="e#2067#2068#0" expanded="true" />
+            <element signature="method#createUIComponents#0;class#ViewEnterPhone#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Presenter/PrPhoneInput.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        <state relative-caret-position="646">
+          <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewPhoneInput.java">
+    <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewSMSCodeCheck.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+        <state relative-caret-position="85">
+          <caret line="5" column="54" selection-start-line="5" selection-start-column="54" selection-end-line="5" selection-end-column="54" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenter.java">
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        <state relative-caret-position="714">
+          <caret line="56" column="32" lean-forward="true" selection-start-line="56" selection-start-column="32" selection-end-line="56" selection-end-column="32" />
+          <folding>
+            <element signature="e#1324#1325#0" expanded="true" />
+            <element signature="e#1383#1384#0" expanded="true" />
+            <element signature="e#1352#1353#0" expanded="true" />
+            <element signature="e#1383#1384#0" expanded="true" />
+            <element signature="e#1421#1422#0" expanded="true" />
+            <element signature="e#1456#1457#0" expanded="true" />
+            <element signature="e#1534#1535#0" expanded="true" />
+            <element signature="e#2177#2178#0" expanded="true" />
+            <element signature="e#2217#2218#0" expanded="true" />
+            <element signature="e#2342#2343#0" expanded="true" />
+            <element signature="e#2395#2396#0" expanded="true" />
+            <element signature="method#createUIComponents#0;class#ViewSMSCode#0" />
+            <element signature="e#3786#3787#0" expanded="true" />
+            <element signature="e#3839#3840#0" expanded="true" />
+            <element signature="e#4042#4043#0" expanded="true" />
+            <element signature="e#4095#4096#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewPhoneInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Interface/IView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="30" lean-forward="true" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenterSMSCodeCheck.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presenter/PrSMSCodeCheck.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
         </state>
       </provider>
     </entry>
