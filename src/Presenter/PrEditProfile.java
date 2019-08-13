@@ -32,7 +32,7 @@ public class PrEditProfile implements IPresenter {
                 String newLastName = view.getLastNameTF().getText();
                 User updatedUser = model.updateProfileInfo(newFirstName, newLastName);
                 user = updatedUser;
-                prChat.updateContactInfo(updatedUser);
+                prChat.updateDialogName(updatedUser);
                 System.err.println("EditProfile Сохранить");
                 view.getRootPanel().setVisible(false);
             }

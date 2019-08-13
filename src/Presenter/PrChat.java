@@ -1,6 +1,6 @@
 package Presenter;
 
-import Presenter.Interface.IPresenter;
+import Presenter.Interface.IPresenterChat;
 import Utils.DateUtils;
 import View.Forms.ViewChat;
 import View.Interface.IView;
@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.*;
 
-public class PrChat implements IPresenter, IncomingMessageHandler {
+public class PrChat implements IPresenterChat, IncomingMessageHandler {
     private ViewChat view;
     private User user;
     private Random random;
@@ -30,13 +30,13 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         this.random = new Random();
         model.setMessageHandler(this);
 
-        updateUserLabel(this.user);
+        updateDialogName(user);
 
         Thread contactListThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 model.contactsGetContacts();
-                updatePhoto();
+                loadContactPhotos();
                 updateDialogsLocal();
                 refreshDialogList();
                 updateUserPhoto(Resources.getPhoto(user.getId(), true));
@@ -99,15 +99,10 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         }
     }
 
-    public User getSelfUser() {
-        return model.getSelfUser();
-    }
-
-
     /**
      * Обработка входящего события выбора контакта из списка контактов
-     * Добавлене в модель сообщений нового сообщения
-     * "Всплытие" диалога вверх
+     * Добавлене в модель сообщений нового сообщения.
+     * "Всплытие" диалога вверх.
      * @param i идентификатор пользователя
      * @param s текст сообщения
      */
@@ -118,7 +113,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
             System.err.println("Пользователя с ID " + i + " нет в контактах");
             return null;
         }
-        TLPeerUser tlPeerUser = new TLPeerUser(getSelfUser().getId());
+        TLPeerUser tlPeerUser = new TLPeerUser(this.user.getId());
         TLMessage tlMessage = new TLMessage(0, i, tlPeerUser, false, true, DateUtils.getDateInt(), s, null);
         Message msg = new Message(tlMessage);
         model.messageAddMessageToLocal(i, msg);
@@ -139,7 +134,7 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         refreshChat();
     }
 
-    public void updatePhoto() {
+    public void loadContactPhotos() {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -263,22 +258,18 @@ public class PrChat implements IPresenter, IncomingMessageHandler {
         view.showDialogs(modelContacts);
     }
 
-    public void updateUserLabel(User updatedUser) {
-        user = updatedUser;
-        view.setUserName(user.getFirstName() + " " + user.getLastName());
-    }
-
     public void updateUserPhoto(BufferedImage photo) {
         view.setUserPhoto(photo);
     }
 
-    public void updateContactInfo(User updatedUser) {
+    public void updateDialogName(User updatedUser) {
         if (updatedUser.getId() == this.user.getId()) {
             user = updatedUser;
             view.setUserName(user.toString());
-        } else {
-//            updateDialogsLocal();
-            model.dialogUpdateDialogLocal(updatedUser.getId());
+        } else { //TODO Возможно убрать else
+            // Обновление имени в сохраненном списке диалогов
+            model.dialogUpdateContactNameLocal(updatedUser.getId());
+            // Обновление имени в списке диалогов на экране
             int index = view.getModelContacts().indexOf(selectedContact);
             ContactListItem contactListItem = model.dialogGetDialogByUserId(updatedUser.getId());
             view.getModelContacts().set(index, contactListItem);

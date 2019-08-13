@@ -1,5 +1,6 @@
 package View.ListRenderer;
 
+import Presenter.Interface.IPresenterChat;
 import Presenter.PrChat;
 import View.ListItem.ContactListItem;
 import View.Resources;
@@ -17,10 +18,10 @@ public class ListCellRendererContact extends ContactListItem implements ListCell
     private BufferedImage contact_gray_offline;
     private BufferedImage contact_white_online;
     private BufferedImage contact_white_offline;
-    private PrChat presenter;
+    private IPresenterChat presenter;
     private volatile ContactListItem selectedItem;
 
-    public ListCellRendererContact(PrChat presenter) {
+    public ListCellRendererContact(IPresenterChat presenter) {
         getPortraitJPanel().setOpaque(true);
         contact_gray_online = Resources.getImage(Resources.MASK_GRAY_ONLINE);
         contact_white_online = Resources.getImage(Resources.MASK_WHITE_ONLINE);

@@ -1,6 +1,7 @@
 package View.Forms;
 
 import Presenter.Interface.IPresenter;
+import Presenter.Interface.IPresenterChat;
 import Presenter.PrChat;
 import Utils.MyMouseWheelScroller;
 import View.Forms.Modal.ViewAddContact;
@@ -27,7 +28,7 @@ import static java.lang.Thread.sleep;
 public class ViewChat implements IViewChat {
     int width;
     int height;
-    private PrChat presenter;
+    private IPresenterChat presenter;
 
     private ListCellRendererContact contactListRenderer; // визуализатор списка контактов
     private ListCellRendererMessage messageListRenderer; // визуализатор списка сообщений
@@ -99,12 +100,11 @@ public class ViewChat implements IViewChat {
 
 
     public ViewChat() {
-        PrChat presenter = new PrChat(this);
-        setPresenter(presenter);
+        setPresenter(new PrChat(this));
         WindowManager.setContentView(this);
         setupBorders();
         setListeners();
-        contactListRenderer = new ListCellRendererContact(presenter);
+        contactListRenderer = new ListCellRendererContact(this.presenter);
         messageListRenderer = new ListCellRendererMessage();
         contactsJList.setCellRenderer(contactListRenderer);
         messagesJList.setCellRenderer(messageListRenderer);
@@ -253,10 +253,7 @@ public class ViewChat implements IViewChat {
         };
     }
 
-    @Override
-    public void setPresenter(IPresenter presenter) {
-        this.presenter = (PrChat) presenter;
-    }
+
 
     private void setupBorders() {
         contactsJList.setBorder(null);
@@ -457,7 +454,12 @@ public class ViewChat implements IViewChat {
     }
 
     /** --------- Методы управления --------- */
-    
+
+    @Override
+    public void setPresenter(IPresenterChat presenter) {
+        this.presenter = presenter;
+    }
+
     // Очистить поле ввода сообщения
     @Override
     public void clearMessageField() {

@@ -36,7 +36,7 @@ public class PrEditContact implements IPresenter {
                         int id = contact.getId();
                         User updated = model.contactUpdateContactInfo(id, phoneNumber, name, "");
                         if (updated != null) {
-                            prChat.updateContactInfo(updated);
+                            prChat.updateDialogName(updated);
                         }
                     }
                 } catch (IOException e1) {

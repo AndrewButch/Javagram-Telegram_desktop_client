@@ -4,9 +4,9 @@ import java.util.Calendar;
 
 public class DateUtils {
 
-    static SimpleDateFormat fullDateFormat = new SimpleDateFormat("dd.MM.yyyy 'в' HH:mm");
-    static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-    static SimpleDateFormat hoursAndMinutesFormat = new SimpleDateFormat("HH:mm");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final SimpleDateFormat FULL_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy 'в' HH:mm");
+    private static final SimpleDateFormat HOURS_AND_MINUTES_FORMAT = new SimpleDateFormat("HH:mm");
 
     // Преобразование даты из int в строку для Сообщений
     public static String convertIntDateToString(int date) {
@@ -36,7 +36,7 @@ public class DateUtils {
         if(nowYear == year && nowMonth == month && day >= nowDay - 1) { // если больше 2 дней
             if (day == nowDay - 1) { // вчера
                 // вывести (вчера часы:минуты)
-                result = "вчера " + hoursAndMinutesFormat.format(dateMillis);
+                result = "вчера " + HOURS_AND_MINUTES_FORMAT.format(dateMillis);
             } else if (day == nowDay && nowHour == hour) { // сегодня
                 // вывести (часы:минуты)
                 if (delta < 15) { // меньше 15 минут
@@ -46,13 +46,13 @@ public class DateUtils {
                         result = "только что"; // пример: "только что"
                     }
                 } else {
-                    result = hoursAndMinutesFormat.format(dateMillis);
+                    result = HOURS_AND_MINUTES_FORMAT.format(dateMillis);
                 }
             } else {
-                result = hoursAndMinutesFormat.format(dateMillis);
+                result = HOURS_AND_MINUTES_FORMAT.format(dateMillis);
             }
         } else {
-            result = fullDateFormat.format(dateMillis);
+            result = FULL_DATE_FORMAT.format(dateMillis);
         }
         return result;
     }
@@ -94,11 +94,11 @@ public class DateUtils {
                 }
             } else {
                 // вывести (часы:минуты)
-                result = hoursAndMinutesFormat.format(dateMillis);
+                result = HOURS_AND_MINUTES_FORMAT.format(dateMillis);
             }
 
         } else {
-            result = dateFormat.format(dateMillis);
+            result = DATE_FORMAT.format(dateMillis);
         }
         return result;
     }

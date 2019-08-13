@@ -283,7 +283,8 @@ public class Model {
         return dialogList;
     }
 
-    public void dialogUpdateDialogLocal(int contactId) {
+    /** Обновить имя в списке диалогов */
+    public void dialogUpdateContactNameLocal(int contactId) {
         contactsUpdateContacts();
         UserContact userContact = contactsGetContacts().get(contactId);
         ContactListItem replacedItem = dialogList.get(contactId);
