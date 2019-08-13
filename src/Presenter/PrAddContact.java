@@ -1,7 +1,10 @@
 package Presenter;
 
 import Presenter.Interface.IPresenter;
+import Presenter.Interface.IPresenterChat;
+import Presenter.Interface.IPresenterContactAdd;
 import View.Forms.Modal.ViewAddContact;
+import View.Interface.IViewContactAdd;
 import View.ListItem.ContactListItem;
 import org.javagram.response.object.Message;
 import org.javagram.response.object.UserContact;
@@ -11,11 +14,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class PrAddContact implements IPresenter {
-    private ViewAddContact view;
-    private PrChat prChat;
+public class PrAddContact implements IPresenterContactAdd {
+    private IViewContactAdd view;
+    private IPresenterChat prChat;
 
-    public PrAddContact(ViewAddContact view, PrChat prChat) {
+    public PrAddContact(IViewContactAdd view, IPresenterChat prChat) {
         this.view = view;
         this.prChat = prChat;
         setListeners();
@@ -37,10 +40,10 @@ public class PrAddContact implements IPresenter {
             public void actionPerformed(ActionEvent e) {
                 // TODO ADD CONTACT IF NOT EXIST
                 System.err.println("AddContact Добавить");
-                String phoneNumber = view.getPhoneJFormattedText().getText();
+                String phoneNumber = view.getPhoneNumber();
                 phoneNumber = phoneNumber.replaceAll("[^\\d]+", "");
-                String firstName = view.getFirstNameTF().getText();
-                String lastName = view.getLastNameTF().getText();
+                String firstName = view.getFirstName();
+                String lastName = view.getLastName();
 
                 int importedId = 0;
                 try {

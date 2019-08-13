@@ -4,6 +4,7 @@ import Presenter.Interface.IPresenterChat;
 import Utils.DateUtils;
 import View.Forms.ViewChat;
 import View.Interface.IView;
+import View.Interface.IViewChat;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
 import View.Resources;
@@ -19,13 +20,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class PrChat implements IPresenterChat, IncomingMessageHandler {
-    private ViewChat view;
+    private IViewChat view;
     private User user;
     private Random random;
     private ContactListItem selectedContact;
 
-    public PrChat(IView view) {
-        this.view = (ViewChat) view;
+    public PrChat(IViewChat view) {
+        this.view = view;
         this.user = model.getSelfUser();
         this.random = new Random();
         model.setMessageHandler(this);
@@ -43,11 +44,6 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
             }
         });
         contactListThread.start();
-    }
-
-
-    public ViewChat getView() {
-        return view;
     }
 
 
@@ -155,7 +151,7 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
             model.addElement(new MessageItem(msg));
         }
         view.showMessages(model);
-        view.scrollMessagesToEnd();
+//        view.scrollMessagesToEnd();
         view.showContactInterface();
     }
 
@@ -294,4 +290,8 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
         }
     }
 
+    @Override
+    public User getSelfUser() {
+        return this.user;
+    }
 }

@@ -1,19 +1,22 @@
 package Presenter;
 
 import Presenter.Interface.IPresenter;
+import Presenter.Interface.IPresenterChat;
+import Presenter.Interface.IPresenterProfileEdit;
 import View.Forms.Modal.ViewEditProfile;
 import View.Forms.ViewEnterPhone;
+import View.Interface.IViewProfileEdit;
 import org.javagram.response.object.User;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PrEditProfile implements IPresenter {
-    ViewEditProfile view;
-    PrChat prChat;
+public class PrEditProfile implements IPresenterProfileEdit {
+    IViewProfileEdit view;
+    IPresenterChat prChat;
     User user;
 
-    public PrEditProfile(ViewEditProfile view, PrChat prChat) {
+    public PrEditProfile(IViewProfileEdit view, IPresenterChat prChat) {
         this.view = view;
         this.prChat = prChat;
         setListeners();

@@ -3,6 +3,7 @@ package View.Interface;
 import Presenter.Interface.IPresenterChat;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
+import View.ListRenderer.ListCellRendererContact;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -27,4 +28,9 @@ public interface IViewChat extends IView {
     void setUserName(String userName);
     void setContactPhoto(BufferedImage photo);
     void setUserPhoto(BufferedImage photo);
+
+    DefaultListModel<ContactListItem> getModelContacts();
+    DefaultListModel<MessageItem> getModelMessages();
+    JList<ContactListItem> getContactsJList();
+    ListCellRendererContact getContactListRenderer();
 }

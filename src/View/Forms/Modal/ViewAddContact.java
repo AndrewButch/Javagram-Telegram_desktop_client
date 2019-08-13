@@ -9,13 +9,16 @@ import java.awt.image.BufferedImage;
 import java.text.ParseException;
 
 import Presenter.Interface.IPresenter;
+import Presenter.Interface.IPresenterChat;
+import Presenter.Interface.IPresenterContactAdd;
 import Presenter.PrAddContact;
 import Presenter.PrChat;
+import View.Interface.IViewContactAdd;
 import View.Resources;
 import View.Interface.IView;
 
 
-public class ViewAddContact implements IView {
+public class ViewAddContact implements IViewContactAdd {
     private JPanel rootPanel;
     private JLabel viewLabel;
     private JTextPane titleTextPane;
@@ -28,9 +31,9 @@ public class ViewAddContact implements IView {
     private BufferedImage icon_phone;
     private BufferedImage backBtnImg;
 
-    private PrAddContact presenter;
+    private IPresenterContactAdd presenter;
 
-    public ViewAddContact(PrChat prChat) {
+    public ViewAddContact(IPresenterChat prChat) {
         setPresenter(new PrAddContact(this, prChat));
     }
 
@@ -50,10 +53,6 @@ public class ViewAddContact implements IView {
         return rootPanel;
     }
 
-    public JFormattedTextField getPhoneJFormattedText() {
-        return phoneJFormattedText;
-    }
-
     public JButton getAddBtn() {
         return addBtn;
     }
@@ -69,8 +68,8 @@ public class ViewAddContact implements IView {
     }
 
     @Override
-    public void setPresenter(IPresenter presenter) {
-        this.presenter = (PrAddContact) presenter;
+    public void setPresenter(IPresenterContactAdd presenter) {
+        this.presenter = presenter;
     }
 
     private void setupRootPanel() {
@@ -145,11 +144,18 @@ public class ViewAddContact implements IView {
         doc.setLogicalStyle(0, mainStyle);
     }
 
-    public JTextField getFirstNameTF() {
-        return firstNameTF;
+    @Override
+    public String getFirstName() {
+        return firstNameTF.getText();
     }
 
-    public JTextField getLastNameTF() {
-        return lastNameTF;
+    @Override
+    public String getLastName() {
+        return lastNameTF.getText();
+    }
+
+    @Override
+    public String getPhoneNumber() {
+        return phoneJFormattedText.getText();
     }
 }

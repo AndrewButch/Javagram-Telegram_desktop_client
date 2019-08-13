@@ -1,7 +1,10 @@
 package Presenter;
 
 import Presenter.Interface.IPresenter;
+import Presenter.Interface.IPresenterChat;
+import Presenter.Interface.IPresenterContactEdit;
 import View.Forms.Modal.ViewEditContact;
+import View.Interface.IViewContactEdit;
 import View.ListItem.ContactListItem;
 import org.javagram.response.object.User;
 import org.javagram.response.object.UserContact;
@@ -10,11 +13,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class PrEditContact implements IPresenter {
-    ViewEditContact view;
-    PrChat prChat;
+public class PrEditContact implements IPresenterContactEdit {
+    IViewContactEdit view;
+    IPresenterChat prChat;
 
-    public PrEditContact(ViewEditContact view, PrChat prChat) {
+    public PrEditContact(IViewContactEdit view, IPresenterChat prChat) {
         this.view = view;
         this.prChat = prChat;
         setListeners();

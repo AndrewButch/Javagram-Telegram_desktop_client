@@ -1,9 +1,12 @@
 package View.Forms.Modal;
 
 import Presenter.Interface.IPresenter;
+import Presenter.Interface.IPresenterChat;
+import Presenter.Interface.IPresenterContactEdit;
 import Presenter.PrChat;
 import Presenter.PrEditContact;
 import View.Interface.IView;
+import View.Interface.IViewContactEdit;
 import View.Resources;
 
 import javax.swing.*;
@@ -13,7 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 
 
-public class ViewEditContact implements IView {
+public class ViewEditContact implements IViewContactEdit {
     private JPanel rootPanel;
     private JLabel viewLabel;
     private JPanel contactJPanel;
@@ -29,12 +32,11 @@ public class ViewEditContact implements IView {
     private BufferedImage photo;
     private Image scaledPhoto;
 
-    private PrEditContact presenter;
+    private IPresenterContactEdit presenter;
 
-    public ViewEditContact(PrChat prChat) {
+    public ViewEditContact(IPresenterChat prChat) {
         setPresenter(new PrEditContact(this, prChat));
         deleteBtn.setBorder(BorderFactory.createLineBorder(new Color(187,61,62), 2));
-
     }
 
     private void createUIComponents() {
@@ -70,8 +72,8 @@ public class ViewEditContact implements IView {
     }
 
     @Override
-    public void setPresenter(IPresenter presenter) {
-        this.presenter = (PrEditContact) presenter;
+    public void setPresenter(IPresenterContactEdit presenter) {
+        this.presenter = presenter;
 
     }
 

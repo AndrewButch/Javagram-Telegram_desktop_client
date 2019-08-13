@@ -1,9 +1,12 @@
 package View.Forms.Modal;
 
 import Presenter.Interface.IPresenter;
+import Presenter.Interface.IPresenterChat;
+import Presenter.Interface.IPresenterProfileEdit;
 import Presenter.PrChat;
 import Presenter.PrEditProfile;
 import View.Interface.IView;
+import View.Interface.IViewProfileEdit;
 import View.Resources;
 
 import javax.swing.*;
@@ -12,7 +15,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 
-public class ViewEditProfile implements IView {
+public class ViewEditProfile implements IViewProfileEdit {
     private JPanel rootPanel;
     private JLabel viewLabel;
     private JTextField firstNameTF;
@@ -24,9 +27,9 @@ public class ViewEditProfile implements IView {
 
     private BufferedImage backBtnImg;
 
-    private PrEditProfile presenter;
+    private IPresenterProfileEdit presenter;
 
-    public ViewEditProfile(PrChat prChat) {
+    public ViewEditProfile(IPresenterChat prChat) {
         setPresenter(new PrEditProfile(this, prChat));
     }
 
@@ -35,8 +38,8 @@ public class ViewEditProfile implements IView {
     }
 
     @Override
-    public void setPresenter(IPresenter presenter) {
-        this.presenter = (PrEditProfile) presenter;
+    public void setPresenter(IPresenterProfileEdit presenter) {
+        this.presenter = presenter;
     }
 
     private void createUIComponents() {

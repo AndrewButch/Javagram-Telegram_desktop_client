@@ -15,6 +15,7 @@ public interface IPresenterChat extends IPresenter {
     void showInterface();
     void setSelectedContact(ContactListItem item);
     ContactListItem getSelectedContact();
+    User getSelfUser();
     void cleatSelectedContact();
     void refreshInterfaceBySelectedContact();
     void refreshDialogList();

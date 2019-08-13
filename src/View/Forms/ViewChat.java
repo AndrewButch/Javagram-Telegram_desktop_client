@@ -369,10 +369,6 @@ public class ViewChat implements IViewChat {
         return layeredRootPane;
     }
 
-    public JButton getUserSettingsBtn() {
-        return userSettingsBtn;
-    }
-
     public JButton getContactEditBtn() {
         return contactEditBtn;
     }
@@ -381,23 +377,6 @@ public class ViewChat implements IViewChat {
         return addContactBtn;
     }
 
-    public JButton getSendMessageBtn() {
-        return sendMessageBtn;
-    }
-
-    public JTextField getSendMessageTextField() {
-        return sendMessageTextField;
-    }
-
-    public JScrollPane getMessageListScrollPane() {
-        return messageListScrollPane;
-    }
-
-
-
-    public JLabel getContactNameLable() {
-        return contactNameLable;
-    }
 
     public JList<ContactListItem> getContactsJList() {
         return contactsJList;
@@ -415,10 +394,12 @@ public class ViewChat implements IViewChat {
         return messageListRenderer;
     }
 
+    @Override
     public DefaultListModel<ContactListItem> getModelContacts() {
         return modelContacts;
     }
 
+    @Override
     public DefaultListModel<MessageItem> getModelMessages() {
         return modelMessages;
     }
