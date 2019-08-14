@@ -1,8 +1,8 @@
 package View.Forms;
 
-import Presenter.Interface.IPresenter;
+import Presenter.Interface.IPresenterSignUp;
 import Presenter.PrSignUp;
-import View.Interface.IView;
+import View.Interface.IViewSignUp;
 import View.Resources;
 import View.WindowManager;
 
@@ -13,11 +13,13 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 
-public class ViewSignUp implements IView {
-    private PrSignUp presenter;
+public class ViewSignUp implements IViewSignUp {
+    private IPresenterSignUp presenter;
     private JTextField lastNameText;
     private JTextField firstNameText;
     private JButton nextButton;
@@ -29,38 +31,26 @@ public class ViewSignUp implements IView {
     public ViewSignUp() {
         this.logo = Resources.getImage(Resources.LOGO_MINI);
         setPresenter(new PrSignUp(this));
+        setListeners();
         WindowManager.setContentView(this);
         firstNameText.requestFocus();
     }
 
-    public JButton getNextButton() {
-        return nextButton;
-    }
-
-    @Override
-    public JPanel getRootPanel() {
-        return rootPanel;
-    }
-
-    @Override
-    public void setPresenter(IPresenter presenter) {
-        this.presenter = (PrSignUp) presenter;
-    }
-
-    public void goToEnterPhoneView() {
-        new ViewEnterPhone();
-    }
-
-    public void goToChatView() {
-        new ViewChat();
-    }
-
-    public JTextField getLastNameText() {
-        return lastNameText;
-    }
-
-    public JTextField getFirstNameText() {
-        return firstNameText;
+    private void setListeners() {
+        // слушатель на кнопку "Продолжить"
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presenter.signup();
+            }
+        });
+        // слушатель на поле ввода фамилии
+        lastNameText.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presenter.signup();
+            }
+        });
     }
 
     private void createUIComponents() {
@@ -89,4 +79,36 @@ public class ViewSignUp implements IView {
         StyleConstants.setAlignment(mainStyle,StyleConstants.ALIGN_CENTER);
         doc.setLogicalStyle(0, mainStyle);
     }
+
+    @Override
+    public JComponent getRootPanel() {
+        return rootPanel;
+    }
+
+    @Override
+    public void setPresenter(IPresenterSignUp presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public String getLastName() {
+        return lastNameText.getText();
+    }
+
+    @Override
+    public String getFirstName() {
+        return firstNameText.getText();
+    }
+
+    @Override
+    public void showPhoneInputView() {
+        new ViewEnterPhone();
+    }
+
+    @Override
+    public void showChatView() {
+        new ViewChat();
+    }
+
+
 }

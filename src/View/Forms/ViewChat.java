@@ -1,14 +1,16 @@
 package View.Forms;
 
-import Presenter.Interface.IPresenter;
 import Presenter.Interface.IPresenterChat;
 import Presenter.PrChat;
 import Utils.MyMouseWheelScroller;
 import View.Forms.Modal.ViewAddContact;
 import View.Forms.Modal.ViewEditContact;
 import View.Forms.Modal.ViewEditProfile;
-import View.Interface.IView;
+import View.Forms.Modal.ViewLoading;
 import View.Interface.IViewChat;
+import View.Interface.IViewContactAdd;
+import View.Interface.IViewContactEdit;
+import View.Interface.IViewProfileEdit;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
 import View.ListRenderer.ListCellRendererContact;
@@ -21,8 +23,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-
-import static java.lang.Thread.sleep;
 
 
 public class ViewChat implements IViewChat {
@@ -94,9 +94,10 @@ public class ViewChat implements IViewChat {
 
 
     // Модальные view с редактированием профиля, добавлением и редактированием контактов
-    private ViewEditProfile editProfile;
-    private ViewAddContact addContact;
-    private ViewEditContact editContact;
+    private IViewProfileEdit editProfile;
+    private IViewContactAdd addContact;
+    private IViewContactEdit editContact;
+    private ViewLoading viewLoading;
 
 
     public ViewChat() {
@@ -104,6 +105,7 @@ public class ViewChat implements IViewChat {
         WindowManager.setContentView(this);
         setupBorders();
         setListeners();
+
         contactListRenderer = new ListCellRendererContact(this.presenter);
         messageListRenderer = new ListCellRendererMessage();
         contactsJList.setCellRenderer(contactListRenderer);
@@ -149,6 +151,11 @@ public class ViewChat implements IViewChat {
         addContact.getRootPanel().setSize(width, height);
         layeredRootPane.add(addContact.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
 
+        // Форма Загрузки добавляются в z-index на слой выше
+        viewLoading = new ViewLoading();
+        viewLoading.getRootPanel().setSize(width, height);
+        layeredRootPane.add(viewLoading.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
+
         // Обработка события на изменение размера
         WindowManager.getContentPanel().addComponentListener(new ComponentAdapter() {
             @Override
@@ -160,7 +167,7 @@ public class ViewChat implements IViewChat {
                 addContact.getRootPanel().setSize(e.getComponent().getSize());
             }
         });
-
+        viewLoading.showView();
     }
 
     private void createUIComponents() {
@@ -211,9 +218,6 @@ public class ViewChat implements IViewChat {
         rootPanel.setMinimumSize(new Dimension(width, height));
         rootPanel.setSize(new Dimension(width, height));
         rootPanel.setPreferredSize(new Dimension(width, height));
-
-
-
     }
 
     private void setupIcons() {
@@ -252,8 +256,6 @@ public class ViewChat implements IViewChat {
             }
         };
     }
-
-
 
     private void setupBorders() {
         contactsJList.setBorder(null);
@@ -404,7 +406,7 @@ public class ViewChat implements IViewChat {
         return modelMessages;
     }
 
-    public ViewAddContact getAddContact() {
+    public IViewContactAdd getAddContact() {
         return addContact;
     }
 
@@ -414,8 +416,7 @@ public class ViewChat implements IViewChat {
     @Override
     public void showContactAddView() {
         addContact.clearFields();
-        addContact.getRootPanel().setVisible(true);
-        addContact.getPhoneJFormattedText().requestFocus();
+        addContact.showView();
     }
 
     // Показать модальное окно с редактированием своего профиля
@@ -423,7 +424,7 @@ public class ViewChat implements IViewChat {
     public void showProfileEditView() {
         User user = presenter.getSelfUser();
         editProfile.setUserInfo(user.getFirstName(), user.getLastName(), user.getPhone());
-        editProfile.getRootPanel().setVisible(true);
+        editProfile.showView();
     }
 
     // Показать модальное окно с редактированием контакта
@@ -431,7 +432,7 @@ public class ViewChat implements IViewChat {
     public void showContactEditView() {
         User user = presenter.getSelectedContact().getUser();
         editContact.setContactInfo(user.toString(), user.getPhone(), user.getId());
-        editContact.getRootPanel().setVisible(true);
+        editContact.showView();
     }
 
     /** --------- Методы управления --------- */
@@ -459,6 +460,7 @@ public class ViewChat implements IViewChat {
     public void showMessages(DefaultListModel<MessageItem> model) {
         modelMessages = model;
         messagesJList.setModel(model);
+        scrollMessagesToEnd();
     }
 
     public void scrollMessagesToEnd() {
@@ -515,5 +517,14 @@ public class ViewChat implements IViewChat {
         userPhotoBlueMini = photo.getScaledInstance(29, 29, 5);
     }
 
+    @Override
+    public void showLoadingView() {
+        viewLoading.showView();
+    }
+
+    @Override
+    public void hideLoadingView() {
+        viewLoading.hideView();
+    }
 }
 

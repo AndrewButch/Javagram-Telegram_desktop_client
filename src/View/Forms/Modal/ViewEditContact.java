@@ -1,17 +1,16 @@
 package View.Forms.Modal;
 
-import Presenter.Interface.IPresenter;
 import Presenter.Interface.IPresenterChat;
 import Presenter.Interface.IPresenterContactEdit;
-import Presenter.PrChat;
 import Presenter.PrEditContact;
-import View.Interface.IView;
 import View.Interface.IViewContactEdit;
 import View.Resources;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 
@@ -36,6 +35,7 @@ public class ViewEditContact implements IViewContactEdit {
 
     public ViewEditContact(IPresenterChat prChat) {
         setPresenter(new PrEditContact(this, prChat));
+        setListeners();
         deleteBtn.setBorder(BorderFactory.createLineBorder(new Color(187,61,62), 2));
     }
 
@@ -51,24 +51,36 @@ public class ViewEditContact implements IViewContactEdit {
         setupNameField();
     }
 
+    private void setListeners() {
+        // Слушатель на кнопку "сохраненя"
+        saveBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presenter.saveContact();
+                hideView();
+            }
+        });
+        // Слушатель на кнопку "удалить контакт"
+        deleteBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                presenter.deleteContact();
+                hideView();
+            }
+        });
+
+        // Слушатель на кнопку "Назад"
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.err.println("EditContact Назад");
+                rootPanel.setVisible(false);
+            }
+        });
+    }
+
     public JPanel getRootPanel() {
         return rootPanel;
-    }
-
-    public JButton getSaveBtn() {
-        return saveBtn;
-    }
-
-    public JButton getBackBtn() {
-        return backBtn;
-    }
-
-    public JButton getDeleteBtn() {
-        return deleteBtn;
-    }
-
-    public JLabel getPhoneLabel() {
-        return phoneLabel;
     }
 
     @Override
@@ -76,7 +88,7 @@ public class ViewEditContact implements IViewContactEdit {
         this.presenter = presenter;
 
     }
-
+    @Override
     public void setContactInfo(String name, String phoneNumber, int userId) {
         nameTF.setText(name);
         phoneLabel.setText(phoneNumber);
@@ -135,8 +147,20 @@ public class ViewEditContact implements IViewContactEdit {
         nameTF = new JTextField();
         nameTF.setBorder(border);
     }
+    @Override
+    public String getName() {
+        return nameTF.getText();
+    }
 
-    public JTextField getNameTF() {
-        return nameTF;
+
+
+    @Override
+    public void showView() {
+        rootPanel.setVisible(true);
+    }
+
+    @Override
+    public void hideView() {
+        rootPanel.setVisible(false);
     }
 }

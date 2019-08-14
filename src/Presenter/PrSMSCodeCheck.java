@@ -1,13 +1,13 @@
 package Presenter;
 
 import Presenter.Interface.IPresenterSMSCodeCheck;
-import View.Forms.ViewSMSCode;
+import View.Interface.IViewSMSCodeCheck;
 import View.WindowManager;
 
 public class PrSMSCodeCheck implements IPresenterSMSCodeCheck {
-    ViewSMSCode view;
+    IViewSMSCodeCheck view;
 
-    public PrSMSCodeCheck(ViewSMSCode view) {
+    public PrSMSCodeCheck(IViewSMSCodeCheck view) {
         this.view = view;
         view.setPhoneNumber(model.getPhone());
     }

@@ -1,21 +1,20 @@
 package View.Forms.Modal;
 
+import Presenter.Interface.IPresenterChat;
+import Presenter.Interface.IPresenterContactAdd;
+import Presenter.PrAddContact;
+import View.Interface.IViewContactAdd;
+import View.Resources;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.text.ParseException;
-
-import Presenter.Interface.IPresenter;
-import Presenter.Interface.IPresenterChat;
-import Presenter.Interface.IPresenterContactAdd;
-import Presenter.PrAddContact;
-import Presenter.PrChat;
-import View.Interface.IViewContactAdd;
-import View.Resources;
-import View.Interface.IView;
 
 
 public class ViewAddContact implements IViewContactAdd {
@@ -35,6 +34,7 @@ public class ViewAddContact implements IViewContactAdd {
 
     public ViewAddContact(IPresenterChat prChat) {
         setPresenter(new PrAddContact(this, prChat));
+        setListeners();
     }
 
     private void createUIComponents() {
@@ -53,24 +53,6 @@ public class ViewAddContact implements IViewContactAdd {
         return rootPanel;
     }
 
-    public JButton getAddBtn() {
-        return addBtn;
-    }
-
-    public JButton getBackBtn() {
-        return backBtn;
-    }
-
-    public void clearFields() {
-        phoneJFormattedText.setText("");
-        firstNameTF.setText("");
-        lastNameTF.setText("");
-    }
-
-    @Override
-    public void setPresenter(IPresenterContactAdd presenter) {
-        this.presenter = presenter;
-    }
 
     private void setupRootPanel() {
         // Задание полупрозрачного фона
@@ -144,6 +126,30 @@ public class ViewAddContact implements IViewContactAdd {
         doc.setLogicalStyle(0, mainStyle);
     }
 
+    private void setListeners() {
+        // Слушатель на кнопку "Назад"
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rootPanel.setVisible(false);
+                System.err.println("AddContact Назад");
+            }
+        });
+
+        // Слушатель кнопку "добавить"
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presenter.addContact();
+            }
+        });
+    }
+
+    @Override
+    public void setPresenter(IPresenterContactAdd presenter) {
+        this.presenter = presenter;
+    }
+
     @Override
     public String getFirstName() {
         return firstNameTF.getText();
@@ -157,5 +163,23 @@ public class ViewAddContact implements IViewContactAdd {
     @Override
     public String getPhoneNumber() {
         return phoneJFormattedText.getText();
+    }
+
+    @Override
+    public void showView() {
+        rootPanel.setVisible(true);
+        phoneJFormattedText.requestFocus();
+    }
+
+    @Override
+    public void hideView() {
+        rootPanel.setVisible(false);
+    }
+
+    @Override
+    public void clearFields() {
+        phoneJFormattedText.setText("");
+        firstNameTF.setText("");
+        lastNameTF.setText("");
     }
 }

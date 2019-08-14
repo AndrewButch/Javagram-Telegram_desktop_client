@@ -33,4 +33,7 @@ public interface IViewChat extends IView {
     DefaultListModel<MessageItem> getModelMessages();
     JList<ContactListItem> getContactsJList();
     ListCellRendererContact getContactListRenderer();
+
+    void showLoadingView();
+    void hideLoadingView();
 }

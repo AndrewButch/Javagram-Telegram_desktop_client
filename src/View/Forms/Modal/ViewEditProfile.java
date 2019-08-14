@@ -1,17 +1,17 @@
 package View.Forms.Modal;
 
-import Presenter.Interface.IPresenter;
 import Presenter.Interface.IPresenterChat;
 import Presenter.Interface.IPresenterProfileEdit;
-import Presenter.PrChat;
 import Presenter.PrEditProfile;
-import View.Interface.IView;
+import View.Forms.ViewEnterPhone;
 import View.Interface.IViewProfileEdit;
 import View.Resources;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 
@@ -31,15 +31,11 @@ public class ViewEditProfile implements IViewProfileEdit {
 
     public ViewEditProfile(IPresenterChat prChat) {
         setPresenter(new PrEditProfile(this, prChat));
+        setListeners();
     }
 
     public JPanel getRootPanel() {
         return rootPanel;
-    }
-
-    @Override
-    public void setPresenter(IPresenterProfileEdit presenter) {
-        this.presenter = presenter;
     }
 
     private void createUIComponents() {
@@ -49,30 +45,34 @@ public class ViewEditProfile implements IViewProfileEdit {
         setupBackButton();
     }
 
-    public void setUserInfo(String firstName, String lastName, String phoneNumber) {
-        firstNameTF.setText(firstName);
-        lastNameTF.setText(lastName);
-        phoneLabel.setText(phoneNumber);
-    }
+    private void setListeners() {
+        // TODO
+        // Слушатель на кнопку "сохранения"
+        saveBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                presenter.saveProfile();
+            }
+        });
+        // Слушатель на кнопку "выйти"
+        exitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO LOGOUT
+                presenter.logout();
+                System.err.println("EditProfile Выйти");
+                new ViewEnterPhone();
+            }
+        });
 
-    public JTextField getFirstNameTF() {
-        return firstNameTF;
-    }
-
-    public JTextField getLastNameTF() {
-        return lastNameTF;
-    }
-
-    public JButton getSaveBtn() {
-        return saveBtn;
-    }
-
-    public JButton getBackBtn() {
-        return backBtn;
-    }
-
-    public JButton getExitBtn() {
-        return exitBtn;
+        // Слушатель на кнопку "назад"
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.err.println("EditProfile Назад");
+                hideView();
+            }
+        });
     }
 
     private void setupRootPanel() {
@@ -114,5 +114,37 @@ public class ViewEditProfile implements IViewProfileEdit {
         lastNameTF = new JTextField();
         firstNameTF.setBorder(border);
         lastNameTF.setBorder(border);
+    }
+
+    @Override
+    public void setPresenter(IPresenterProfileEdit presenter) {
+        this.presenter = presenter;
+    }
+
+    @Override
+    public String getFirstName() {
+        return firstNameTF.getText();
+    }
+
+    @Override
+    public String getLastName() {
+        return lastNameTF.getText();
+    }
+
+    @Override
+    public void showView() {
+        rootPanel.setVisible(true);
+    }
+
+    @Override
+    public void hideView() {
+        rootPanel.setVisible(false);
+    }
+
+    @Override
+    public void setUserInfo(String firstName, String lastName, String phoneNumber) {
+        firstNameTF.setText(firstName);
+        lastNameTF.setText(lastName);
+        phoneLabel.setText(phoneNumber);
     }
 }

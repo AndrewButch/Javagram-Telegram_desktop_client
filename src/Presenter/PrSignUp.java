@@ -1,40 +1,20 @@
 package Presenter;
 
-import Presenter.Interface.IPresenter;
-import View.Forms.ViewSignUp;
+import Presenter.Interface.IPresenterSignUp;
+import View.Interface.IViewSignUp;
 import View.WindowManager;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+public class PrSignUp implements IPresenterSignUp {
+    private IViewSignUp view;
 
-public class PrSignUp implements IPresenter {
-    ViewSignUp view;
-
-    public PrSignUp(ViewSignUp view) {
+    public PrSignUp(IViewSignUp view) {
         this.view = view;
-        setListeners();
     }
 
-    private void setListeners() {
-        // слушатель на кнопку "Продолжить"
-        view.getNextButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                signUp();
-            }
-        });
-        // слушатель на поле ввода фамилии
-        view.getLastNameText().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                signUp();
-            }
-        });
-    }
-
-    public void signUp() {
-        String firstName = view.getFirstNameText().getText();
-        String lastName = view.getLastNameText().getText();
+    @Override
+    public void signup() {
+        String firstName = view.getFirstName();
+        String lastName = view.getLastName();
         String code = model.getSmsCode();
 
         String error = "";              // Сообщение об ошибке, будет передано в showWarningDialog
@@ -49,9 +29,9 @@ public class PrSignUp implements IPresenter {
         } else {
             model.signUp(firstName, lastName, code);
             if (model.getAuthorization() != null)
-                view.goToChatView();
+                view.showChatView();
             else
-                view.goToEnterPhoneView(); // Переход на на форму ввода телефона, если не авторизовался
+                view.showPhoneInputView(); // Переход на на форму ввода телефона, если не авторизовался
         }
     }
 }

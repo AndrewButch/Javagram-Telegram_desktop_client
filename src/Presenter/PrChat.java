@@ -2,17 +2,20 @@ package Presenter;
 
 import Presenter.Interface.IPresenterChat;
 import Utils.DateUtils;
-import View.Forms.ViewChat;
-import View.Interface.IView;
 import View.Interface.IViewChat;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
 import View.Resources;
 import org.javagram.handlers.IncomingMessageHandler;
 import org.javagram.response.MessagesSentMessage;
-import org.javagram.response.object.*;
 import org.javagram.response.object.Dialog;
-import org.telegram.api.*;
+import org.javagram.response.object.Message;
+import org.javagram.response.object.User;
+import org.javagram.response.object.UserContact;
+import org.telegram.api.TLMessage;
+import org.telegram.api.TLPeerUser;
+import org.telegram.api.TLUserContact;
+import org.telegram.api.TLUserStatusOffline;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -37,10 +40,11 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
             @Override
             public void run() {
                 model.contactsGetContacts();
-                loadContactPhotos();
+                Resources.loadPhotos(model.contactsGetContacts());
                 updateDialogsLocal();
                 refreshDialogList();
                 updateUserPhoto(Resources.getPhoto(user.getId(), true));
+                view.hideLoadingView();
             }
         });
         contactListThread.start();
@@ -128,16 +132,6 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
         }
         view.clearMessageField();
         refreshChat();
-    }
-
-    public void loadContactPhotos() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Resources.loadPhotos(model.contactsGetContacts());
-            }
-        });
-        t.start();
     }
 
     public synchronized void refreshChat() {
@@ -244,6 +238,8 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
         view.setContactName(selected.toString());
         BufferedImage photo = Resources.getPhoto(selected.getId(), true);
         view.setContactPhoto(photo);
+        view.getRootPanel().revalidate();
+        view.getRootPanel().repaint();
     }
 
     public void refreshDialogList() {

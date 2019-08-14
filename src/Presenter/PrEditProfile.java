@@ -1,63 +1,36 @@
 package Presenter;
 
-import Presenter.Interface.IPresenter;
 import Presenter.Interface.IPresenterChat;
 import Presenter.Interface.IPresenterProfileEdit;
-import View.Forms.Modal.ViewEditProfile;
-import View.Forms.ViewEnterPhone;
 import View.Interface.IViewProfileEdit;
 import org.javagram.response.object.User;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class PrEditProfile implements IPresenterProfileEdit {
-    IViewProfileEdit view;
-    IPresenterChat prChat;
-    User user;
+    private IViewProfileEdit view;
+    private IPresenterChat prChat;
+    private User user;
 
     public PrEditProfile(IViewProfileEdit view, IPresenterChat prChat) {
         this.view = view;
         this.prChat = prChat;
-        setListeners();
         this.user = model.getSelfUser();
         view.setUserInfo(user.getFirstName(), user.getLastName(), user.getPhone());
     }
 
-    private void setListeners() {
-        // TODO
-        // Слушатель на кнопку "сохранения"
-        view.getSaveBtn().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO SAVE SETTING
-                String newFirstName = view.getFirstNameTF().getText();
-                String newLastName = view.getLastNameTF().getText();
-                User updatedUser = model.updateProfileInfo(newFirstName, newLastName);
-                user = updatedUser;
-                prChat.updateDialogName(updatedUser);
-                System.err.println("EditProfile Сохранить");
-                view.getRootPanel().setVisible(false);
-            }
-        });
-        // Слушатель на кнопку "выйти"
-        view.getExitBtn().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO LOGOUT
-                model.logOut();
-                System.err.println("EditProfile Выйти");
-                new ViewEnterPhone();
-            }
-        });
-
-        // Слушатель на кнопку "назад"
-        view.getBackBtn().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.err.println("EditProfile Назад");
-                view.getRootPanel().setVisible(false);
-            }
-        });
+    @Override
+    public void saveProfile() {
+        String newFirstName = view.getFirstName();
+        String newLastName = view.getLastName();
+        User updatedUser = model.updateProfileInfo(newFirstName, newLastName);
+        user = updatedUser;
+        prChat.updateDialogName(updatedUser);
+        System.err.println("EditProfile Сохранить");
+        view.getRootPanel().setVisible(false);
     }
+
+    @Override
+    public void logout() {
+        model.logOut();
+    }
+
 }

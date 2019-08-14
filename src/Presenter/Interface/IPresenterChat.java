@@ -9,7 +9,6 @@ public interface IPresenterChat extends IPresenter {
 
     void updateDialogsLocal();
     void sendMessage(String message);
-    void loadContactPhotos();
     void refreshChat();
     void search(String search);
     void showInterface();
