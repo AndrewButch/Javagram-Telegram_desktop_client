@@ -30,10 +30,7 @@ public class ContactListItem {
     public ContactListItem(UserContact userContact, Message topMsg, int unreadCount) {
         this.user = userContact;
         this.isOnline = userContact.isOnline();
-
         setMessage(topMsg);
-
-
         smallPhoto = Resources.getPhoto(0, false);
         smallPhoto = Resources.getPhoto(userContact.getId(), true);
         photo = smallPhoto.getScaledInstance(41, 41, 5);
@@ -66,10 +63,6 @@ public class ContactListItem {
         return rootPanel;
     }
 
-    public BufferedImage getStatusBorder() {
-        return statusBorder;
-    }
-
     public void setStatusBorder(BufferedImage statusBorder) {
         this.statusBorder = statusBorder;
     }
@@ -84,10 +77,6 @@ public class ContactListItem {
 
     public void setUserName(String userName) {
         this.userName.setText(userName);
-    }
-
-    public JLabel getLastMsg() {
-        return lastMsg;
     }
 
     public Image getPhoto() {
@@ -137,13 +126,4 @@ public class ContactListItem {
         this.unreadCount++;
     }
 
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (obj == null)
-//            return false;
-//        if (this.getUser() == null)
-//            return false;
-//        ContactListItem item = (ContactListItem) obj;
-//        return this.getUser().getId() == item.getUser().getId();
-//    }
 }

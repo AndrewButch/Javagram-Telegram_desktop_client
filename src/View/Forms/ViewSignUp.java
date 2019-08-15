@@ -102,7 +102,7 @@ public class ViewSignUp implements IViewSignUp {
 
     @Override
     public void showPhoneInputView() {
-        new ViewEnterPhone();
+        new ViewPhoneInput();
     }
 
     @Override

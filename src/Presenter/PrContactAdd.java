@@ -10,19 +10,17 @@ import org.javagram.response.object.UserContact;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class PrAddContact implements IPresenterContactAdd {
+public class PrContactAdd implements IPresenterContactAdd {
     private IViewContactAdd view;
     private IPresenterChat prChat;
 
-    public PrAddContact(IViewContactAdd view, IPresenterChat prChat) {
+    public PrContactAdd(IViewContactAdd view, IPresenterChat prChat) {
         this.view = view;
         this.prChat = prChat;
     }
 
     @Override
     public void addContact() {
-        // TODO ADD CONTACT IF NOT EXIST
-        System.err.println("AddContact Добавить");
         String phoneNumber = view.getPhoneNumber();
         phoneNumber = phoneNumber.replaceAll("[^\\d]+", "");
         String firstName = view.getFirstName();
@@ -45,7 +43,6 @@ public class PrAddContact implements IPresenterContactAdd {
             prChat.cleatSelectedContact();
             prChat.setSelectedContact(item);
             prChat.refreshChat();
-
             System.err.println("Контакт добавлен: " + contact.toString());
         } else {
             System.err.println("Контакт не добавлен");

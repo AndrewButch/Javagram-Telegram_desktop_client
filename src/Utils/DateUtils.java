@@ -29,8 +29,7 @@ public class DateUtils {
         int nowHour = now.get(Calendar.HOUR_OF_DAY);
         int nowMin = now.get(Calendar.MINUTE);
 
-        String result = "хрень";
-
+        String result = "";
         // Разница (в секундах) между текущей датой и датой в сообщении
         int delta = (int)((now.getTimeInMillis() - convertDate.getTimeInMillis()) / 1000 / 60);
         if(nowYear == year && nowMonth == month && day >= nowDay - 1) { // если больше 2 дней
@@ -78,8 +77,7 @@ public class DateUtils {
         int nowMin = now.get(Calendar.MINUTE);
 
 
-
-        String result = "хрень";
+        String result = "";
         if (nowYear == year && nowMonth == month && day == nowDay) { // если день совпадает
             // сегодня
             int delta = (int)((now.getTimeInMillis() - convertDate.getTimeInMillis()) / 1000 / 60);

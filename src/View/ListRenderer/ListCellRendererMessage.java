@@ -29,7 +29,6 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
         // Визуальная настройка сообщения
         setupMessage(value);
         if (isSelected) {
-            System.err.println("Сообщение выделено");
             getRootPanel().setBackground(list.getSelectionBackground());
             getRootPanel().setForeground(list.getSelectionForeground());
         } else {

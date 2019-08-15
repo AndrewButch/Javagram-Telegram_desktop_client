@@ -9,19 +9,17 @@ import org.javagram.response.object.UserContact;
 
 import java.io.IOException;
 
-public class PrEditContact implements IPresenterContactEdit {
+public class PrContactEdit implements IPresenterContactEdit {
     private IViewContactEdit view;
     private IPresenterChat prChat;
 
-    public PrEditContact(IViewContactEdit view, IPresenterChat prChat) {
+    public PrContactEdit(IViewContactEdit view, IPresenterChat prChat) {
         this.view = view;
         this.prChat = prChat;
     }
 
     @Override
     public void saveContact() {
-        // TODO SAVE SETTING (НЕ работает метод в Bridge)
-        System.err.println("EditContact Сохранить");
         ContactListItem selectedContact = prChat.getSelectedContact();
         UserContact contact = model.contactsGetContacts().get(selectedContact.getUser().getId());
         String name = view.getName();

@@ -30,8 +30,6 @@ public class Model {
     TelegramApi api;
     TelegramApiBridge  bridge;
 
-//    private FakeTelegramBridge bridge;
-
     private AuthAuthorization authorization;
     private AuthCheckedPhone authCheckedPhone;
     private AuthSentCode authSendCode;
@@ -40,14 +38,13 @@ public class Model {
     private static Model model;
     private String phone;
     private String smsCode;
-    private State state;
 
-    // Хранилище сообщений
-    private volatile HashMap<Integer, LinkedList<Message>> contactsMessageHistory; // <contactId, LinkedList<Messages>
-    // Список контактов
-    private volatile HashMap<Integer, UserContact> contacts; // <contactId, UserContact>
-    // Список диалогов
-    private volatile LinkedHashMap<Integer, ContactListItem> dialogList = new LinkedHashMap<>(); // <contactId, ContactListItem>
+    // Хранилище сообщений <contactId, LinkedList<Messages>
+    private volatile HashMap<Integer, LinkedList<Message>> contactsMessageHistory;
+    // Список контактов <contactId, UserContact>
+    private volatile HashMap<Integer, UserContact> contacts;
+    // Список диалогов <contactId, ContactListItem>
+    private volatile LinkedHashMap<Integer, ContactListItem> dialogList = new LinkedHashMap<>();
 
 
     private Model() {
@@ -64,7 +61,6 @@ public class Model {
                 }
             }
         }
-//        bridge = new FakeTelegramBridge();
         contactsMessageHistory = new HashMap<>();
 
     }
@@ -98,8 +94,6 @@ public class Model {
             if (authorization != null && bridge != null) {
                 bridge.authLogOut();
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,7 +130,6 @@ public class Model {
     public void setSmsCode(String smsCode) {
         this.smsCode = smsCode;
     }
-
 
     /**
      * Получаем приватный объект TelegramApi используем рефлексию java.
@@ -178,6 +171,7 @@ public class Model {
         return this.contacts;
     }
 
+    /** Обновление списка контактов из Telegram */
     public synchronized boolean contactsUpdateContacts() {
         try {
             ArrayList<UserContact> conts = bridge.contactsGetContacts();
@@ -192,6 +186,7 @@ public class Model {
         return true;
     }
 
+    /** Добавление нового контакта */
     public int contactSendInvite(String phoneNumber, String firstName, String lastName) throws IOException {
         firstName = firstName.replaceAll("\\\\s+", " ");
         lastName = lastName.replaceAll("\\\\s+", " ");
@@ -208,11 +203,10 @@ public class Model {
         }
         System.out.println(listIC.isEmpty());
 
-        int importedId = listIC.size() == 0 ? 0 : listIC.get(0).getUserId();
-
-        return importedId;
+        return listIC.size() == 0 ? 0 : listIC.get(0).getUserId();
     }
 
+    /** Обновление имени и фамилии контакта путем импорта этого контакта с новыми данными и заменой старого*/
     public User contactUpdateContactInfo(int id, String phoneNumber, String newFirstName, String newLastName) throws IOException {
         newFirstName = newFirstName.replaceAll("\\\\s+", " ");
         newLastName = newLastName.replaceAll("\\\\s+", " ");
@@ -240,7 +234,7 @@ public class Model {
         return null;
     }
 
-
+    /** Удаление контакта */
     public boolean contactDeleteContact(int userId) {
         boolean result = false;
         try {
@@ -274,9 +268,9 @@ public class Model {
         dialogList.put(userId, dialog);
     }
 
+    /** Возвращает элемент ContactListItem по идентификатору контакта*/
     public ContactListItem dialogGetDialogByUserId(int userId) {
         return dialogList.get(userId);
-
     }
 
     public LinkedHashMap<Integer, ContactListItem> dialogGetDialogList() {
@@ -291,7 +285,7 @@ public class Model {
         dialogList.put(contactId, new ContactListItem(userContact, replacedItem.getMessage(), replacedItem.getUnreadCount()));
     }
 
-
+    /** Поиск сообщения по ID */
     public ArrayList<Message> messageGetMessagesById(ArrayList<Integer> ids) {
         ArrayList<Message> messages = null;
         try {
@@ -335,6 +329,7 @@ public class Model {
         return history;
     }
 
+    /** Отправка сообщения */
     public MessagesSentMessage messageSendMessage(int userId, String message, long randomId) {
         MessagesSentMessage messageStatus = null;
         try {
@@ -389,7 +384,7 @@ public class Model {
         return result;
     }
 
-    /** Сохранение сообщения во временное хранение */
+    /** Сохранение сообщения в локальное хранение */
     public synchronized void messageAddMessageToLocal(int contactId, Message msg) {
         LinkedList<Message> messages = messageGetMessageHistoryByUserID(contactId);
         messages.addFirst(msg);
@@ -429,7 +424,7 @@ public class Model {
 
     }
 
-
+    /** Обновление имени и фамилии своего профиля */
     public User updateProfileInfo(String newFirstName, String newLastName) {
         newFirstName = newFirstName.replaceAll("\\\\s+", " ");
         newLastName = newLastName.replaceAll("\\\\s+", " ");

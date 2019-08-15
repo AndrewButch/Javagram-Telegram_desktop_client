@@ -2,7 +2,7 @@ package View.Forms.Modal;
 
 import Presenter.Interface.IPresenterChat;
 import Presenter.Interface.IPresenterContactAdd;
-import Presenter.PrAddContact;
+import Presenter.PrContactAdd;
 import View.Interface.IViewContactAdd;
 import View.Resources;
 
@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
 import java.text.ParseException;
 
 
-public class ViewAddContact implements IViewContactAdd {
+public class ViewContactAdd implements IViewContactAdd {
     private JPanel rootPanel;
     private JLabel viewLabel;
     private JTextPane titleTextPane;
@@ -32,8 +32,8 @@ public class ViewAddContact implements IViewContactAdd {
 
     private IPresenterContactAdd presenter;
 
-    public ViewAddContact(IPresenterChat prChat) {
-        setPresenter(new PrAddContact(this, prChat));
+    public ViewContactAdd(IPresenterChat prChat) {
+        setPresenter(new PrContactAdd(this, prChat));
         setListeners();
     }
 
@@ -132,7 +132,6 @@ public class ViewAddContact implements IViewContactAdd {
             @Override
             public void actionPerformed(ActionEvent e) {
                 rootPanel.setVisible(false);
-                System.err.println("AddContact Назад");
             }
         });
 

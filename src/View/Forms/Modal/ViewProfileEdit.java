@@ -2,8 +2,8 @@ package View.Forms.Modal;
 
 import Presenter.Interface.IPresenterChat;
 import Presenter.Interface.IPresenterProfileEdit;
-import Presenter.PrEditProfile;
-import View.Forms.ViewEnterPhone;
+import Presenter.PrProfileEdit;
+import View.Forms.ViewPhoneInput;
 import View.Interface.IViewProfileEdit;
 import View.Resources;
 
@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 
-public class ViewEditProfile implements IViewProfileEdit {
+public class ViewProfileEdit implements IViewProfileEdit {
     private JPanel rootPanel;
     private JLabel viewLabel;
     private JTextField firstNameTF;
@@ -29,8 +29,8 @@ public class ViewEditProfile implements IViewProfileEdit {
 
     private IPresenterProfileEdit presenter;
 
-    public ViewEditProfile(IPresenterChat prChat) {
-        setPresenter(new PrEditProfile(this, prChat));
+    public ViewProfileEdit(IPresenterChat prChat) {
+        setPresenter(new PrProfileEdit(this, prChat));
         setListeners();
     }
 
@@ -46,7 +46,6 @@ public class ViewEditProfile implements IViewProfileEdit {
     }
 
     private void setListeners() {
-        // TODO
         // Слушатель на кнопку "сохранения"
         saveBtn.addActionListener(new ActionListener() {
             @Override
@@ -58,10 +57,8 @@ public class ViewEditProfile implements IViewProfileEdit {
         exitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO LOGOUT
                 presenter.logout();
-                System.err.println("EditProfile Выйти");
-                new ViewEnterPhone();
+                new ViewPhoneInput();
             }
         });
 
@@ -69,7 +66,6 @@ public class ViewEditProfile implements IViewProfileEdit {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.err.println("EditProfile Назад");
                 hideView();
             }
         });

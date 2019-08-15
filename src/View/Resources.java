@@ -113,8 +113,6 @@ public class Resources {
             if (photoBytes != null) {
                 photo = ImageIO.read(new ByteArrayInputStream(photoBytes));
                 if (photo != null) {
-                    // сохраняем фото
-//                    ImageIO.write(photo, "jpg", new File(path, b.getKey() + ".jpg"));
                     userPhotos.put(b.getKey(), photo);
                 }
             }

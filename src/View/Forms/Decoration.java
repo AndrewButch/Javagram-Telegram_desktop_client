@@ -1,5 +1,6 @@
 package View.Forms;
 
+import Model.Model;
 import View.Resources;
 import View.WindowComponents.ComponentMover;
 import View.WindowComponents.ComponentResizer;
@@ -48,7 +49,7 @@ public class Decoration extends JPanel {
                        @Override
                        public void windowClosing(WindowEvent e) {
                            super.windowClosing(e);
-                           // TODO Logout bridge
+                           Model.getInstance().logOut();
                            System.exit(0);
                        }
                    });
@@ -59,12 +60,10 @@ public class Decoration extends JPanel {
         });
 
         componentMover = new ComponentMover(frame, titlePanel);
-//        componentResizer = new ComponentResizer(frame);
         background = Resources.getImage(Resources.BACKGROUND);
     }
 
     private void createUIComponents() {
-        // TODO: place custom component creation code here
         rootPanel = this;
         contentPanel = new JPanel(new GridBagLayout()) {
             @Override

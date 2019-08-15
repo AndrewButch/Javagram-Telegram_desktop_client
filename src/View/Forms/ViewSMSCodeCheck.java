@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class ViewSMSCode implements IViewSMSCodeCheck {
+public class ViewSMSCodeCheck implements IViewSMSCodeCheck {
     private JPasswordField codePasswordField;
     private JButton nextButton;
     private JLabel phoneNumberLabel;
@@ -26,7 +26,7 @@ public class ViewSMSCode implements IViewSMSCodeCheck {
     private IPresenterSMSCodeCheck presenter;
 
 
-    public ViewSMSCode() {
+    public ViewSMSCodeCheck() {
         logo = Resources.getImage(Resources.LOGO_MINI);
         lock_phone = Resources.getImage(Resources.ICON_LOCK);
         setPresenter(new PrSMSCodeCheck(this));
@@ -47,7 +47,7 @@ public class ViewSMSCode implements IViewSMSCodeCheck {
 
     @Override
     public void showPhoneInputView() {
-        new ViewEnterPhone();
+        new ViewPhoneInput();
     }
 
     @Override

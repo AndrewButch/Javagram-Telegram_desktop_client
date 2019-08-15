@@ -1,7 +1,7 @@
 package Presenter;
 
 import Presenter.Interface.IPresenterPhoneInput;
-import View.Forms.ViewEnterPhone;
+import View.Forms.ViewPhoneInput;
 import View.Interface.IViewPhoneInput;
 import View.WindowManager;
 import org.javagram.response.AuthSentCode;
@@ -10,14 +10,8 @@ public class PrPhoneInput implements IPresenterPhoneInput {
     public static final String TEST_NUMBER = "9996622222";
     private IViewPhoneInput view;
 
-    public PrPhoneInput(ViewEnterPhone view) {
+    public PrPhoneInput(ViewPhoneInput view) {
         this.view = view;
-        setListeners();
-    }
-
-    private void setListeners() {
-
-        System.out.println("1111111111 - зарегистрированный номер телефона");
     }
 
     @Override

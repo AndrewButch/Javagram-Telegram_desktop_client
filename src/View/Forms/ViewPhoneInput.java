@@ -16,7 +16,7 @@ import java.text.ParseException;
 
 
 
-public class ViewEnterPhone implements IViewPhoneInput {
+public class ViewPhoneInput implements IViewPhoneInput {
     private JPanel rootPanel;
     private JButton nextButton;
     private JFormattedTextField phoneJFormattedText;
@@ -29,7 +29,7 @@ public class ViewEnterPhone implements IViewPhoneInput {
     private IPresenterPhoneInput presenter;
 
 
-    public ViewEnterPhone() {
+    public ViewPhoneInput() {
         setPresenter(new PrPhoneInput(this));
         logo = Resources.getImage(Resources.LOGO);
         icon_phone = Resources.getImage(Resources.ICON_PHONE);
@@ -68,11 +68,7 @@ public class ViewEnterPhone implements IViewPhoneInput {
 
     @Override
     public void showSMSCheckView() {
-        new ViewSMSCode();
-    }
-
-    public JLabel getErrorText() {
-        return errorText;
+        new ViewSMSCodeCheck();
     }
 
     private void createUIComponents() {

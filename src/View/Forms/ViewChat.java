@@ -3,9 +3,9 @@ package View.Forms;
 import Presenter.Interface.IPresenterChat;
 import Presenter.PrChat;
 import Utils.MyMouseWheelScroller;
-import View.Forms.Modal.ViewAddContact;
-import View.Forms.Modal.ViewEditContact;
-import View.Forms.Modal.ViewEditProfile;
+import View.Forms.Modal.ViewContactAdd;
+import View.Forms.Modal.ViewContactEdit;
+import View.Forms.Modal.ViewProfileEdit;
 import View.Forms.Modal.ViewLoading;
 import View.Interface.*;
 import View.ListItem.ContactListItem;
@@ -23,16 +23,12 @@ import java.awt.image.BufferedImage;
 
 
 public class ViewChat implements IViewChat {
-    int width;
-    int height;
-    private IPresenterChat presenter;
 
+    private IPresenterChat presenter;
     private ListCellRendererContact contactListRenderer; // визуализатор списка контактов
     private ListCellRendererMessage messageListRenderer; // визуализатор списка сообщений
-
-    private volatile DefaultListModel<ContactListItem> modelContacts;
-    private volatile DefaultListModel<MessageItem> modelMessages;
-
+    private volatile DefaultListModel<ContactListItem> modelContacts; // Список диалогов
+    private volatile DefaultListModel<MessageItem> modelMessages;       // Список сообщений
 
     private JLayeredPane layeredRootPane; // Панель с z-index. В неё кладем все JPanel
     private JPanel rootPanel;
@@ -96,6 +92,8 @@ public class ViewChat implements IViewChat {
     private IViewContactEdit editContact;
     private IViewLoading viewLoading;
 
+    private int width;
+    private int height;
 
     public ViewChat() {
         setPresenter(new PrChat(this));
@@ -119,8 +117,6 @@ public class ViewChat implements IViewChat {
                         updateDialogs();
                     }
                 });
-
-
             }
         });
         clearMsg.addActionListener(new ActionListener() {
@@ -133,18 +129,18 @@ public class ViewChat implements IViewChat {
         // Добавение rootPanel в z-index на нижний слой
         layeredRootPane.add(rootPanel, JLayeredPane.DEFAULT_LAYER, -1);
 
-        // Форма ViewEditProfile добавляется в z-index на слой выше
-        editProfile = new ViewEditProfile(presenter);
+        // Форма ViewProfileEdit добавляется в z-index на слой выше
+        editProfile = new ViewProfileEdit(presenter);
         editProfile.getRootPanel().setSize(width, height);
         layeredRootPane.add(editProfile.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
 
-        // Форма ViewEditContact добавляется в z-index на слой выше
-        editContact = new ViewEditContact(presenter);
+        // Форма ViewContactEdit добавляется в z-index на слой выше
+        editContact = new ViewContactEdit(presenter);
         editContact.getRootPanel().setSize(width, height);
         layeredRootPane.add(editContact.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
 
-        // Форма ViewAddContact добавляются в z-index на слой выше
-        addContact = new ViewAddContact(presenter);
+        // Форма ViewContactAdd добавляются в z-index на слой выше
+        addContact = new ViewContactAdd(presenter);
         addContact.getRootPanel().setSize(width, height);
         layeredRootPane.add(addContact.getRootPanel(), JLayeredPane.PALETTE_LAYER, -1);
 
@@ -346,7 +342,7 @@ public class ViewChat implements IViewChat {
         });
 
         // Обработчик нажатия на кнопку редактирования профиля контакта
-        getContactEditBtn().addActionListener(new ActionListener() {
+        contactEditBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showContactEditView();
@@ -354,7 +350,7 @@ public class ViewChat implements IViewChat {
         });
 
         // Обработчик нажатия на кнопку добавления контакта
-        getAddContactBtn().addActionListener(new ActionListener() {
+        addContactBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showContactAddView();
@@ -368,29 +364,12 @@ public class ViewChat implements IViewChat {
         return layeredRootPane;
     }
 
-    public JButton getContactEditBtn() {
-        return contactEditBtn;
-    }
-
-    public JButton getAddContactBtn() {
-        return addContactBtn;
-    }
-
-
     public JList<ContactListItem> getContactsJList() {
         return contactsJList;
     }
 
-    public JList<MessageItem> getMessagesJList() {
-        return messagesJList;
-    }
-
     public ListCellRendererContact getContactListRenderer() {
         return contactListRenderer;
-    }
-
-    public ListCellRendererMessage getMessageListRenderer() {
-        return messageListRenderer;
     }
 
     @Override
@@ -403,8 +382,26 @@ public class ViewChat implements IViewChat {
         return modelMessages;
     }
 
-    public IViewContactAdd getAddContact() {
-        return addContact;
+    /** --------- Setters ------------ */
+    public void setContactName(String userName) {
+        contactNameLable.setText(userName);
+    }
+
+    public void setUserName(String userName) {
+        userNameLabel.setText(userName);
+    }
+
+    public void setContactPhoto(BufferedImage photo) {
+        contactPhotoWhiteMini = photo.getScaledInstance(29, 29, 5);
+    }
+
+    public void setUserPhoto(BufferedImage photo) {
+        userPhotoBlueMini = photo.getScaledInstance(29, 29, 5);
+    }
+
+    @Override
+    public void setPresenter(IPresenterChat presenter) {
+        this.presenter = presenter;
     }
 
     /** --------- Методы показа модальных окон ---------*/
@@ -434,11 +431,6 @@ public class ViewChat implements IViewChat {
 
     /** --------- Методы управления --------- */
 
-    @Override
-    public void setPresenter(IPresenterChat presenter) {
-        this.presenter = presenter;
-    }
-
     // Очистить поле ввода сообщения
     @Override
     public void clearMessageField() {
@@ -460,14 +452,12 @@ public class ViewChat implements IViewChat {
         scrollMessagesToEnd();
     }
 
-    public void scrollMessagesToEnd() {
+    private void scrollMessagesToEnd() {
         messagesJList.revalidate();
         messagesJList.repaint();
         JScrollBar verticalBar = messageListScrollPane.getVerticalScrollBar();
         verticalBar.setValue(verticalBar.getMaximum());
     }
-
-
 
     // Очищаем выбор контакта, сообщения, скрываем компоненты имени, фото и кнопки редактирования  контакта,
     // поле ввода сообщения и кнопку отправки.
@@ -486,32 +476,9 @@ public class ViewChat implements IViewChat {
     // поле ввобда сообщения и кнопку отправки
     @Override
     public void showContactInterface() {
-//        contactListRenderer.clearSelectedItem();
-
         contaclLogoMiniJPanel.setVisible(true);
         contactEditBtn.setVisible(true);
         sendMessageJPanel.setVisible(true);
-    }
-
-    private void updateDialogs() {
-        presenter.updateDialogsLocal();
-        presenter.refreshDialogList();
-    }
-
-    public void setContactName(String userName) {
-        contactNameLable.setText(userName);
-    }
-
-    public void setUserName(String userName) {
-        userNameLabel.setText(userName);
-    }
-
-    public void setContactPhoto(BufferedImage photo) {
-        contactPhotoWhiteMini = photo.getScaledInstance(29, 29, 5);
-    }
-
-    public void setUserPhoto(BufferedImage photo) {
-        userPhotoBlueMini = photo.getScaledInstance(29, 29, 5);
     }
 
     @Override
@@ -522,6 +489,12 @@ public class ViewChat implements IViewChat {
     @Override
     public void hideLoadingView() {
         viewLoading.hideView();
+    }
+
+
+    private void updateDialogs() {
+        presenter.updateDialogsLocal();
+        presenter.refreshDialogList();
     }
 }
 

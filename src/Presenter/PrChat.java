@@ -134,6 +134,7 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
         refreshChat();
     }
 
+    /** Обновляет информацию о текущем собеседнике и показывает сообщения */
     public synchronized void refreshChat() {
         refreshInterfaceBySelectedContact();
         int userId = this.selectedContact.getUser().getId();
@@ -145,11 +146,10 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
             model.addElement(new MessageItem(msg));
         }
         view.showMessages(model);
-//        view.scrollMessagesToEnd();
         view.showContactInterface();
     }
 
-
+    /** Обновляет порядок диалогов. После отправки сообщения диалог всплывает вверх. */
     private synchronized void updateDialogsOrder(int userId) {
         // Получаем диалог по ID юзера
         ContactListItem lastMessageAdd = model.dialogGetDialogByUserId(userId);
@@ -180,11 +180,9 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
 
     public void search(String search) {
         // Поиск по контактам
-
         DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
         HashMap<Integer, UserContact> contacts = model.contactsGetContacts();
-
-
+        // Поиск по локальным контактам
         for (Map.Entry<Integer, UserContact> entry : contacts.entrySet()) {
             String userName = entry.getValue().toString();
             if ("^".equals(search)) {
@@ -195,6 +193,7 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
                 modelContacts.addElement(contactItem);
             }
         }
+        // Поиск сообщений через сервер Telegram
         try {
             ArrayList<ContactListItem> result = model.messageSearchMessage(search);
             for (ContactListItem item : result) {
@@ -206,6 +205,7 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
         view.showDialogs(modelContacts);
     }
 
+    /** Показывает иконку, имя собеседника и элементы отправки сообщений*/
     public void showInterface() {
         view.showContactInterface();
     }
@@ -219,20 +219,21 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
         }
         return messageIds;
     }
-
+    /** Запоминает ContactListItem, который выбран в данный момент */
     public ContactListItem getSelectedContact() {
         return selectedContact;
     }
-
+    /** Устанавливает ContactListItem, который выбран в данный момент */
     public void setSelectedContact(ContactListItem item) {
         this.selectedContact = item;
     }
-
+    /** Очищает ContactListItem, который выбран в данный момент */
     public void cleatSelectedContact() {
         view.getContactListRenderer().clearSelectedItem();
         setSelectedContact(null);
     }
 
+    /** Обновляет интерфейс текущего собеседника*/
     public void refreshInterfaceBySelectedContact() {
         User selected = selectedContact.getUser();
         view.setContactName(selected.toString());
@@ -242,6 +243,7 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
         view.getRootPanel().repaint();
     }
 
+    /** Обновление списка диалогов из локального хранения*/
     public void refreshDialogList() {
         DefaultListModel<ContactListItem> modelContacts = new DefaultListModel<>();
        for (ContactListItem item : model.dialogGetDialogList().values()) {
@@ -254,11 +256,12 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
         view.setUserPhoto(photo);
     }
 
+    /** Переименование имени контакта в диалоге*/
     public void updateDialogName(User updatedUser) {
         if (updatedUser.getId() == this.user.getId()) {
             user = updatedUser;
             view.setUserName(user.toString());
-        } else { //TODO Возможно убрать else
+        } else {
             // Обновление имени в сохраненном списке диалогов
             model.dialogUpdateContactNameLocal(updatedUser.getId());
             // Обновление имени в списке диалогов на экране
@@ -273,7 +276,7 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
         view.getModelContacts().remove(index);
         view.hideContactInterface();
     }
-
+    /** Удалить историю текущего пользователя */
     public void deleteHistory() {
         try {
             int selected = selectedContact.getUser().getId();

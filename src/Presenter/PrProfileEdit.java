@@ -5,12 +5,12 @@ import Presenter.Interface.IPresenterProfileEdit;
 import View.Interface.IViewProfileEdit;
 import org.javagram.response.object.User;
 
-public class PrEditProfile implements IPresenterProfileEdit {
+public class PrProfileEdit implements IPresenterProfileEdit {
     private IViewProfileEdit view;
     private IPresenterChat prChat;
     private User user;
 
-    public PrEditProfile(IViewProfileEdit view, IPresenterChat prChat) {
+    public PrProfileEdit(IViewProfileEdit view, IPresenterChat prChat) {
         this.view = view;
         this.prChat = prChat;
         this.user = model.getSelfUser();
@@ -24,7 +24,6 @@ public class PrEditProfile implements IPresenterProfileEdit {
         User updatedUser = model.updateProfileInfo(newFirstName, newLastName);
         user = updatedUser;
         prChat.updateDialogName(updatedUser);
-        System.err.println("EditProfile Сохранить");
         view.getRootPanel().setVisible(false);
     }
 
