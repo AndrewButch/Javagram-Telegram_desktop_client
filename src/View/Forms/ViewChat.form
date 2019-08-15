@@ -41,13 +41,14 @@
           <component id="bd159" class="javax.swing.JButton" binding="clearMsg">
             <constraints/>
             <properties>
-              <text value="clearMessages"/>
+              <text value="Delete messages"/>
             </properties>
           </component>
           <component id="8f2ae" class="javax.swing.JButton" binding="updateDialogButton" default-binding="true">
             <constraints/>
             <properties>
               <text value="updateDialog"/>
+              <visible value="false"/>
             </properties>
           </component>
           <grid id="1f508" binding="userLogoMiniJPanel" custom-create="true" layout-manager="GridBagLayout">

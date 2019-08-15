@@ -3,33 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a397921b-82ef-4e7c-8563-5c696832816c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FakeData/FakeSelfUser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FakeData/FakeTelegramBridge.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FakeData/FakeUserContact.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Loader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Presenter/PrAddContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrContactAdd.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Presenter/PrChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrChat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Presenter/PrEditContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrContactEdit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Presenter/PrEditProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrProfileEdit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Presenter/PrPhoneInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrPhoneInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/DateUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/DateUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/Decoration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Decoration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewAddContact.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewContactAdd.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewAddContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewContactAdd.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewContactEdit.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewContactEdit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditProfile.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewProfileEdit.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/Modal/ViewEditProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/Modal/ViewProfileEdit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewChat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewPhoneInput.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewPhoneInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewSMSCodeCheck.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewSMSCodeCheck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewSignUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewSignUp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/ListItem/ContactListItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/ListItem/ContactListItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Resources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Resources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewChat.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewChat.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewSMSCodeCheck.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewSMSCodeCheck.form" afterDir="false" />
     </list>
     <list id="c645d7f7-b47a-4601-af75-5da5b8d19288" name="save commit, before refactoring" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -53,7 +30,17 @@
     <favorites_list name="Javagram" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Model/Model.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="30" column="30" lean-forward="true" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -86,8 +73,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/lib/ID" />
-        <option value="$PROJECT_DIR$/src/View/IView.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/ViewSMSCode.form" />
         <option value="$PROJECT_DIR$/src/View/Forms/ViewEnterPhone.form" />
         <option value="$PROJECT_DIR$/src/Presenter/Interface/IPresenterPhoneInput.java" />
@@ -114,8 +99,6 @@
         <option value="$PROJECT_DIR$/src/View/Forms/Modal/ViewLoading.form" />
         <option value="$PROJECT_DIR$/src/View/Interface/IViewLoading.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/Modal/ViewLoading.java" />
-        <option value="$PROJECT_DIR$/src/Model/Model.java" />
-        <option value="$PROJECT_DIR$/src/Presenter/PrPhoneInput.java" />
         <option value="$PROJECT_DIR$/src/Presenter/PrEditContact.java" />
         <option value="$PROJECT_DIR$/src/Presenter/PrAddContact.java" />
         <option value="$PROJECT_DIR$/src/Presenter/PrChat.java" />
@@ -137,6 +120,10 @@
         <option value="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererMessage.java" />
         <option value="$PROJECT_DIR$/src/View/Resources.java" />
         <option value="$PROJECT_DIR$/src/Loader.java" />
+        <option value="$PROJECT_DIR$/src/Presenter/PrPhoneInput.java" />
+        <option value="$PROJECT_DIR$/src/View/Forms/ViewChat.form" />
+        <option value="$PROJECT_DIR$/src/View/Forms/ViewSMSCodeCheck.form" />
+        <option value="$PROJECT_DIR$/src/Model/Model.java" />
       </list>
     </option>
   </component>
@@ -184,7 +171,34 @@
               <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Presenter" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Forms" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="Forms" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="ViewSMSCodeCheck" type="e9f4de52:FormNode" />
             </path>
             <path>
               <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
@@ -318,7 +332,7 @@
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH" value="252" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW" value="true" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="299" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1565809193633" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1565897155664" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Unit_10_Homework/PhoneBook" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
@@ -699,7 +713,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565727651708</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Причесывание файлов">
+      <created>1565896650187</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1565896650187</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TodoView">
@@ -718,12 +739,12 @@
       <window_info id="Designer" order="1" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Capture Tool" order="3" />
-      <window_info id="Structure" order="4" sideWeight="0.14502165" side_tool="true" visible="true" weight="0.15298508" />
+      <window_info id="Structure" order="4" sideWeight="0.19072165" side_tool="true" visible="true" weight="0.15298508" />
       <window_info id="Favorites" order="5" sideWeight="0.54310346" side_tool="true" weight="0.25053304" />
-      <window_info active="true" content_ui="combo" id="Project" order="6" sideWeight="0.8549784" visible="true" weight="0.15298508" />
+      <window_info content_ui="combo" id="Project" order="6" sideWeight="0.80927837" visible="true" weight="0.15298508" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.5779221" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.15476191" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.5800866" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.45887446" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -829,7 +850,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Add TODO for logout" />
     <MESSAGE value="Rename Utils Class to DateConvertor. Add presenters to modal Views" />
     <MESSAGE value="Add button listeners for modal views" />
     <MESSAGE value="edited chat presenter" />
@@ -854,7 +874,8 @@
     <MESSAGE value="направльная работа всплывания диалога исправлена" />
     <MESSAGE value="Работает: &#10;- Отправка и принятие сообщений&#10;- Добавление контактов&#10;- Удаление контактов&#10;- Переименовывание пользователя и контактов&#10;- Поиск сообщений и контактов&#10;- Получение и отображене фотографий контактов" />
     <MESSAGE value="-Переход на интерфейсы" />
-    <option name="LAST_COMMIT_MESSAGE" value="-Переход на интерфейсы" />
+    <MESSAGE value="Причесывание файлов" />
+    <option name="LAST_COMMIT_MESSAGE" value="Причесывание файлов" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
@@ -941,16 +962,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewSMSCodeCheck.form">
-      <provider selected="true" editor-type-id="ui-designer" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewPhoneInput.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -1116,27 +1127,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Model.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="173" column="48" selection-start-line="173" selection-start-column="48" selection-end-line="173" selection-end-column="48" />
-          <folding>
-            <element signature="e#3805#3806#0" expanded="true" />
-            <element signature="e#3833#3834#0" expanded="true" />
-            <element signature="e#3875#3876#0" expanded="true" />
-            <element signature="e#3909#3910#0" expanded="true" />
-            <element signature="e#3943#3944#0" expanded="true" />
-            <element signature="e#3973#3974#0" expanded="true" />
-            <element signature="e#4019#4020#0" expanded="true" />
-            <element signature="e#4057#4058#0" expanded="true" />
-            <element signature="e#8605#8606#0" expanded="true" />
-            <element signature="e#8650#8651#0" expanded="true" />
-            <element signature="e#8730#8731#0" expanded="true" />
-            <element signature="e#8763#8764#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Presenter/PrContactAdd.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="840">
@@ -1182,18 +1172,6 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1058#1059#0" expanded="true" />
             <element signature="e#1088#1089#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/PrPhoneInput.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#412#413#0" expanded="true" />
-            <element signature="e#444#445#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1375,6 +1353,31 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-268">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewSMSCodeCheck.form">
+      <provider selected="true" editor-type-id="ui-designer" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presenter/PrPhoneInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="21" column="45" lean-forward="true" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#412#413#0" expanded="true" />
+            <element signature="e#444#445#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewChat.form">
+      <provider selected="true" editor-type-id="ui-designer" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Model.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="30" column="30" lean-forward="true" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
         </state>
       </provider>
     </entry>

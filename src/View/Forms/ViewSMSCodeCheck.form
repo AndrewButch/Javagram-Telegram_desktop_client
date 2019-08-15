@@ -63,7 +63,7 @@
           <minimumSize width="200" height="50"/>
           <opaque value="false"/>
           <preferredSize width="200" height="50"/>
-          <text value="22222"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="8f8a5" class="javax.swing.JButton" binding="nextButton">
