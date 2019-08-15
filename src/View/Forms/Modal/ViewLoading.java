@@ -1,11 +1,14 @@
 package View.Forms.Modal;
 
+import View.Interface.IViewLoading;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 
-public class ViewLoading {
+public class ViewLoading implements IViewLoading {
     private JPanel rootPanel;
+    private JLabel title;
 
     private void createUIComponents() {
         // Задание полупрозрачного фона
@@ -14,7 +17,7 @@ public class ViewLoading {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g.create();
-                g2.setColor(new Color(0, 0, 0, 0.9f));
+                g2.setColor(new Color(0, 0, 0, 0.5f));
                 g2.fillRect(0, 0, getWidth(), getHeight());
                 g2.dispose();
             }
@@ -24,14 +27,17 @@ public class ViewLoading {
         rootPanel.addMouseListener(new MouseAdapter() {});
     }
 
+    @Override
     public JPanel getRootPanel() {
         return rootPanel;
     }
 
+    @Override
     public void showView() {
         rootPanel.setVisible(true);
     }
 
+    @Override
     public void hideView() {
         rootPanel.setVisible(false);
     }

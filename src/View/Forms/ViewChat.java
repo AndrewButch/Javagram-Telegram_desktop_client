@@ -7,10 +7,7 @@ import View.Forms.Modal.ViewAddContact;
 import View.Forms.Modal.ViewEditContact;
 import View.Forms.Modal.ViewEditProfile;
 import View.Forms.Modal.ViewLoading;
-import View.Interface.IViewChat;
-import View.Interface.IViewContactAdd;
-import View.Interface.IViewContactEdit;
-import View.Interface.IViewProfileEdit;
+import View.Interface.*;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
 import View.ListRenderer.ListCellRendererContact;
@@ -97,7 +94,7 @@ public class ViewChat implements IViewChat {
     private IViewProfileEdit editProfile;
     private IViewContactAdd addContact;
     private IViewContactEdit editContact;
-    private ViewLoading viewLoading;
+    private IViewLoading viewLoading;
 
 
     public ViewChat() {
