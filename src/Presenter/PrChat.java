@@ -91,7 +91,7 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
                             continue;
                         }
                     }
-                    ContactListItem contactItem = new ContactListItem(userContact, topMessage, d.getUnreadCount());
+                    ContactListItem contactItem = new ContactListItem(userContact, topMessage);
                     // добавление элемента в модель списка
                     // сохраненеи элемента с привязкой к ID контакта
                     model.dialogAddDialogToLocal(contactItem.getUser().getId(), contactItem);
@@ -170,7 +170,6 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
             contactModel.add(0, replaceContact);
         } else {
             lastMessageAdd.setMessage(lastMessage);
-            lastMessageAdd.incrementUnread();
             contactModel.add(0, lastMessageAdd);
         }
         // Возвращаем select на прежний элемент после изменения порядка

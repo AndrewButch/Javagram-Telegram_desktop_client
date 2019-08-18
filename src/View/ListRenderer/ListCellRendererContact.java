@@ -1,7 +1,6 @@
 package View.ListRenderer;
 
 import Presenter.Interface.IPresenterChat;
-import Presenter.PrChat;
 import View.ListItem.ContactListItem;
 import View.Resources;
 import org.javagram.response.object.User;
@@ -45,7 +44,6 @@ public class ListCellRendererContact extends ContactListItem implements ListCell
             if (value.getUser() != null ) {
                 selectedItem = value;
                 presenter.setSelectedContact(value);
-                setUnreadCount("0");
                 presenter.refreshChat();
                 presenter.showInterface();
                 if (value.isOnline()) {
@@ -77,7 +75,6 @@ public class ListCellRendererContact extends ContactListItem implements ListCell
             }
             setPhoto(value.getPhoto());
             setMessage(value.getMessage());
-            setUnreadCount(value.getUnreadCount() + "");
         }
     }
 

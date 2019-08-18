@@ -288,7 +288,7 @@ public class Model {
         contactsUpdateContacts();
         UserContact userContact = contactsGetContacts().get(contactId);
         ContactListItem replacedItem = dialogList.get(contactId);
-        dialogList.put(contactId, new ContactListItem(userContact, replacedItem.getMessage(), replacedItem.getUnreadCount()));
+        dialogList.put(contactId, new ContactListItem(userContact, replacedItem.getMessage()));
     }
 
     /** Поиск сообщения по ID */
@@ -383,7 +383,7 @@ public class Model {
             }
             UserContact contact = contacts.get(contactId);
             if (contact != null) {
-                ContactListItem listItem = new ContactListItem(contact, msg, 0);
+                ContactListItem listItem = new ContactListItem(contact, msg);
                 result.add(listItem);
             }
         }
@@ -395,11 +395,7 @@ public class Model {
         LinkedList<Message> messages = messageGetMessageHistoryByUserID(contactId);
         messages.addFirst(msg);
         ContactListItem contactListItem = dialogList.get(contactId);
-        if (contactListItem != null) {
-            if (!msg.isOut()) {
-                contactListItem.incrementUnread();
-            }
-        } else {
+        if (contactListItem == null) {
             UserContact contact = contactsGetContacts().get(contactId);
             dialogList.put(contactId, new ContactListItem(contact, msg));
         }

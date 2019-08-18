@@ -22,33 +22,21 @@ public class ContactListItem {
     private Image photo;
     private UserContact user;
     private Message message;
-    private int unreadCount;
     private boolean isOnline;
 
     public ContactListItem(){}
 
-    public ContactListItem(UserContact userContact, Message topMsg, int unreadCount) {
+    public ContactListItem(UserContact userContact, Message topMsg) {
         this.user = userContact;
         this.isOnline = userContact.isOnline();
         setMessage(topMsg);
         smallPhoto = Resources.getPhoto(0, false);
         smallPhoto = Resources.getPhoto(userContact.getId(), true);
         photo = smallPhoto.getScaledInstance(41, 41, 5);
-
-        this.unreadCount = 0;
-        if (unreadCount == 0) {
-            unreadLabel.setText("");
-        } else {
-            unreadLabel.setText(unreadCount + "");
-        }
-    }
-
-    public ContactListItem(UserContact userContact, Message topMsg) {
-        this(userContact, topMsg, 0);
     }
 
     public ContactListItem(UserContact userContact) {
-        this(userContact, null, 0);
+        this(userContact, null);
     }
 
     public User getUser() {
@@ -99,14 +87,6 @@ public class ContactListItem {
 
     }
 
-    public void setUnreadCount(String count) {
-        if ("0".equals(count)) {
-            this.unreadLabel.setText("");
-        } else {
-            this.unreadLabel.setText(count);
-        }
-    }
-
     private void createUIComponents() {
         portraitJPanel = new JPanel() {
             @Override
@@ -116,14 +96,6 @@ public class ContactListItem {
                 g.drawImage(statusBorder, 0, 0, null);
             }
         };
-    }
-
-    public int getUnreadCount() {
-        return unreadCount;
-    }
-
-    public void incrementUnread() {
-        this.unreadCount++;
     }
 
 }

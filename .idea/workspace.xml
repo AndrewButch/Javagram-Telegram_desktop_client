@@ -5,11 +5,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Model/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Model.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Presenter/PrChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrChat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Presenter/PrPhoneInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Presenter/PrPhoneInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Utils/MyMouseWheelScroller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/MyMouseWheelScroller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Forms/ViewChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Forms/ViewChat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/Interface/IViewChat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/Interface/IViewChat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/ListItem/ContactListItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/ListItem/ContactListItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java" afterDir="false" />
     </list>
     <list id="c645d7f7-b47a-4601-af75-5da5b8d19288" name="save commit, before refactoring" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -33,110 +30,60 @@
     <favorites_list name="Javagram" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/View/ListItem/ContactListItem.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1320">
+              <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
+              <folding>
+                <element signature="e#1482#1483#0" expanded="true" />
+                <element signature="e#1524#1525#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="78" selection-start-line="78" selection-end-line="78" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/Model.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Presenter/PrPhoneInput.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="261">
-              <caret line="21" column="22" lean-forward="true" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+            <state relative-caret-position="319">
+              <caret line="401" column="5" lean-forward="true" selection-start-line="401" selection-start-column="5" selection-end-line="401" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenterChat.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Presenter/PrChat.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="127" column="32" lean-forward="true" selection-start-line="127" selection-start-column="32" selection-end-line="127" selection-end-column="32" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#8747#8748#0" expanded="true" />
-                <element signature="e#9274#9275#0" expanded="true" />
-                <element signature="e#10678#10679#0" expanded="true" />
-                <element signature="e#12144#12145#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Presenter/PrContactAdd.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="863">
-              <caret line="43" selection-start-line="43" selection-end-line="43" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Utils/MyMouseWheelScroller.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
-              <folding>
-                <element signature="e#426#427#0" expanded="true" />
-                <element signature="e#465#466#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewChat.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="722">
-              <caret line="40" column="60" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewChat.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1665">
-              <caret line="369" column="5" lean-forward="true" selection-start-line="369" selection-start-column="5" selection-end-line="369" selection-end-column="5" />
-              <folding>
-                <element signature="e#17008#17009#0" expanded="true" />
-                <element signature="e#17049#17050#0" expanded="true" />
-                <element signature="e#17958#17959#0" expanded="true" />
-                <element signature="e#18047#18048#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererMessage.java">
+        <entry file="file://$PROJECT_DIR$/src/Presenter/PrChat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="627">
-              <caret line="95" selection-start-line="95" selection-end-line="95" />
+            <state relative-caret-position="206">
+              <caret line="172" selection-start-line="172" selection-end-line="172" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#8704#8705#0" expanded="true" />
+                <element signature="e#8747#8748#0" expanded="true" />
+                <element signature="e#9236#9237#0" expanded="true" />
+                <element signature="e#9274#9275#0" expanded="true" />
+                <element signature="e#10638#10639#0" expanded="true" />
+                <element signature="e#10678#10679#0" expanded="true" />
+                <element signature="e#12112#12113#0" expanded="true" />
+                <element signature="e#12144#12145#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -210,21 +157,21 @@
         <option value="$PROJECT_DIR$/src/View/Forms/Modal/ViewContactAdd.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/Decoration.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/ViewPhoneInput.java" />
-        <option value="$PROJECT_DIR$/src/View/ListItem/ContactListItem.java" />
         <option value="$PROJECT_DIR$/src/View/Resources.java" />
         <option value="$PROJECT_DIR$/src/Loader.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/ViewSMSCodeCheck.form" />
         <option value="$PROJECT_DIR$/src/Presenter/PrContactAdd.java" />
-        <option value="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java" />
         <option value="$PROJECT_DIR$/src/Presenter/Interface/IPresenterChat.java" />
-        <option value="$PROJECT_DIR$/src/View/Forms/ViewChat.form" />
         <option value="$PROJECT_DIR$/src/View/Interface/IViewChat.java" />
-        <option value="$PROJECT_DIR$/src/Presenter/PrChat.java" />
-        <option value="$PROJECT_DIR$/src/Model/Model.java" />
         <option value="$PROJECT_DIR$/src/Presenter/PrPhoneInput.java" />
         <option value="$PROJECT_DIR$/src/Utils/MyMouseWheelScroller.java" />
         <option value="$PROJECT_DIR$/src/View/Forms/ViewChat.java" />
         <option value="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererMessage.java" />
+        <option value="$PROJECT_DIR$/src/View/Forms/ViewChat.form" />
+        <option value="$PROJECT_DIR$/src/View/ListItem/ContactListItem.java" />
+        <option value="$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java" />
+        <option value="$PROJECT_DIR$/src/Model/Model.java" />
+        <option value="$PROJECT_DIR$/src/Presenter/PrChat.java" />
       </list>
     </option>
   </component>
@@ -272,56 +219,13 @@
             <path>
               <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="lib" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="res" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="Model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="Presenter" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="Utils" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="Forms" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="Forms" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="ViewChat" type="e9f4de52:FormNode" />
             </path>
             <path>
               <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
@@ -335,14 +239,8 @@
               <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="ListRenderer" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Javagram" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="Javagram" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="View" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="WindowComponents" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="ListItem" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="ContactListItem" type="e9f4de52:FormNode" />
             </path>
           </expand>
           <select />
@@ -453,7 +351,7 @@
     <property name="UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH" value="252" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW" value="true" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="301" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1566130242174" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1566131109124" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Unit_10_Homework/PhoneBook" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
@@ -848,7 +746,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565897474286</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Прокрутка сообщений к самому последнему работает">
+      <created>1566130364327</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1566130364327</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TodoView">
@@ -868,12 +773,12 @@
       <window_info id="Designer" order="1" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Capture Tool" order="3" />
-      <window_info id="Structure" order="4" sideWeight="0.14827995" side_tool="true" visible="true" weight="0.15618336" />
+      <window_info id="Structure" order="4" sideWeight="0.17370892" side_tool="true" visible="true" weight="0.15778251" />
       <window_info id="Favorites" order="5" sideWeight="0.54310346" side_tool="true" weight="0.25053304" />
-      <window_info content_ui="combo" id="Project" order="6" sideWeight="0.85172004" visible="true" weight="0.15618336" />
+      <window_info content_ui="combo" id="Project" order="6" sideWeight="0.8262911" visible="true" weight="0.15778251" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.5779221" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.08766234" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.19155844" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.53896105" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.3008658" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -881,7 +786,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32900432" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.50053304" side_tool="true" weight="0.3495671" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.6785714" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.5638528" />
       <window_info anchor="bottom" id="Analyze Dataflow from" order="11" weight="0.32900432" />
       <window_info anchor="bottom" id="Analyze Dataflow to" order="12" weight="0.6450216" />
       <window_info anchor="bottom" id="Dependency Viewer" order="13" weight="0.70454544" />
@@ -979,7 +884,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Rename Utils Class to DateConvertor. Add presenters to modal Views" />
     <MESSAGE value="Add button listeners for modal views" />
     <MESSAGE value="edited chat presenter" />
     <MESSAGE value="Chat refactoring" />
@@ -1004,7 +908,9 @@
     <MESSAGE value="Работает: &#10;- Отправка и принятие сообщений&#10;- Добавление контактов&#10;- Удаление контактов&#10;- Переименовывание пользователя и контактов&#10;- Поиск сообщений и контактов&#10;- Получение и отображене фотографий контактов" />
     <MESSAGE value="-Переход на интерфейсы" />
     <MESSAGE value="Причесывание файлов" />
-    <option name="LAST_COMMIT_MESSAGE" value="Причесывание файлов" />
+    <MESSAGE value="Прокрутка сообщений к самому последнему работает" />
+    <option name="LAST_COMMIT_MESSAGE" value="Прокрутка сообщений к самому последнему работает" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1372,13 +1278,6 @@
     <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewSMSCodeCheck.form">
       <provider selected="true" editor-type-id="ui-designer" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/ListItem/ContactListItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-92">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/View/WindowManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-308">
@@ -1390,56 +1289,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
           <caret line="3114" column="16" selection-start-line="3114" selection-start-column="16" selection-end-line="3114" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewChat.form">
-      <provider selected="true" editor-type-id="ui-designer" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="46" column="39" lean-forward="true" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenterChat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Model.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="26" column="50" selection-start-line="26" selection-start-column="50" selection-end-line="26" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/PrPhoneInput.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="21" column="22" lean-forward="true" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/PrContactAdd.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="863">
-          <caret line="43" selection-start-line="43" selection-end-line="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1457,23 +1306,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Utils/MyMouseWheelScroller.java">
+    <entry file="file://$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererMessage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
-          <folding>
-            <element signature="e#426#427#0" expanded="true" />
-            <element signature="e#465#466#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="627">
+          <caret line="95" selection-start-line="95" selection-end-line="95" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewChat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="722">
-          <caret line="40" column="60" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewChat.form">
+      <provider selected="true" editor-type-id="ui-designer" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/View/Forms/ViewChat.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1488,24 +1329,100 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Presenter/PrChat.java">
+    <entry file="file://$PROJECT_DIR$/src/View/Interface/IViewChat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="127" column="32" lean-forward="true" selection-start-line="127" selection-start-column="32" selection-end-line="127" selection-end-column="32" />
+        <state relative-caret-position="722">
+          <caret line="40" column="60" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utils/MyMouseWheelScroller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="531">
+          <caret line="59" lean-forward="true" selection-start-line="59" selection-end-line="59" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#8747#8748#0" expanded="true" />
-            <element signature="e#9274#9275#0" expanded="true" />
-            <element signature="e#10678#10679#0" expanded="true" />
-            <element signature="e#12144#12145#0" expanded="true" />
+            <element signature="e#426#427#0" expanded="true" />
+            <element signature="e#465#466#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererMessage.java">
+    <entry file="file://$PROJECT_DIR$/src/Presenter/PrContactAdd.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="95" selection-start-line="95" selection-end-line="95" />
+        <state relative-caret-position="863">
+          <caret line="43" selection-start-line="43" selection-end-line="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presenter/Interface/IPresenterChat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" column="9" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presenter/PrPhoneInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="21" column="22" lean-forward="true" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/ListRenderer/ListCellRendererContact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="78" selection-start-line="78" selection-end-line="78" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/View/ListItem/ContactListItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1320">
+          <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
+          <folding>
+            <element signature="e#1482#1483#0" expanded="true" />
+            <element signature="e#1524#1525#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Model.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="401" column="5" lean-forward="true" selection-start-line="401" selection-start-column="5" selection-end-line="401" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Presenter/PrChat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="172" selection-start-line="172" selection-end-line="172" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8704#8705#0" expanded="true" />
+            <element signature="e#8747#8748#0" expanded="true" />
+            <element signature="e#9236#9237#0" expanded="true" />
+            <element signature="e#9274#9275#0" expanded="true" />
+            <element signature="e#10638#10639#0" expanded="true" />
+            <element signature="e#10678#10679#0" expanded="true" />
+            <element signature="e#12112#12113#0" expanded="true" />
+            <element signature="e#12144#12145#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
