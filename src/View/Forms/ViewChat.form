@@ -42,6 +42,7 @@
             <constraints/>
             <properties>
               <text value="Delete messages"/>
+              <visible value="false"/>
             </properties>
           </component>
           <component id="8f2ae" class="javax.swing.JButton" binding="updateDialogButton" default-binding="true">

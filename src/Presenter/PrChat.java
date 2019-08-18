@@ -27,6 +27,7 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
     private User user;
     private Random random;
     private ContactListItem selectedContact;
+    private boolean alwaysScrollDownMessages;
 
     public PrChat(IViewChat view) {
         this.view = view;
@@ -123,6 +124,7 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
 
     public void sendMessage(String message) {
         int selectedContactId = selectedContact.getUser().getId();
+        view.setAlwaysScrollDownMessages(true);
         // Формироване сообщения
         int messageId = random.nextInt();
         // Отправка сообщения
@@ -225,6 +227,9 @@ public class PrChat implements IPresenterChat, IncomingMessageHandler {
     }
     /** Устанавливает ContactListItem, который выбран в данный момент */
     public void setSelectedContact(ContactListItem item) {
+        if (selectedContact == null || selectedContact.getUser().getId() != item.getUser().getId()) {
+            view.setAlwaysScrollDownMessages(true);
+        }
         this.selectedContact = item;
     }
     /** Очищает ContactListItem, который выбран в данный момент */

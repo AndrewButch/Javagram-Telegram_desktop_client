@@ -1,5 +1,7 @@
 package Utils;
 
+import View.Interface.IViewChat;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -10,6 +12,11 @@ import java.awt.event.MouseWheelEvent;
  */
 
 public class MyMouseWheelScroller extends MouseAdapter {
+    private IViewChat viewChat;
+    public MyMouseWheelScroller(IViewChat viewChat) {
+        this.viewChat = viewChat;
+    }
+
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         //  Ignore events generated with a rotation of 0
@@ -50,5 +57,9 @@ public class MyMouseWheelScroller extends MouseAdapter {
 
         for (int i = 0; i < unitsToScroll; i++)
             action.actionPerformed( event );
+
+        if (this.viewChat != null)viewChat.setAlwaysScrollDownMessages(false);
     }
+
+
 }

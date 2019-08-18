@@ -36,4 +36,7 @@ public interface IViewChat extends IView {
 
     void showLoadingView();
     void hideLoadingView();
+
+    void scrollMessagesToEnd();
+    void setAlwaysScrollDownMessages(boolean needScrolling);
 }

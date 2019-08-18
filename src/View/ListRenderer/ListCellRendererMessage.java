@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 
 public class ListCellRendererMessage extends MessageItem implements ListCellRenderer<MessageItem> {
-    private static final int MAX_ROW_LENGHT = 38; // максимальное кол-во символов в одной строке сообщения
+    private static final int MAX_ROW_LENGHT = 30; // максимальное кол-во символов в одной строке сообщения
     private static final int ROW_HEIGHT = 20; // высота строки
 
     private BufferedImage topInMessageIMG;
@@ -93,6 +93,4 @@ public class ListCellRendererMessage extends MessageItem implements ListCellRend
         }
         return rowCount;
     }
-
-
 }

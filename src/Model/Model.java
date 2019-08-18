@@ -9,13 +9,19 @@ import org.javagram.response.AuthAuthorization;
 import org.javagram.response.AuthCheckedPhone;
 import org.javagram.response.AuthSentCode;
 import org.javagram.response.MessagesSentMessage;
-import org.javagram.response.object.*;
+import org.javagram.response.object.Dialog;
+import org.javagram.response.object.Message;
+import org.javagram.response.object.User;
+import org.javagram.response.object.UserContact;
 import org.telegram.api.*;
 import org.telegram.api.contacts.TLImportedContacts;
 import org.telegram.api.engine.TelegramApi;
 import org.telegram.api.messages.TLAbsMessages;
 import org.telegram.api.messages.TLAffectedHistory;
-import org.telegram.api.requests.*;
+import org.telegram.api.requests.TLRequestContactsImportContacts;
+import org.telegram.api.requests.TLRequestMessagesDeleteHistory;
+import org.telegram.api.requests.TLRequestMessagesGetHistory;
+import org.telegram.api.requests.TLRequestMessagesSearch;
 import org.telegram.tl.TLVector;
 
 import java.io.IOException;
@@ -24,7 +30,7 @@ import java.util.*;
 
 public class Model {
     private final int request_interval = 5000;
-    private final String hostAddr = "149.154.167.50:443";
+    private final String hostAddr = "149.154.167.40:443";
     private final int appId = 568751;
     private final String appHash = "ec1d629d0855caa5425a9c83cdc5925d";
     TelegramApi api;

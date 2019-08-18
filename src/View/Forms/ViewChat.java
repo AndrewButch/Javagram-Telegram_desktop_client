@@ -5,8 +5,8 @@ import Presenter.PrChat;
 import Utils.MyMouseWheelScroller;
 import View.Forms.Modal.ViewContactAdd;
 import View.Forms.Modal.ViewContactEdit;
-import View.Forms.Modal.ViewProfileEdit;
 import View.Forms.Modal.ViewLoading;
+import View.Forms.Modal.ViewProfileEdit;
 import View.Interface.*;
 import View.ListItem.ContactListItem;
 import View.ListItem.MessageItem;
@@ -94,6 +94,7 @@ public class ViewChat implements IViewChat {
 
     private int width;
     private int height;
+    private boolean alwaysScrollDownMessages;
 
     public ViewChat() {
         setPresenter(new PrChat(this));
@@ -109,6 +110,9 @@ public class ViewChat implements IViewChat {
 
         userPhotoBlueMini = defaultPhoto;
         contactPhotoWhiteMini = defaultPhoto;
+
+
+
         updateDialogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -189,10 +193,10 @@ public class ViewChat implements IViewChat {
         // Создание JScrollPane без ползунка для управления мышью
         // Для списка контаков
         contactsListScrollPane = new JScrollPane();
-        contactsListScrollPane.addMouseWheelListener(new MyMouseWheelScroller());
+        contactsListScrollPane.addMouseWheelListener(new MyMouseWheelScroller(null));
         // Для списка сообщений
         messageListScrollPane = new JScrollPane();
-        messageListScrollPane.addMouseWheelListener(new MyMouseWheelScroller());
+        messageListScrollPane.addMouseWheelListener(new MyMouseWheelScroller(this));
     }
 
     private void setupLayerdPane() {
@@ -356,6 +360,7 @@ public class ViewChat implements IViewChat {
                 showContactAddView();
             }
         });
+
     }
 
     /** --------- Getters ------------ */
@@ -449,14 +454,22 @@ public class ViewChat implements IViewChat {
     public void showMessages(DefaultListModel<MessageItem> model) {
         modelMessages = model;
         messagesJList.setModel(model);
-        scrollMessagesToEnd();
+        if (alwaysScrollDownMessages) {
+            scrollMessagesToEnd();
+        }
     }
 
-    private void scrollMessagesToEnd() {
+    @Override
+    public void scrollMessagesToEnd() {
         messagesJList.revalidate();
         messagesJList.repaint();
         JScrollBar verticalBar = messageListScrollPane.getVerticalScrollBar();
         verticalBar.setValue(verticalBar.getMaximum());
+    }
+
+    @Override
+    public void setAlwaysScrollDownMessages(boolean needScrolling) {
+        this.alwaysScrollDownMessages = needScrolling;
     }
 
     // Очищаем выбор контакта, сообщения, скрываем компоненты имени, фото и кнопки редактирования  контакта,
