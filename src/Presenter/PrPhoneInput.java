@@ -7,7 +7,7 @@ import View.WindowManager;
 import org.javagram.response.AuthSentCode;
 
 public class PrPhoneInput implements IPresenterPhoneInput {
-    public static final String TEST_NUMBER = "9996622222";
+//    public static final String TEST_NUMBER = "9996622222";
     private IViewPhoneInput view;
 
     public PrPhoneInput(ViewPhoneInput view) {
@@ -18,7 +18,7 @@ public class PrPhoneInput implements IPresenterPhoneInput {
     public void authorizationPhone(String phoneNumber) {
         if (phoneNumber != null) {
             String clearPhoneNumber = phoneNumber.replaceAll("[^\\d]+", "");
-            clearPhoneNumber = TEST_NUMBER;
+//            clearPhoneNumber = TEST_NUMBER;
             model.setPhone(clearPhoneNumber);
             sendSMS();
         } else {

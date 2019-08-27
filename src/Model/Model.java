@@ -29,10 +29,10 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 public class Model {
-    private final int request_interval = 5000;
-    private final String hostAddr = "149.154.167.40:443";
+    private final String hostAddr = "149.154.167.50:443";
     private final int appId = 568751;
     private final String appHash = "ec1d629d0855caa5425a9c83cdc5925d";
+    private final int request_interval = 5000;
     TelegramApi api;
     TelegramApiBridge  bridge;
 
